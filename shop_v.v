@@ -38,12 +38,13 @@ module shop_v
     parameter STATE__ITEM_STOCK = "ITMSTCK"                                            
 
   )(
-    input                                i_clk,
-    input                                i_reset, // must be set high then low at start of tb
-    input                                i_rdy,   // must be set low at start of tb 
-    input  unsigned [I_U_NUM_BITS - 1:0] i_u,
-    input           [I_A_NUM_BITS - 1:0] i_a,
-    output reg      [O_A_NUM_BITS - 1:0] o_a
+    input                                  i_clk,
+    input                                  i_reset, // must be set high then low at start of tb
+    input                                  i_rdy,   // must be set low at start of tb 
+    input  unsigned [(I_U_NUM_BITS - 1):0] i_u,
+    // input           [(I_A_NUM_BITS - 1):0] i_a,
+    input           [(200 - 1):0] i_a,
+    output reg      [(O_A_NUM_BITS - 1):0] o_a
   );
     
   
@@ -52,8 +53,8 @@ module shop_v
   
   reg [I_A_NUM_BITS - 1:0] cur_cmd;
   
-  reg [STATE_NUM_ASCII_BITS * 8:0] cur_state;
-  reg [STATE_NUM_ASCII_BITS * 8:0] next_state;
+  reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] cur_state;
+  reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] next_state;
   
   wire in_a_valid_cmd;
   reg user_has_perms_for_i_a_cmd;

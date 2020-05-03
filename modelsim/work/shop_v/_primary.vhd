@@ -30,7 +30,7 @@ entity shop_v is
         i_reset         : in     vl_logic;
         i_rdy           : in     vl_logic;
         i_u             : in     vl_logic_vector;
-        i_a             : in     vl_logic_vector;
+        i_a             : in     vl_logic_vector(199 downto 0);
         o_a             : out    vl_logic_vector
     );
     attribute mti_svvh_generic_type : integer;

@@ -3,7 +3,7 @@ Model Technology ModelSim ALTERA vlog 10.1b Compiler 2012.04 Apr 27 2012
 -- Compiling module shop_v
 ** Warning: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(44): (vlog-2608) Keyword "unsigned" not allowed here in Verilog 2001.
 
-** Warning: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(51): (vlog-2608) Keyword "unsigned" not allowed here in Verilog 2001.
+** Warning: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(52): (vlog-2608) Keyword "unsigned" not allowed here in Verilog 2001.
 
 
 Top level modules:
