@@ -28,7 +28,9 @@ module shop_tb_v;
 
   parameter ADMIN_USERNAME        = "Adm"    ;
   
+  // tb params
   parameter tc = 50; //for clk
+  parameter time_between_test_inputs = (5 * tc);
   
   reg                               i_clk  ;
   reg                               i_reset; // must be set high then low at start of tb
@@ -83,6 +85,11 @@ module shop_tb_v;
   end
 
 
+  // initial reset
+  initial begin
+    i_reset <= 1'b1;
+    #(2 * tc) i_reset <= 1'b0;
+  end
 
   //procedure statement
   initial begin
@@ -102,10 +109,10 @@ module shop_tb_v;
   // #1000 i_code  = 24'h434244;  
   
   
-  #(5 * tc) apply_test(4, "sd");
-  #(5 * tc) apply_test(5, "gf");
-  #(5 * tc) apply_test(6, "hh");
-  #(5 * tc) apply_test(7, "hi");
+  #(time_between_test_inputs) apply_test(4, "sd");
+  #(time_between_test_inputs) apply_test(5, "gf");
+  #(time_between_test_inputs) apply_test(6, "hh");
+  #(time_between_test_inputs) apply_test(7, "hi");
   
   // i_clk   = 1'b1; 
   // i_reset = 1'b1;

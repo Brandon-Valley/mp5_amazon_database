@@ -15,7 +15,8 @@ entity shop_tb_v is
         \CMD_KEY__BUY\  : string  := "Buy";
         \CMD_KEY__NONE\ : string  := "NONE";
         ADMIN_USERNAME  : string  := "Adm";
-        tc              : integer := 50
+        tc              : integer := 50;
+        time_between_test_inputs: vl_notype
     );
     attribute mti_svvh_generic_type : integer;
     attribute mti_svvh_generic_type of I_A_NUM_BITS : constant is 1;
@@ -32,4 +33,5 @@ entity shop_tb_v is
     attribute mti_svvh_generic_type of \CMD_KEY__NONE\ : constant is 1;
     attribute mti_svvh_generic_type of ADMIN_USERNAME : constant is 1;
     attribute mti_svvh_generic_type of tc : constant is 1;
+    attribute mti_svvh_generic_type of time_between_test_inputs : constant is 3;
 end shop_tb_v;
