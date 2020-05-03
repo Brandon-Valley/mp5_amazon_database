@@ -1,6 +1,7 @@
 // -- python C:\Users\Brandon\Documents\Personal_Projects\my_utils\modelsim_utils\auto_run.py -d run_cmd__shop_v.do
 
-`timescale 1ms/1ms
+// `timescale 1ms/1ms
+`timescale 1ns/1ns
 
 
 
@@ -27,7 +28,7 @@ module shop_tb_v;
 
   parameter ADMIN_USERNAME        = "Adm"    ;
   
-  
+  parameter tc = 50; //for clk
   
   reg                               i_clk  ;
   reg                               i_reset; // must be set high then low at start of tb
@@ -58,6 +59,16 @@ module shop_tb_v;
                             .o_a    (o_a    )
   );
 
+
+  // clk gen
+  always 
+  begin
+    #(tc / 2)      i_clk = 1'b1;
+    #(tc - tc / 2) i_clk = 1'b0;
+  end
+
+
+
   //procedure statement
   initial begin
 
@@ -81,30 +92,30 @@ module shop_tb_v;
   i_clk   = 1'b1; 
   i_reset = 1'b1;
   i_rdy   = 1'b1;
-  i_u     = "HI";
-  i_a     = 1'b1;    
+  i_u     = 4;
+  i_a     = "HI";    
   
   #1000
   
   i_clk   = 1'b1; 
   i_reset = 1'b0;
   i_rdy   = 1'b1;
-  i_u     = "by";
-  i_a     = 1'b1;    
+  i_u     = 5;
+  i_a     = "by";    
     
   #1000
   
   i_clk   = 1'b1; 
   i_rdy   = 1'b1;
-  i_u     = "kk";
-  i_a     = 1'b1;    
+  i_u     = 2;
+  i_a     = "kk";    
     
   #1000
   
   i_clk   = 1'b1; 
   i_rdy   = 1'b1;
-  i_u     = "qq";
-  i_a     = 1'b1;    
+  i_u     = 3;
+  i_a     = "qq";    
     
       // for (i = 0 ; i < 34 ; i = i + 1) begin
         // #1000 a      = d_in[0];

@@ -1,50 +1,12 @@
-C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v {0 {vlog -work work C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
+C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v {2 {vlog -work work C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
 Model Technology ModelSim ALTERA vlog 10.1b Compiler 2012.04 Apr 27 2012
--- Compiling module note_v
-** Warning: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(27): (vlog-2608) Keyword "unsigned" not allowed here in Verilog 2001.
+-- Compiling module shop_v
+** Warning: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(32): (vlog-2608) Keyword "unsigned" not allowed here in Verilog 2001.
 
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(27): (vlog-2730) Undefined variable: 'I_U_NUM_BITS'.
+** Warning: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(42): (vlog-2608) Keyword "unsigned" not allowed here in Verilog 2001.
 
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(27): 'i_u' already declared in this scope (note_v).
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(28): (vlog-2730) Undefined variable: 'I_A_NUM_BITS'.
 
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(28): 'i_a' already declared in this scope (note_v).
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(29): (vlog-2730) Undefined variable: 'O_A_NUM_BITS'.
+Top level modules:
+	shop_v
 
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(30): 'o_a' already declared in this scope (note_v).
-** Warning: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(37): (vlog-2608) Keyword "unsigned" not allowed here in Verilog 2001.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(37): (vlog-2730) Undefined variable: 'MAX_USERS'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(80): (vlog-2730) Undefined variable: 'clk'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(93): (vlog-2730) Undefined variable: 'CMD_KEY__LOGIN'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(94): (vlog-2730) Undefined variable: 'CMD_KEY__ADD_USER'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(95): (vlog-2730) Undefined variable: 'CMD_KEY__DELETE_USER'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(96): (vlog-2730) Undefined variable: 'CMD_KEY__ADD_ITEM'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(97): (vlog-2730) Undefined variable: 'CMD_KEY__DELETE_ITEM'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(98): (vlog-2730) Undefined variable: 'CMD_KEY__BUY'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(105): (vlog-2730) Undefined variable: 'CMD_KEY__NONE'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(112): (vlog-2730) Undefined variable: 'cut_cmd'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(112): near ")": Syntax error.  Assignment sub-exprs. are only allowed in SystemVerilog or PSL.
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(129): (vlog-2730) Undefined variable: 'out__ask_username'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(130): (vlog-2730) Undefined variable: 'out__username_unkown'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(131): (vlog-2730) Undefined variable: 'out__username_taken'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(132): (vlog-2730) Undefined variable: 'out__cant_del_admin'.
-
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(27): Identifier must be declared with a port mode: i_u.
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(28): Identifier must be declared with a port mode: i_a.
-** Error: C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v(29): Identifier must be declared with a port mode: o_a.
-
-} {6.0 7.0 8.0 10.0 11.0 13.0 14.0 15.0 17.0 18.0 19.0 20.0 21.0 22.0 23.0 24.0 25.0 26.0 27.0 28.0 29.0 30.0 31.0 32.0 33.0 34.0 35.0 36.0 37.0 39.0 40.0 41.0 42.0 43.0 44.0 45.0 46.0 49.0} {}}
+} {} {}}

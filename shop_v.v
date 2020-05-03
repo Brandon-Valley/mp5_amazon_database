@@ -26,16 +26,16 @@ module shop_v
   
     parameter ADMIN_USERNAME        = "Adm"    
   )(
-    input                               i_clk,
-    input                               i_reset, // must be set high then low at start of tb
-    input                               i_rdy,    
-    input unsigned [I_U_NUM_BITS - 1:0] i_u,
-    input          [I_A_NUM_BITS - 1:0] i_a,
-    output         [O_A_NUM_BITS - 1:0] o_a
+    input                                i_clk,
+    input                                i_reset, // must be set high then low at start of tb
+    input                                i_rdy,    
+    input  unsigned [I_U_NUM_BITS - 1:0] i_u,
+    input           [I_A_NUM_BITS - 1:0] i_a,
+    output reg      [O_A_NUM_BITS - 1:0] o_a
   );
   
   
-  assign o_a = "hithere"; // testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // assign o_a = "hi?"; // testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   
   
   // internal registers
@@ -154,27 +154,31 @@ module shop_v
   
 
   
-  // // output print logic
-  // always @(posedge i_clk) begin
-    // if (out__ask_cmd        ) o_a <= "Cmd?";
+  // output print logic
+  always @(posedge i_clk) begin
+    if (out__ask_cmd        ) o_a <= "Cmd?";
+    // if (out__ask_cmd        ) assign o_a = "Cmd?";
     // if (out__invalid_cmd    ) o_a <= "InvalCmd";
     // if (out__invalid_perms  ) o_a <= "InvalPerm";
     // if (out__ask_username   ) o_a <= "Usrname?";
     // if (out__username_unkown) o_a <= "UsrUnknwn";
     // if (out__username_taken ) o_a <= "UsrTaken";
     // if (out__cant_del_admin ) o_a <= "NoDelAdmn";
-  // end  
+  end  
   
   
   
   
-  // // main combinational logic
-  // always @(posedge i_clk) begin
-    // // reset outs
-    // // EX: out__ask_cmd <= 1'b0;  // maybe just =?
+  // main combinational logic
+  always @(posedge i_clk) begin
+    // reset outs
+    // EX: out__ask_cmd <= 1'b0;  // maybe just =?
     
-    // // main VVVVVVVVVV
-  // end  
+    // test VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    out__ask_cmd <= 1'b1;
+    
+    // main VVVVVVVVVV
+  end  
   
 endmodule
 
