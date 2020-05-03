@@ -4,26 +4,28 @@
 
 
 
-parameter I_A_NUM_BITS 24
-parameter I_U_NUM_BITS 4
-parameter O_A_NUM_BITS 24
-parameter
-parameter MAX_USERS            5 // includes admin
-parameter
-parameter CMD_KEY__LOGOUT      "Logout"
-parameter CMD_KEY__LOGIN       "Login"
-parameter CMD_KEY__ADD_USER    "AddUsr"
-parameter CMD_KEY__DELETE_USER "DelUsr"
-parameter CMD_KEY__ADD_ITEM    "AddItem"
-parameter CMD_KEY__DELETE_ITEM "DelItem"
-parameter CMD_KEY__BUY         "Buy"
-parameter CMD_KEY__NONE        "NONE"
-parameter
-parameter ADMIN_USERNAME       "Adm"
+
 
 
 
 module shop_tb_v;
+
+  parameter I_A_NUM_BITS          = 24       ;
+  parameter I_U_NUM_BITS          = 4        ;
+  parameter O_A_NUM_BITS          = 24       ;
+
+  parameter MAX_USERS             = 5        ;  // includes admin
+
+  parameter CMD_KEY__LOGOUT       = "Logout" ;
+  parameter CMD_KEY__LOGIN        = "Login"  ;
+  parameter CMD_KEY__ADD_USER     = "AddUsr" ;
+  parameter CMD_KEY__DELETE_USER  = "DelUsr" ;
+  parameter CMD_KEY__ADD_ITEM     = "AddItem";
+  parameter CMD_KEY__DELETE_ITEM  = "DelItem";
+  parameter CMD_KEY__BUY          = "Buy"    ;
+  parameter CMD_KEY__NONE         = "NONE"   ;
+
+  parameter ADMIN_USERNAME        = "Adm"    ;
   
   reg                               i_clk  ;
   reg                               i_reset; // must be set high then low at start of tb
