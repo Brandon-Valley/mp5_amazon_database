@@ -27,6 +27,8 @@ module shop_tb_v;
 
   parameter ADMIN_USERNAME        = "Adm"    ;
   
+  
+  
   reg                               i_clk  ;
   reg                               i_reset; // must be set high then low at start of tb
   reg                               i_rdy  ;  
