@@ -35,10 +35,7 @@ module shop_v
     input           [I_A_NUM_BITS - 1:0] i_a,
     output reg      [O_A_NUM_BITS - 1:0] o_a
   );
-  
-  
-  // assign o_a = "hi?"; // testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  
+    
   
   // internal registers
   reg unsigned [2 ** (MAX_USERS -1):0] cur_user_num;
@@ -129,7 +126,6 @@ module shop_v
       // // username            
       // state_username:
       // begin
-      
       
         // // if  (cur_cmd === CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) )
         // // // if  (cur_cmd === CMD_KEY__LOGIN      ) )
