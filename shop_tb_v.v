@@ -60,6 +60,21 @@ module shop_tb_v;
   );
 
 
+  task apply_test(input real i_u_t, i_a_t);
+    begin
+      i_u = i_u_t;
+      i_a = i_a_t;
+      #tc
+      i_rdy = 1'b1;
+      #tc
+      i_rdy = 1'b0;
+      // @negedge i_clk) i_rdy = 1'b0;
+      // repeat (5) @(negedge i_clk);
+    end
+  endtask
+
+
+
   // clk gen
   always 
   begin
@@ -87,35 +102,39 @@ module shop_tb_v;
   // #1000 i_code  = 24'h434244;  
   
   
-  #1000
+  #(5 * tc) apply_test(4, "sd");
+  #(5 * tc) apply_test(5, "gf");
+  #(5 * tc) apply_test(6, "hh");
+  #(5 * tc) apply_test(7, "hi");
   
-  i_clk   = 1'b1; 
-  i_reset = 1'b1;
-  i_rdy   = 1'b1;
-  i_u     = 4;
-  i_a     = "HI";    
+  // i_clk   = 1'b1; 
+  // i_reset = 1'b1;
+  // i_rdy   = 1'b1;
+  // i_u     = 4;
+  // i_a     = "HI";    
   
-  #1000
+  // #tc
+  // apply_test(5, "ww");
   
-  i_clk   = 1'b1; 
-  i_reset = 1'b0;
-  i_rdy   = 1'b1;
-  i_u     = 5;
-  i_a     = "by";    
+  // i_clk   = 1'b1; 
+  // i_reset = 1'b0;
+  // i_rdy   = 1'b1;
+  // i_u     = 5;
+  // i_a     = "by";    
     
-  #1000
+  // #tc
   
-  i_clk   = 1'b1; 
-  i_rdy   = 1'b1;
-  i_u     = 2;
-  i_a     = "kk";    
+  // i_clk   = 1'b1; 
+  // i_rdy   = 1'b1;
+  // i_u     = 2;
+  // i_a     = "kk";    
     
-  #1000
+  // #tc
   
-  i_clk   = 1'b1; 
-  i_rdy   = 1'b1;
-  i_u     = 3;
-  i_a     = "qq";    
+  // i_clk   = 1'b1; 
+  // i_rdy   = 1'b1;
+  // i_u     = 3;
+  // i_a     = "qq";    
     
       // for (i = 0 ; i < 34 ; i = i + 1) begin
         // #1000 a      = d_in[0];

@@ -8,4 +8,4 @@ sim:/shop_tb_v/i_u     \
 sim:/shop_tb_v/i_a     \
 sim:/shop_tb_v/o_a    
 
-run -50ns
+run 1000ns
