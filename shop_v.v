@@ -40,7 +40,7 @@ module shop_v
   )(
     input                                i_clk,
     input                                i_reset, // must be set high then low at start of tb
-    input                                i_rdy,    
+    input                                i_rdy,   // must be set low at start of tb 
     input  unsigned [I_U_NUM_BITS - 1:0] i_u,
     input           [I_A_NUM_BITS - 1:0] i_a,
     output reg      [O_A_NUM_BITS - 1:0] o_a
@@ -133,41 +133,15 @@ module shop_v
           end
       end
                   
-      // // username            
-      // STATE__USERNAME:
-      // begin
-      
-        // // if  (cur_cmd === CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) )
-        // // // if  (cur_cmd === CMD_KEY__LOGIN      ) )
-        // // // if  ( i_rdy & in_a_valid_cmd & user_has_perms_for_i_a_cmd) 
-          // // begin 
-            // // // you already know you will be moving to a new state, so save the cmd
-            // // cur_cmd = i_a;
-            
-            // // case(i_a)
-              // // // CMD_KEY__LOGOUT     :  next_state = 
-              // // CMD_KEY__LOGIN      :  next_state = STATE__CMD       ;
-              // // CMD_KEY__ADD_USER   :  next_state = STATE__USERNAME  ;
-              // // CMD_KEY__DELETE_USER:  next_state = STATE__PASSWORD  ;
-              // // CMD_KEY__ADD_ITEM   :  next_state = STATE__PERMS     ;
-              // // CMD_KEY__DELETE_ITEM:  next_state = STATE__ITEM_NAME ;
-              // // CMD_KEY__BUY        :  next_state = STATE__ITEM_STOCK;
-            // // endcase
-          // // end
-        // if      ( (cur_cmd = CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) )                                     next_state = STATE__PASSWORD;
-        // else if ( (cur_cmd = CMD_KEY__ADD_USER   ) & i_rdy & (!  in_a_known_username) )                                     next_state = STATE__PASSWORD;
-         // // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a_known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
-         
-        // // assign next_state = ( (cur_cmd = CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) )  ?  STATE__PASSWORD;
-        // // assign next_state =  STATE__PASSWORD;
-         
-        // // if      ( (cur_cmd = CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) ) 
-        // // begin
-          // // assign next_state = STATE__PASSWORD;
-        // // end
-        // // else if ( (cur_cmd = CMD_KEY__ADD_USER   ) & i_rdy & (!  in_a_known_username) ) begin                                  next_state <= STATE__PASSWORD end;
-         // // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a_known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
-      // end
+      // username            
+      STATE__USERNAME:
+      begin
+
+        if      ( cur_cmd == CMD_KEY__LOGIN    & i_rdy &   in_a_known_username )                                     next_state = STATE__PASSWORD;
+        else if ( cur_cmd == CMD_KEY__ADD_USER & i_rdy & ! in_a_known_username )                                     next_state = STATE__PASSWORD;
+         // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a_known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
+        
+      end
       
       
     endcase
@@ -281,17 +255,26 @@ module shop_v
   //
   ///////////////////////////////
   always @(posedge i_clk) begin
-  
     out__ask_cmd         <= 1'b0;
     out__invalid_cmd     <= 1'b0;
     out__invalid_perms   <= 1'b0;
 
+    if (cur_state == STATE__CMD)
+    begin
+      if      ( ! i_rdy                    ) out__ask_cmd     <= 1'b1;
+      else if (   i_rdy & ! in_a_valid_cmd ) out__invalid_cmd <= 1'b1;
+    end
     
-    // test VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    if (! in_a_valid_cmd)
-      out__ask_cmd <= 1'b1;
-    else
-      out__ask_item_name <= 1'b1;
+    
+    
+    
+    
+    
+    // // test VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // if (! in_a_valid_cmd)
+      // out__ask_cmd <= 1'b1;
+    // else
+      // out__ask_item_name <= 1'b1;
     
     // main VVVVVVVVVV
   end  

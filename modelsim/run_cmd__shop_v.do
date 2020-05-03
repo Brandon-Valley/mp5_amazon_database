@@ -13,6 +13,9 @@ sim:/shop_tb_v/uut/cur_user_num \
 sim:/shop_tb_v/uut/cur_user_perms \
 sim:/shop_tb_v/uut/cur_username \
 sim:/shop_tb_v/uut/in_a_known_username \
-sim:/shop_tb_v/uut/in_a_valid_cmd
+sim:/shop_tb_v/uut/in_a_valid_cmd \
+sim:/shop_tb_v/uut/out__ask_cmd \
+sim:/shop_tb_v/uut/out__invalid_cmd \
+sim:/shop_tb_v/uut/out__invalid_perms
 
-run 3000ns
+run 1900ns
