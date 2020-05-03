@@ -1,12 +1,6 @@
 // -- python C:\Users\Brandon\Documents\Personal_Projects\my_utils\modelsim_utils\auto_run.py -d run_cmd__shop_v.do
 
-
-
-
 module shop_v
-
-
-
   #(
     parameter I_A_NUM_ASCII_CHARS   = 7                      , // must fit longest CMD_KEY
     parameter O_A_NUM_ASCII_CHARS   = 9                      , // must fit longest out__
@@ -42,11 +36,11 @@ module shop_v
   
   reg [I_A_NUM_BITS - 1:0] cur_cmd;
   
-  reg in_a_valid_cmd;
+  wire in_a_valid_cmd;
   reg user_has_perms_for_i_a_cmd;
   reg in_a_known_username;
   reg cur_username;
-  reg cur_user_perms;
+  wire cur_user_perms;
   
   reg out__ask_cmd        ;
   reg out__invalid_cmd    ;
@@ -65,10 +59,35 @@ module shop_v
   reg out__not_your_item  ;
   reg out__item_deleted   ;
   reg out__no_stock       ;
-  reg out__item_bough     ;
+  reg out__item_bought    ;
  
   
   
+  // assign in_a_valid_cmd = (i_a = CMD_KEY__LOGOUT     ) |
+                          // (i_a = CMD_KEY__LOGIN      ) |
+                          // (i_a = CMD_KEY__ADD_USER   ) |
+                          // (i_a = CMD_KEY__DELETE_USER) |
+                          // (i_a = CMD_KEY__ADD_ITEM   ) |
+                          // (i_a = CMD_KEY__DELETE_ITEM) |
+                          // (i_a = CMD_KEY__BUY        ) ? 1'b1 : 1'b0;
+                          
+  // assign in_a_valid_cmd = i_rdy ? 1'b1 : 1'b0;
+  assign in_a_valid_cmd = i_a == CMD_KEY__LOGIN       ? 1'b1 : 1'b0;
+  // (i_a = CMD_KEY__LOGOUT     ) |
+                          // (i_a = CMD_KEY__LOGIN      ) |
+                          // (i_a = CMD_KEY__ADD_USER   ) |
+                          // (i_a = CMD_KEY__DELETE_USER) |
+                          // (i_a = CMD_KEY__ADD_ITEM   ) |
+                          // (i_a = CMD_KEY__DELETE_ITEM) |
+                          // (i_a = CMD_KEY__BUY        ) ? 1'b1 : 1'b0;
+  
+  
+  // wire rdy_i = i_rdy;
+  
+  // if ( rdy_i )
+  // begin
+    // assign cur_user_perms = 1'b1;
+  // end
   
   // define states
   parameter [2:0] state_cmd        = 3'b000,
@@ -187,7 +206,7 @@ module shop_v
     if (out__not_your_item  ) o_a <= "NtYourItm";
     if (out__item_deleted   ) o_a <= "ItmDeletd";
     if (out__no_stock       ) o_a <= "NoStock";
-    if (out__item_bough     ) o_a <= "ItmBought";
+    if (out__item_bought    ) o_a <= "ItmBought";
     
   end  
   
@@ -196,11 +215,38 @@ module shop_v
   
   // main combinational logic
   always @(posedge i_clk) begin
+  
+    out__ask_cmd         <= 1'b0;
+    out__invalid_cmd     <= 1'b0;
+    out__invalid_perms   <= 1'b0;
+    out__ask_username    <= 1'b0;
+    out__username_unkown <= 1'b0;
+    out__username_taken  <= 1'b0;
+    out__cant_del_admin  <= 1'b0;
+    out__user_deleted    <= 1'b0;
+    out__items_full      <= 1'b0;
+    out__ask_item_name   <= 1'b0;
+    out__item_exists     <= 1'b0;
+    out__ask_stock       <= 1'b0;
+    out__item_added      <= 1'b0;
+    out__item_unknown    <= 1'b0;
+    out__not_your_item   <= 1'b0;
+    out__item_deleted    <= 1'b0;
+    out__no_stock        <= 1'b0;
+    out__item_bought     <= 1'b0;
+    
+    
+    
+  
+  
     // reset outs
     // EX: out__ask_cmd <= 1'b0;  // maybe just =?
     
     // test VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    out__ask_cmd <= 1'b1;
+    if (! in_a_valid_cmd)
+      out__ask_cmd <= 1'b1;
+    else
+      out__ask_item_name <= 1'b1;
     
     // main VVVVVVVVVV
   end  

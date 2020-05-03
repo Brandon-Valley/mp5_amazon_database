@@ -11,7 +11,8 @@ sim:/shop_tb_v/uut/cur_cmd \
 sim:/shop_tb_v/uut/cur_state \
 sim:/shop_tb_v/uut/cur_user_num \
 sim:/shop_tb_v/uut/cur_user_perms \
-sim:/shop_tb_v/uut/cur_username    
- 
+sim:/shop_tb_v/uut/cur_username \
+sim:/shop_tb_v/uut/in_a_known_username \
+sim:/shop_tb_v/uut/in_a_valid_cmd
 
 run 3000ns

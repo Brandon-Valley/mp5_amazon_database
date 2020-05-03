@@ -71,8 +71,7 @@ module shop_tb_v;
       i_rdy = 1'b1;
       #tc
       i_rdy = 1'b0;
-      // @negedge i_clk) i_rdy = 1'b0;
-      // repeat (5) @(negedge i_clk);
+
     end
   endtask
 
