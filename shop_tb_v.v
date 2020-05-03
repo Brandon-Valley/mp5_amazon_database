@@ -11,22 +11,23 @@
 
 module shop_tb_v;
 
-  parameter I_A_NUM_BITS          = 24       ;
-  parameter I_U_NUM_BITS          = 4        ;
-  parameter O_A_NUM_BITS          = 24       ;
-
-  parameter MAX_USERS             = 5        ;  // includes admin
-
-  parameter CMD_KEY__LOGOUT       = "Logout" ;
-  parameter CMD_KEY__LOGIN        = "Login"  ;
-  parameter CMD_KEY__ADD_USER     = "AddUsr" ;
-  parameter CMD_KEY__DELETE_USER  = "DelUsr" ;
-  parameter CMD_KEY__ADD_ITEM     = "AddItem";
-  parameter CMD_KEY__DELETE_ITEM  = "DelItem";
-  parameter CMD_KEY__BUY          = "Buy"    ;
-  parameter CMD_KEY__NONE         = "NONE"   ;
-
-  parameter ADMIN_USERNAME        = "Adm"    ;
+    parameter I_A_NUM_ASCII_CHARS   = 7                      ; // must fit longest CMD_KEY
+    parameter O_A_NUM_ASCII_CHARS   = 9                      ; // must fit longest out__
+  
+    parameter I_A_NUM_BITS          = I_A_NUM_ASCII_CHARS * 8;
+    parameter I_U_NUM_BITS          = 4                      ; // max 15
+    parameter O_A_NUM_BITS          = O_A_NUM_ASCII_CHARS * 8;
+  
+    parameter MAX_USERS             = 5                      ;  // includes admin
+                                                             
+    parameter CMD_KEY__LOGOUT       = "Logout"               ;
+    parameter CMD_KEY__LOGIN        = "Login"                ;
+    parameter CMD_KEY__ADD_USER     = "AddUsr"               ;
+    parameter CMD_KEY__DELETE_USER  = "DelUsr"               ;
+    parameter CMD_KEY__ADD_ITEM     = "AddItem"              ;
+    parameter CMD_KEY__DELETE_ITEM  = "DelItem"              ;
+    parameter CMD_KEY__BUY          = "Buy"                  ;
+    parameter CMD_KEY__NONE         = "NONE"                 ;
   
   // tb params
   parameter tc = 50; //for clk

@@ -8,21 +8,23 @@ module shop_v
 
 
   #(
+    parameter I_A_NUM_ASCII_CHARS   = 7                      , // must fit longest CMD_KEY
+    parameter O_A_NUM_ASCII_CHARS   = 9                      , // must fit longest out__
   
-    parameter I_A_NUM_BITS          = 24       ,
-    parameter I_U_NUM_BITS          = 4        ,
-    parameter O_A_NUM_BITS          = 24       ,
+    parameter I_A_NUM_BITS          = I_A_NUM_ASCII_CHARS * 8,
+    parameter I_U_NUM_BITS          = 4                      , // max 15
+    parameter O_A_NUM_BITS          = O_A_NUM_ASCII_CHARS * 8,
   
-    parameter MAX_USERS             = 5        ,  // includes admin
-  
-    parameter CMD_KEY__LOGOUT       = "Logout" ,
-    parameter CMD_KEY__LOGIN        = "Login"  ,
-    parameter CMD_KEY__ADD_USER     = "AddUsr" ,
-    parameter CMD_KEY__DELETE_USER  = "DelUsr" ,
-    parameter CMD_KEY__ADD_ITEM     = "AddItem",
-    parameter CMD_KEY__DELETE_ITEM  = "DelItem",
-    parameter CMD_KEY__BUY          = "Buy"    ,
-    parameter CMD_KEY__NONE         = "NONE"   ,
+    parameter MAX_USERS             = 5                      ,  // includes admin
+                                                             
+    parameter CMD_KEY__LOGOUT       = "Logout"               ,
+    parameter CMD_KEY__LOGIN        = "Login"                ,
+    parameter CMD_KEY__ADD_USER     = "AddUsr"               ,
+    parameter CMD_KEY__DELETE_USER  = "DelUsr"               ,
+    parameter CMD_KEY__ADD_ITEM     = "AddItem"              ,
+    parameter CMD_KEY__DELETE_ITEM  = "DelItem"              ,
+    parameter CMD_KEY__BUY          = "Buy"                  ,
+    parameter CMD_KEY__NONE         = "NONE"                 ,
   
     parameter ADMIN_USERNAME        = "Adm"    
   )(
@@ -56,6 +58,20 @@ module shop_v
   reg out__username_unkown;
   reg out__username_taken ;
   reg out__cant_del_admin ;
+  reg out__user_deleted   ;
+  reg out__items_full     ;
+  reg out__ask_item_name  ;
+  reg out__item_exists    ;
+  reg out__ask_stock      ;
+  reg out__item_added     ;
+  reg out__item_unknown   ;
+  reg out__not_your_item  ;
+  reg out__item_deleted   ;
+  reg out__no_stock       ;
+  reg out__item_bough     ;
+ 
+  
+  
   
   // define states
   parameter [2:0] state_cmd        = 3'b000,
@@ -156,14 +172,27 @@ module shop_v
   
   // output print logic
   always @(posedge i_clk) begin
+    // no 2 outs should ever be high at the same time
     if (out__ask_cmd        ) o_a <= "Cmd?";
-    // if (out__ask_cmd        ) assign o_a = "Cmd?";
-    // if (out__invalid_cmd    ) o_a <= "InvalCmd";
-    // if (out__invalid_perms  ) o_a <= "InvalPerm";
-    // if (out__ask_username   ) o_a <= "Usrname?";
-    // if (out__username_unkown) o_a <= "UsrUnknwn";
-    // if (out__username_taken ) o_a <= "UsrTaken";
-    // if (out__cant_del_admin ) o_a <= "NoDelAdmn";
+    if (out__invalid_cmd    ) o_a <= "InvalCmd";
+    if (out__invalid_perms  ) o_a <= "InvalPerm";
+    if (out__ask_username   ) o_a <= "Usrname?";
+    if (out__username_unkown) o_a <= "UsrUnknwn";
+    if (out__username_taken ) o_a <= "UsrTaken";
+    if (out__cant_del_admin ) o_a <= "NoDelAdmn";
+    
+    if (out__user_deleted   ) o_a <= "UsrDeletd";
+    if (out__items_full     ) o_a <= "ItmsFull";
+    if (out__ask_item_name  ) o_a <= "ItmName?";
+    if (out__item_exists    ) o_a <= "ItmExists";
+    if (out__ask_stock      ) o_a <= "Stock?";
+    if (out__item_added     ) o_a <= "ItmAdded";
+    if (out__item_unknown   ) o_a <= "ItmUnknwn";
+    if (out__not_your_item  ) o_a <= "NtYourItm";
+    if (out__item_deleted   ) o_a <= "ItmDeletd";
+    if (out__no_stock       ) o_a <= "NoStock";
+    if (out__item_bough     ) o_a <= "ItmBought";
+    
   end  
   
   
