@@ -16,7 +16,14 @@ entity shop_v is
         \CMD_KEY__DELETE_ITEM\: string  := "DelItem";
         \CMD_KEY__BUY\  : string  := "Buy";
         \CMD_KEY__NONE\ : string  := "NONE";
-        ADMIN_USERNAME  : string  := "Adm"
+        ADMIN_USERNAME  : string  := "Adm";
+        STATE_NUM_ASCII_BITS: integer := 7;
+        \STATE__CMD\    : string  := "CMD";
+        \STATE__USERNAME\: string  := "USRNAME";
+        \STATE__PASSWORD\: string  := "PASSWRD";
+        \STATE__PERMS\  : string  := "PERMS";
+        \STATE__ITEM_NAME\: string  := "ITMNAME";
+        \STATE__ITEM_STOCK\: string  := "ITMSTCK"
     );
     port(
         i_clk           : in     vl_logic;
@@ -42,4 +49,11 @@ entity shop_v is
     attribute mti_svvh_generic_type of \CMD_KEY__BUY\ : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__NONE\ : constant is 1;
     attribute mti_svvh_generic_type of ADMIN_USERNAME : constant is 1;
+    attribute mti_svvh_generic_type of STATE_NUM_ASCII_BITS : constant is 1;
+    attribute mti_svvh_generic_type of \STATE__CMD\ : constant is 1;
+    attribute mti_svvh_generic_type of \STATE__USERNAME\ : constant is 1;
+    attribute mti_svvh_generic_type of \STATE__PASSWORD\ : constant is 1;
+    attribute mti_svvh_generic_type of \STATE__PERMS\ : constant is 1;
+    attribute mti_svvh_generic_type of \STATE__ITEM_NAME\ : constant is 1;
+    attribute mti_svvh_generic_type of \STATE__ITEM_STOCK\ : constant is 1;
 end shop_v;

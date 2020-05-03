@@ -8,7 +8,7 @@ module shop_v
     parameter I_A_NUM_BITS          = I_A_NUM_ASCII_CHARS * 8,
     parameter I_U_NUM_BITS          = 4                      , // max 15
     parameter O_A_NUM_BITS          = O_A_NUM_ASCII_CHARS * 8,
-  
+      
     parameter MAX_USERS             = 5                      ,  // includes admin
                                                              
     parameter CMD_KEY__LOGOUT       = "Logout"               ,
@@ -20,7 +20,23 @@ module shop_v
     parameter CMD_KEY__BUY          = "Buy"                  ,
     parameter CMD_KEY__NONE         = "NONE"                 ,
   
-    parameter ADMIN_USERNAME        = "Adm"    
+    parameter ADMIN_USERNAME        = "Adm"                  ,    
+    
+    parameter STATE_NUM_ASCII_BITS  = 7                      ,
+    
+    // parameter [STATE_NUM_ASCII_BITS * 8:0] STATE__CMD        = "CMD",
+                                           // STATE__USERNAME   = "USRNAME",
+                                           // STATE__PASSWORD   = "PASSWRD",
+                                           // STATE__PERMS      = "PERMS",
+                                           // STATE__ITEM_NAME  = "ITMNAME",
+                                           // STATE__ITEM_STOCK = "ITMSTCK"
+    parameter STATE__CMD        = "CMD",
+    parameter STATE__USERNAME   = "USRNAME",
+    parameter STATE__PASSWORD   = "PASSWRD",
+    parameter STATE__PERMS      = "PERMS",
+    parameter STATE__ITEM_NAME  = "ITMNAME",
+    parameter STATE__ITEM_STOCK = "ITMSTCK"                                            
+
   )(
     input                                i_clk,
     input                                i_reset, // must be set high then low at start of tb
@@ -61,8 +77,20 @@ module shop_v
   reg out__no_stock       ;
   reg out__item_bought    ;
  
+ 
+  // // define states
+  // parameter [2:0] STATE__CMD        = "CMD",
+                  // STATE__USERNAME   = "USRNAME",
+                  // STATE__PASSWORD   = "PASSWRD",
+                  // STATE__PERMS      = "PERMS",
+                  // STATE__ITEM_NAME  = "ITMNAME",
+                  // STATE__ITEM_STOCK = "ITMSTCK"
+                  // ;
+  reg [STATE_NUM_ASCII_BITS * 8:0] cur_state;
+  reg [STATE_NUM_ASCII_BITS * 8:0] next_state;
   
   
+  // 1 / 0 if in_a is a valid cmd
   assign in_a_valid_cmd = i_a == CMD_KEY__LOGOUT      |
                           i_a == CMD_KEY__LOGIN       |
                           i_a == CMD_KEY__ADD_USER    |
@@ -70,35 +98,7 @@ module shop_v
                           i_a == CMD_KEY__ADD_ITEM    |
                           i_a == CMD_KEY__DELETE_ITEM |
                           i_a == CMD_KEY__BUY         ? 1'b1 : 1'b0;
-                          
-  // assign in_a_valid_cmd = i_rdy ? 1'b1 : 1'b0;
-  // assign in_a_valid_cmd = i_a == CMD_KEY__LOGIN       ? 1'b1 : 1'b0;
-  // (i_a = CMD_KEY__LOGOUT     ) |
-                          // (i_a = CMD_KEY__LOGIN      ) |
-                          // (i_a = CMD_KEY__ADD_USER   ) |
-                          // (i_a = CMD_KEY__DELETE_USER) |
-                          // (i_a = CMD_KEY__ADD_ITEM   ) |
-                          // (i_a = CMD_KEY__DELETE_ITEM) |
-                          // (i_a = CMD_KEY__BUY        ) ? 1'b1 : 1'b0;
   
-  
-  // wire rdy_i = i_rdy;
-  
-  // if ( rdy_i )
-  // begin
-    // assign cur_user_perms = 1'b1;
-  // end
-  
-  // define states
-  parameter [2:0] state_cmd        = 3'b000,
-                  state_username   = 3'b001,
-                  state_password   = 3'b010,
-                  state_perms      = 3'b011,
-                  state_item_name  = 3'b100,
-                  state_item_stock = 3'b101
-                  ;
-  reg [2:0] cur_state;
-  reg [2:0] next_state;
   
   // do eqn / behave assigns with on always blocks VVVVVV, testing @!!!!!!!!!!!!!
   
@@ -106,8 +106,10 @@ module shop_v
   // reset logic
   // reset must be set high then low at start of tb to set init state
   // Async. reset
-  always @(posedge i_clk or posedge i_reset) begin
-    if (i_reset) cur_state <= state_cmd;
+  // always @(posedge i_clk or posedge i_reset) begin
+  always @(posedge i_clk) begin
+    if (i_reset == 1'b1) cur_state = STATE__CMD;
+    // if (i_reset == 1'b1) cur_state <= STATE__ITEM_STOCK;
     else cur_state <= next_state;
   end
   
@@ -117,7 +119,7 @@ module shop_v
     case(cur_state)
       
       // cmd
-      state_cmd:  
+      STATE__CMD:  
       begin
         if ( i_rdy & in_a_valid_cmd & user_has_perms_for_i_a_cmd) 
           begin 
@@ -126,24 +128,24 @@ module shop_v
             
             case(i_a)
               // CMD_KEY__LOGOUT     :  next_state = 
-              CMD_KEY__LOGIN      :  next_state = state_cmd       ;
-              CMD_KEY__ADD_USER   :  next_state = state_username  ;
-              CMD_KEY__DELETE_USER:  next_state = state_password  ;
-              CMD_KEY__ADD_ITEM   :  next_state = state_perms     ;
-              CMD_KEY__DELETE_ITEM:  next_state = state_item_name ;
-              CMD_KEY__BUY        :  next_state = state_item_stock;
+              CMD_KEY__LOGIN      :  next_state = STATE__CMD       ;
+              CMD_KEY__ADD_USER   :  next_state = STATE__USERNAME  ;
+              CMD_KEY__DELETE_USER:  next_state = STATE__PASSWORD  ;
+              CMD_KEY__ADD_ITEM   :  next_state = STATE__PERMS     ;
+              CMD_KEY__DELETE_ITEM:  next_state = STATE__ITEM_NAME ;
+              CMD_KEY__BUY        :  next_state = STATE__ITEM_STOCK;
             endcase
           end
           
         else
           begin
-            next_state = state_cmd;
+            next_state = STATE__CMD;
             cur_cmd = CMD_KEY__NONE;
           end
       end
                   
       // // username            
-      // state_username:
+      // STATE__USERNAME:
       // begin
       
         // // if  (cur_cmd === CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) )
@@ -155,27 +157,27 @@ module shop_v
             
             // // case(i_a)
               // // // CMD_KEY__LOGOUT     :  next_state = 
-              // // CMD_KEY__LOGIN      :  next_state = state_cmd       ;
-              // // CMD_KEY__ADD_USER   :  next_state = state_username  ;
-              // // CMD_KEY__DELETE_USER:  next_state = state_password  ;
-              // // CMD_KEY__ADD_ITEM   :  next_state = state_perms     ;
-              // // CMD_KEY__DELETE_ITEM:  next_state = state_item_name ;
-              // // CMD_KEY__BUY        :  next_state = state_item_stock;
+              // // CMD_KEY__LOGIN      :  next_state = STATE__CMD       ;
+              // // CMD_KEY__ADD_USER   :  next_state = STATE__USERNAME  ;
+              // // CMD_KEY__DELETE_USER:  next_state = STATE__PASSWORD  ;
+              // // CMD_KEY__ADD_ITEM   :  next_state = STATE__PERMS     ;
+              // // CMD_KEY__DELETE_ITEM:  next_state = STATE__ITEM_NAME ;
+              // // CMD_KEY__BUY        :  next_state = STATE__ITEM_STOCK;
             // // endcase
           // // end
-        // if      ( (cur_cmd = CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) )                                     next_state = state_password;
-        // else if ( (cur_cmd = CMD_KEY__ADD_USER   ) & i_rdy & (!  in_a_known_username) )                                     next_state = state_password;
-         // // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a_known_username) & (cur_username != ADMIN_USERNAME) )  next_state = state_cmd + delete the user?????;
+        // if      ( (cur_cmd = CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) )                                     next_state = STATE__PASSWORD;
+        // else if ( (cur_cmd = CMD_KEY__ADD_USER   ) & i_rdy & (!  in_a_known_username) )                                     next_state = STATE__PASSWORD;
+         // // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a_known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
          
-        // // assign next_state = ( (cur_cmd = CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) )  ?  state_password;
-        // // assign next_state =  state_password;
+        // // assign next_state = ( (cur_cmd = CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) )  ?  STATE__PASSWORD;
+        // // assign next_state =  STATE__PASSWORD;
          
         // // if      ( (cur_cmd = CMD_KEY__LOGIN      ) & i_rdy & (   in_a_known_username) ) 
         // // begin
-          // // assign next_state = state_password;
+          // // assign next_state = STATE__PASSWORD;
         // // end
-        // // else if ( (cur_cmd = CMD_KEY__ADD_USER   ) & i_rdy & (!  in_a_known_username) ) begin                                  next_state <= state_password end;
-         // // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a_known_username) & (cur_username != ADMIN_USERNAME) )  next_state = state_cmd + delete the user?????;
+        // // else if ( (cur_cmd = CMD_KEY__ADD_USER   ) & i_rdy & (!  in_a_known_username) ) begin                                  next_state <= STATE__PASSWORD end;
+         // // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a_known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
       // end
       
       
