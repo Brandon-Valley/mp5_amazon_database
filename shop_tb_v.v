@@ -88,7 +88,7 @@ module shop_tb_v;
   // initial reset
   initial begin
     i_reset <= 1'b1;
-    #(4 * tc) i_reset <= 1'b0;
+    #tc i_reset <= 1'b0;
   end
 
   //procedure statement

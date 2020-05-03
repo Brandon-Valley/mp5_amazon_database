@@ -52,6 +52,9 @@ module shop_v
   
   reg [I_A_NUM_BITS - 1:0] cur_cmd;
   
+  reg [STATE_NUM_ASCII_BITS * 8:0] cur_state;
+  reg [STATE_NUM_ASCII_BITS * 8:0] next_state;
+  
   wire in_a_valid_cmd;
   reg user_has_perms_for_i_a_cmd;
   reg in_a_known_username;
@@ -77,18 +80,6 @@ module shop_v
   reg out__no_stock       ;
   reg out__item_bought    ;
  
- 
-  // // define states
-  // parameter [2:0] STATE__CMD        = "CMD",
-                  // STATE__USERNAME   = "USRNAME",
-                  // STATE__PASSWORD   = "PASSWRD",
-                  // STATE__PERMS      = "PERMS",
-                  // STATE__ITEM_NAME  = "ITMNAME",
-                  // STATE__ITEM_STOCK = "ITMSTCK"
-                  // ;
-  reg [STATE_NUM_ASCII_BITS * 8:0] cur_state;
-  reg [STATE_NUM_ASCII_BITS * 8:0] next_state;
-  
   
   // 1 / 0 if in_a is a valid cmd
   assign in_a_valid_cmd = i_a == CMD_KEY__LOGOUT      |
@@ -106,10 +97,8 @@ module shop_v
   // reset logic
   // reset must be set high then low at start of tb to set init state
   // Async. reset
-  // always @(posedge i_clk or posedge i_reset) begin
-  always @(posedge i_clk) begin
+  always @(posedge i_clk or posedge i_reset) begin
     if (i_reset == 1'b1) cur_state = STATE__CMD;
-    // if (i_reset == 1'b1) cur_state <= STATE__ITEM_STOCK;
     else cur_state <= next_state;
   end
   
@@ -253,5 +242,120 @@ module shop_v
     // main VVVVVVVVVV
   end  
   
-endmodule
+  
+  
+  
+    // output print logic
+  always @(posedge i_clk) begin
+    // no 2 outs should ever be high at the same time
+    if (out__ask_cmd        ) o_a <= "Cmd?";
+    if (out__invalid_cmd    ) o_a <= "InvalCmd";
+    if (out__invalid_perms  ) o_a <= "InvalPerm";
+    if (out__ask_username   ) o_a <= "Usrname?";
+    if (out__username_unkown) o_a <= "UsrUnknwn";
+    if (out__username_taken ) o_a <= "UsrTaken";
+    if (out__cant_del_admin ) o_a <= "NoDelAdmn";
+    
+    if (out__user_deleted   ) o_a <= "UsrDeletd";
+    if (out__items_full     ) o_a <= "ItmsFull";
+    if (out__ask_item_name  ) o_a <= "ItmName?";
+    if (out__item_exists    ) o_a <= "ItmExists";
+    if (out__ask_stock      ) o_a <= "Stock?";
+    if (out__item_added     ) o_a <= "ItmAdded";
+    if (out__item_unknown   ) o_a <= "ItmUnknwn";
+    if (out__not_your_item  ) o_a <= "NtYourItm";
+    if (out__item_deleted   ) o_a <= "ItmDeletd";
+    if (out__no_stock       ) o_a <= "NoStock";
+    if (out__item_bought    ) o_a <= "ItmBought";
+    
+  end  
+  
+  
+  
+  
+  
+  
+  ///////////////////////////////
+  //
+  // state logic: CMD 
+  //
+  ///////////////////////////////
+  always @(posedge i_clk) begin
+  
+    out__ask_cmd         <= 1'b0;
+    out__invalid_cmd     <= 1'b0;
+    out__invalid_perms   <= 1'b0;
 
+    
+    // test VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    if (! in_a_valid_cmd)
+      out__ask_cmd <= 1'b1;
+    else
+      out__ask_item_name <= 1'b1;
+    
+    // main VVVVVVVVVV
+  end  
+  
+
+  ///////////////////////////////
+  //
+  // state logic: USERNAME
+  //
+  ///////////////////////////////
+  always @(posedge i_clk) begin
+    out__ask_username    <= 1'b0;
+    out__username_unkown <= 1'b0;
+    out__username_taken  <= 1'b0;
+    out__cant_del_admin  <= 1'b0;
+    out__user_deleted    <= 1'b0;
+  end  
+  
+
+  ///////////////////////////////
+  //
+  // state logic: PASSWORD
+  //
+  ///////////////////////////////  
+  always @(posedge i_clk) begin
+  end  
+  
+  
+  ///////////////////////////////
+  //  
+  // state logic: PERMS
+  //
+  ///////////////////////////////
+  always @(posedge i_clk) begin
+  end  
+  
+ 
+  ///////////////////////////////
+  //
+  // state logic: ITEM NAME
+  //
+  ///////////////////////////////  
+  always @(posedge i_clk) begin
+    out__items_full      <= 1'b0;
+    out__ask_item_name   <= 1'b0;
+    out__item_exists     <= 1'b0;
+    out__item_unknown    <= 1'b0;
+    out__not_your_item   <= 1'b0;
+    out__item_deleted    <= 1'b0;
+    out__no_stock        <= 1'b0;
+    out__item_bought     <= 1'b0;
+  end  
+
+
+  ///////////////////////////////
+  //
+  // state logic: STOCK
+  //
+  ///////////////////////////////  
+  always @(posedge i_clk) begin   
+    out__ask_stock       <= 1'b0;
+    out__item_added      <= 1'b0;
+  end  
+  
+
+  
+endmodule
