@@ -90,12 +90,16 @@ module shop_tb_v;
 
   //procedure statement
   initial begin
+  
+
+
 
   // Cmd? - give invalid command
-  #(time_between_test_inputs) apply_test(1'b0, "sdfsdf");
+  i_a = "sdfsdf";       #tc i_rdy = 1'b1; #tc i_rdy = 1'b0;
+  // #(time_between_test_inputs) apply_test(1'b0, "sdfsdf");
   
-  #(time_between_test_inputs) apply_test(1'b0, CMD_KEY__LOGIN);
-  #(time_between_test_inputs) apply_test(1'b0, 56'b01000001011001000110010001001001011101000110010101101101);
+  #(time_between_test_inputs) i_a = CMD_KEY__LOGIN;          #tc i_rdy = 1'b1; #tc i_rdy = 1'b0; //  apply_test(1'b0, CMD_KEY__LOGIN);
+  #(time_between_test_inputs) i_a = CMD_KEY__ADD_ITEM;       #tc i_rdy = 1'b1; #tc i_rdy = 1'b0;  // apply_test(1'b0, 56'b01000001011001000110010001001001011101000110010101101101);
   
   
   // i_a = 56'b01000001011001000110010001001001011101000110010101101101;
