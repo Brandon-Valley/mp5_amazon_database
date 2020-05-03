@@ -63,16 +63,16 @@ module shop_v
  
   
   
-  // assign in_a_valid_cmd = (i_a = CMD_KEY__LOGOUT     ) |
-                          // (i_a = CMD_KEY__LOGIN      ) |
-                          // (i_a = CMD_KEY__ADD_USER   ) |
-                          // (i_a = CMD_KEY__DELETE_USER) |
-                          // (i_a = CMD_KEY__ADD_ITEM   ) |
-                          // (i_a = CMD_KEY__DELETE_ITEM) |
-                          // (i_a = CMD_KEY__BUY        ) ? 1'b1 : 1'b0;
+  assign in_a_valid_cmd = i_a == CMD_KEY__LOGOUT      |
+                          i_a == CMD_KEY__LOGIN       |
+                          i_a == CMD_KEY__ADD_USER    |
+                          i_a == CMD_KEY__DELETE_USER |
+                          i_a == CMD_KEY__ADD_ITEM    |
+                          i_a == CMD_KEY__DELETE_ITEM |
+                          i_a == CMD_KEY__BUY         ? 1'b1 : 1'b0;
                           
   // assign in_a_valid_cmd = i_rdy ? 1'b1 : 1'b0;
-  assign in_a_valid_cmd = i_a == CMD_KEY__LOGIN       ? 1'b1 : 1'b0;
+  // assign in_a_valid_cmd = i_a == CMD_KEY__LOGIN       ? 1'b1 : 1'b0;
   // (i_a = CMD_KEY__LOGOUT     ) |
                           // (i_a = CMD_KEY__LOGIN      ) |
                           // (i_a = CMD_KEY__ADD_USER   ) |

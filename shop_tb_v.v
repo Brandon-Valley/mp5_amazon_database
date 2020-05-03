@@ -109,9 +109,9 @@ module shop_tb_v;
   // #1000 i_code  = 24'h434244;  
   
   
-  #(time_between_test_inputs) apply_test(4, "sd");
-  #(time_between_test_inputs) apply_test(5, "gf");
-  #(time_between_test_inputs) apply_test(6, "hh");
+  #(time_between_test_inputs) apply_test(4, CMD_KEY__LOGIN);
+  #(time_between_test_inputs) apply_test(5, CMD_KEY__ADD_ITEM);
+  #(time_between_test_inputs) apply_test(6, CMD_KEY__LOGIN);
   #(time_between_test_inputs) apply_test(7, "hi");
   
   // i_clk   = 1'b1; 
