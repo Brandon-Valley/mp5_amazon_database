@@ -9,8 +9,8 @@ module shop_v
     parameter I_U_NUM_BITS          = 4                      , // max 15
     parameter O_A_NUM_BITS          = O_A_NUM_ASCII_CHARS * 8,
       
-    parameter MAX_USERS             = 5                      ,  // includes admin
-                                                             
+    parameter MAX_USERS             = 6                      ,  // includes admin(1) and empty(0)
+    
     parameter CMD_KEY__LOGOUT       = "Logout"               ,
     parameter CMD_KEY__LOGIN        = "Login"                ,
     parameter CMD_KEY__ADD_USER     = "AddUsr"               ,
@@ -23,30 +23,38 @@ module shop_v
     parameter ADMIN_USERNAME        = "Adm"                  ,    
     
     parameter STATE_NUM_ASCII_BITS  = 7                      ,
+   
+    parameter STATE__CMD            = "CMD"                  ,
+    parameter STATE__USERNAME       = "USRNAME"              ,
+    parameter STATE__PASSWORD       = "PASSWRD"              ,
+    parameter STATE__PERMS          = "PERMS"                ,
+    parameter STATE__ITEM_NAME      = "ITMNAME"              ,
+    parameter STATE__ITEM_STOCK     = "ITMSTCK"              
     
-    // parameter [STATE_NUM_ASCII_BITS * 8:0] STATE__CMD        = "CMD",
-                                           // STATE__USERNAME   = "USRNAME",
-                                           // STATE__PASSWORD   = "PASSWRD",
-                                           // STATE__PERMS      = "PERMS",
-                                           // STATE__ITEM_NAME  = "ITMNAME",
-                                           // STATE__ITEM_STOCK = "ITMSTCK"
-    parameter STATE__CMD        = "CMD",
-    parameter STATE__USERNAME   = "USRNAME",
-    parameter STATE__PASSWORD   = "PASSWRD",
-    parameter STATE__PERMS      = "PERMS",
-    parameter STATE__ITEM_NAME  = "ITMNAME",
-    parameter STATE__ITEM_STOCK = "ITMSTCK"                                            
+
+    
 
   )(
     input                                  i_clk,
     input                                  i_reset, // must be set high then low at start of tb
     input                                  i_rdy,   // must be set low at start of tb 
     input  unsigned [(I_U_NUM_BITS - 1):0] i_u,
-    // input           [(I_A_NUM_BITS - 1):0] i_a,
-    input           [(200 - 1):0] i_a,
+    input           [(I_A_NUM_BITS - 1):0] i_a,
+    
     output reg      [(O_A_NUM_BITS - 1):0] o_a
   );
     
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  //  Not Always
+  //
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  
   
   // internal registers
   reg unsigned [2 ** (MAX_USERS -1):0] cur_user_num;
@@ -57,7 +65,7 @@ module shop_v
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] next_state;
   
   wire in_a_valid_cmd;
-  reg user_has_perms_for_i_a_cmd;
+  wire user_has_perms_for_i_a_cmd;
   reg in_a_known_username;
   reg cur_username;
   wire cur_user_perms;
@@ -80,6 +88,14 @@ module shop_v
   reg out__item_deleted   ;
   reg out__no_stock       ;
   reg out__item_bought    ;
+  
+  // user vectors
+  reg [MAX_USERS - 1   :0] uv__slot_taken;
+  reg [I_A_NUM_BITS - 1:0] uv__usernames [MAX_USERS - 1:0];
+  reg [I_A_NUM_BITS - 1:0] uv__passwords [MAX_USERS - 1:0];
+  reg [I_A_NUM_BITS - 1:0] uv__perms     [MAX_USERS - 1:0];
+
+  
  
   
   // 1 / 0 if in_a is a valid cmd
@@ -92,8 +108,30 @@ module shop_v
                           i_a == CMD_KEY__BUY         ? 1'b1 : 1'b0;
   
   
-  // do eqn / behave assigns with on always blocks VVVVVV, testing @!!!!!!!!!!!!!
   
+  
+  
+  
+  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  //  Always Blocks
+  //
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  //  FSM
+  //
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // reset logic
   // reset must be set high then low at start of tb to set init state
@@ -178,44 +216,55 @@ module shop_v
   
   
   
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  //  Main Combinational Logic
+  //
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  // // main combinational logic
+  // always @(posedge i_clk) begin
   
-  // main combinational logic
-  always @(posedge i_clk) begin
-  
-    out__ask_cmd         <= 1'b0;
-    out__invalid_cmd     <= 1'b0;
-    out__invalid_perms   <= 1'b0;
-    out__ask_username    <= 1'b0;
-    out__username_unkown <= 1'b0;
-    out__username_taken  <= 1'b0;
-    out__cant_del_admin  <= 1'b0;
-    out__user_deleted    <= 1'b0;
-    out__items_full      <= 1'b0;
-    out__ask_item_name   <= 1'b0;
-    out__item_exists     <= 1'b0;
-    out__ask_stock       <= 1'b0;
-    out__item_added      <= 1'b0;
-    out__item_unknown    <= 1'b0;
-    out__not_your_item   <= 1'b0;
-    out__item_deleted    <= 1'b0;
-    out__no_stock        <= 1'b0;
-    out__item_bought     <= 1'b0;
+    // out__ask_cmd         <= 1'b0;
+    // out__invalid_cmd     <= 1'b0;
+    // out__invalid_perms   <= 1'b0;
+    // out__ask_username    <= 1'b0;
+    // out__username_unkown <= 1'b0;
+    // out__username_taken  <= 1'b0;
+    // out__cant_del_admin  <= 1'b0;
+    // out__user_deleted    <= 1'b0;
+    // out__items_full      <= 1'b0;
+    // out__ask_item_name   <= 1'b0;
+    // out__item_exists     <= 1'b0;
+    // out__ask_stock       <= 1'b0;
+    // out__item_added      <= 1'b0;
+    // out__item_unknown    <= 1'b0;
+    // out__not_your_item   <= 1'b0;
+    // out__item_deleted    <= 1'b0;
+    // out__no_stock        <= 1'b0;
+    // out__item_bought     <= 1'b0;
     
     
     
   
   
-    // reset outs
-    // EX: out__ask_cmd <= 1'b0;  // maybe just =?
+    // // reset outs
+    // // EX: out__ask_cmd <= 1'b0;  // maybe just =?
     
-    // test VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    if (! in_a_valid_cmd)
-      out__ask_cmd <= 1'b1;
-    else
-      out__ask_item_name <= 1'b1;
+    // // test VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // if (! in_a_valid_cmd)
+      // out__ask_cmd <= 1'b1;
+    // else
+      // out__ask_item_name <= 1'b1;
     
-    // main VVVVVVVVVV
-  end  
+    // // main VVVVVVVVVV
+  // end  
   
   
   
@@ -248,7 +297,7 @@ module shop_v
   
   
   
-  
+  /////////////////////////////////////////////////////////////////////////////////////////////////
   
   ///////////////////////////////
   //
@@ -266,6 +315,8 @@ module shop_v
       else if (   i_rdy & ! in_a_valid_cmd ) out__invalid_cmd <= 1'b1;
     end
     
+    
+    if (out__ask_cmd        ) o_a <= "Cmd???";
     
     
     

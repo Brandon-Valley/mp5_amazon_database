@@ -7,7 +7,7 @@ entity shop_v is
         I_A_NUM_BITS    : vl_notype;
         I_U_NUM_BITS    : integer := 4;
         O_A_NUM_BITS    : vl_notype;
-        MAX_USERS       : integer := 5;
+        MAX_USERS       : integer := 6;
         \CMD_KEY__LOGOUT\: string  := "Logout";
         \CMD_KEY__LOGIN\: string  := "Login";
         \CMD_KEY__ADD_USER\: string  := "AddUsr";
@@ -30,7 +30,7 @@ entity shop_v is
         i_reset         : in     vl_logic;
         i_rdy           : in     vl_logic;
         i_u             : in     vl_logic_vector;
-        i_a             : in     vl_logic_vector(199 downto 0);
+        i_a             : in     vl_logic_vector;
         o_a             : out    vl_logic_vector
     );
     attribute mti_svvh_generic_type : integer;

@@ -37,7 +37,7 @@ module shop_tb_v;
   reg                                 i_reset; // must be set high then low at start of tb
   reg                                 i_rdy  ;  
   reg unsigned [(I_U_NUM_BITS - 1):0] i_u    ;
-  reg          [(200 - 1):0] i_a    ;
+  reg          [(I_A_NUM_BITS - 1):0] i_a    ;
   wire         [(O_A_NUM_BITS - 1):0] o_a    ;
   
   
@@ -94,26 +94,29 @@ module shop_tb_v;
 
 
 
-  // Cmd? - give invalid command
-  i_a = "sdfsdf";       #tc i_rdy = 1'b1; #tc i_rdy = 1'b0;
+  // Cmd? > give invalid command > InvalCmd > Cmd? 
+  #(time_between_test_inputs) i_a = "sdfsdf";       #tc i_rdy = 1'b1; #tc i_rdy = 1'b0;
+  
+  // Cmd? > give command that you dont have perms for because you are not logged in > InvalPerm > Cmd?
+  #(time_between_test_inputs) i_a = CMD_KEY__ADD_ITEM;       #tc i_rdy = 1'b1; #tc i_rdy = 1'b0;
+  
+  
+  
+  
   // #(time_between_test_inputs) apply_test(1'b0, "sdfsdf");
   
-  #(time_between_test_inputs) i_a = CMD_KEY__LOGIN;          #tc i_rdy = 1'b1; #tc i_rdy = 1'b0; //  apply_test(1'b0, CMD_KEY__LOGIN);
-  #(time_between_test_inputs) i_a = CMD_KEY__ADD_ITEM;       #tc i_rdy = 1'b1; #tc i_rdy = 1'b0;  // apply_test(1'b0, 56'b01000001011001000110010001001001011101000110010101101101);
+  #(time_between_test_inputs) i_a = CMD_KEY__LOGIN;          #tc i_rdy = 1'b1; #tc i_rdy = 1'b0;
+  #(time_between_test_inputs) i_a = CMD_KEY__ADD_ITEM;       #tc i_rdy = 1'b1; #tc i_rdy = 1'b0;
   
   
-  // i_a = 56'b01000001011001000110010001001001011101000110010101101101;
-  // #tc
-  // i_rdy = 1'b1;
-  // #tc
-  // i_rdy = 1'b0;  
+
   
   
   
   // #(time_between_test_inputs) apply_test(0, "AddItem");
   // #(time_between_test_inputs) apply_test(0, CMD_KEY__ADD_ITEM);
-  #(time_between_test_inputs) apply_test(1'b0, CMD_KEY__LOGIN);
-  #(time_between_test_inputs) apply_test(1'b0, "hi");
+  // #(time_between_test_inputs) apply_test(1'b0, CMD_KEY__LOGIN);
+  // #(time_between_test_inputs) apply_test(1'b0, "hi");
   
           
     end
