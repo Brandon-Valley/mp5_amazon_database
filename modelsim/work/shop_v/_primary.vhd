@@ -8,6 +8,7 @@ entity shop_v is
         I_U_NUM_BITS    : integer := 4;
         O_A_NUM_BITS    : vl_notype;
         MAX_USERS       : integer := 6;
+        ADMIN_USERNAME  : string  := "Adm";
         \CMD_KEY__LOGOUT\: string  := "Logout";
         \CMD_KEY__LOGIN\: string  := "Login";
         \CMD_KEY__ADD_USER\: string  := "AddUsr";
@@ -16,14 +17,31 @@ entity shop_v is
         \CMD_KEY__DELETE_ITEM\: string  := "DelItem";
         \CMD_KEY__BUY\  : string  := "Buy";
         \CMD_KEY__NONE\ : string  := "NONE";
-        ADMIN_USERNAME  : string  := "Adm";
         STATE_NUM_ASCII_BITS: integer := 7;
         \STATE__CMD\    : string  := "CMD";
         \STATE__USERNAME\: string  := "USRNAME";
         \STATE__PASSWORD\: string  := "PASSWRD";
         \STATE__PERMS\  : string  := "PERMS";
         \STATE__ITEM_NAME\: string  := "ITMNAME";
-        \STATE__ITEM_STOCK\: string  := "ITMSTCK"
+        \STATE__ITEM_STOCK\: string  := "ITMSTCK";
+        \OUT_STR__ASK_CMD\: string  := "Cmd?";
+        \OUT_STR__INVALID_CMD\: string  := "InvalCmd";
+        \OUT_STR__INVALID_PERMS\: string  := "InvalPerm";
+        \OUT_STR__ASK_USERNAME\: string  := "Usrname?";
+        \OUT_STR__USERNAME_UNKOWN\: string  := "UsrUnknwn";
+        \OUT_STR__USERNAME_TAKEN\: string  := "UsrTaken";
+        \OUT_STR__CANT_DEL_ADMIN\: string  := "NoDelAdmn";
+        \OUT_STR__USER_DELETED\: string  := "UsrDeletd";
+        \OUT_STR__ITEMS_FULL\: string  := "ItmsFull";
+        \OUT_STR__ASK_ITEM_NAME\: string  := "ItmName?";
+        \OUT_STR__ITEM_EXISTS\: string  := "ItmExists";
+        \OUT_STR__ASK_STOCK\: string  := "Stock?";
+        \OUT_STR__ITEM_ADDED\: string  := "ItmAdded";
+        \OUT_STR__ITEM_UNKNOWN\: string  := "ItmUnknwn";
+        \OUT_STR__NOT_YOUR_ITEM\: string  := "NtYourItm";
+        \OUT_STR__ITEM_DELETED\: string  := "ItmDeletd";
+        \OUT_STR__NO_STOCK\: string  := "NoStock";
+        \OUT_STR__ITEM_BOUGHT\: string  := "ItmBought"
     );
     port(
         i_clk           : in     vl_logic;
@@ -40,6 +58,7 @@ entity shop_v is
     attribute mti_svvh_generic_type of I_U_NUM_BITS : constant is 1;
     attribute mti_svvh_generic_type of O_A_NUM_BITS : constant is 3;
     attribute mti_svvh_generic_type of MAX_USERS : constant is 1;
+    attribute mti_svvh_generic_type of ADMIN_USERNAME : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__LOGOUT\ : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__LOGIN\ : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__ADD_USER\ : constant is 1;
@@ -48,7 +67,6 @@ entity shop_v is
     attribute mti_svvh_generic_type of \CMD_KEY__DELETE_ITEM\ : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__BUY\ : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__NONE\ : constant is 1;
-    attribute mti_svvh_generic_type of ADMIN_USERNAME : constant is 1;
     attribute mti_svvh_generic_type of STATE_NUM_ASCII_BITS : constant is 1;
     attribute mti_svvh_generic_type of \STATE__CMD\ : constant is 1;
     attribute mti_svvh_generic_type of \STATE__USERNAME\ : constant is 1;
@@ -56,4 +74,22 @@ entity shop_v is
     attribute mti_svvh_generic_type of \STATE__PERMS\ : constant is 1;
     attribute mti_svvh_generic_type of \STATE__ITEM_NAME\ : constant is 1;
     attribute mti_svvh_generic_type of \STATE__ITEM_STOCK\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ASK_CMD\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__INVALID_CMD\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__INVALID_PERMS\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ASK_USERNAME\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__USERNAME_UNKOWN\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__USERNAME_TAKEN\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__CANT_DEL_ADMIN\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__USER_DELETED\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ITEMS_FULL\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ASK_ITEM_NAME\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ITEM_EXISTS\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ASK_STOCK\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ITEM_ADDED\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ITEM_UNKNOWN\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__NOT_YOUR_ITEM\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ITEM_DELETED\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__NO_STOCK\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ITEM_BOUGHT\ : constant is 1;
 end shop_v;
