@@ -289,7 +289,26 @@ module shop_v
     // in_a__valid_cmd__user_has_perms_for
     if (in_a__valid_cmd)
       begin
-        if (cur_user__perms == PERM_KEY__EMPTY & ( i_a == CMD_KEY__LOGIN ))
+        if ( 
+              // (cur_user__perms == PERM_KEY__EMPTY & ( i_a == CMD_KEY__LOGIN )) | 
+              (cur_user__perms == PERM_KEY__EMPTY  & ( 
+                                                       i_a == CMD_KEY__LOGIN      
+                                                     )                              ) | 
+              (cur_user__perms == PERM_KEY__ADMIN  & ( 
+                                                       i_a == CMD_KEY__LOGOUT      |
+                                                       i_a == CMD_KEY__ADD_USER    |
+                                                       i_a == CMD_KEY__DELETE_USER    
+                                                     )                              ) |     
+              (cur_user__perms == PERM_KEY__SELLER & ( 
+                                                      i_a == CMD_KEY__LOGOUT      |
+                                                      i_a == CMD_KEY__ADD_ITEM    |
+                                                      i_a == CMD_KEY__DELETE_ITEM    
+                                                    )                              ) |  
+              (cur_user__perms == PERM_KEY__BUYER  & ( 
+                                                      i_a == CMD_KEY__LOGOUT      |
+                                                      i_a == CMD_KEY__BUY      
+                                                     )                              )                                                     
+           )
           in_a__valid_cmd__user_has_perms_for = 1'b1;
       end
     else in_a__valid_cmd__user_has_perms_for = 1'b0;
