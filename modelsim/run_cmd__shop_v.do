@@ -9,6 +9,7 @@ sim:/shop_tb_v/i_rdy   \
 sim:/shop_tb_v/i_clk   \
 sim:/shop_tb_v/uut/cur_cmd \
 sim:/shop_tb_v/uut/cur_state \
+sim:/shop_tb_v/uut/next_state \
 sim:/shop_tb_v/uut/in_a__known_username \
 sim:/shop_tb_v/uut/in_a__valid_cmd \
 sim:/shop_tb_v/uut/in_a__valid_cmd__user_has_perms_for \

@@ -183,7 +183,7 @@ module shop_v
       end
     else 
       begin
-        cur_state <= next_state;
+        cur_state = next_state;
         // reset_i = 1'b0;
       end
   end
