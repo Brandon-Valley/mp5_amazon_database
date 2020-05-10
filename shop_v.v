@@ -235,7 +235,8 @@ module shop_v
       STATE__USERNAME:
       begin
 
-        if      ( cur_cmd == CMD_KEY__LOGIN    & i_rdy &   in_a__known_username )                                     next_state = STATE__PASSWORD;
+        if      ( cur_cmd == CMD_KEY__LOGIN    & i_rdy & ! in_a__known_username )                                     next_state = STATE__CMD;
+        else if ( cur_cmd == CMD_KEY__LOGIN    & i_rdy &   in_a__known_username )                                     next_state = STATE__PASSWORD;
         else if ( cur_cmd == CMD_KEY__ADD_USER & i_rdy & ! in_a__known_username )                                     next_state = STATE__PASSWORD;
          // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a__known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
         
