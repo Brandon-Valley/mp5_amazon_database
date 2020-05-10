@@ -197,14 +197,14 @@ module shop_v
       // cmd
       STATE__CMD:  
       begin
-        if ( i_rdy & in_a__valid_cmd & user_has_perms_for_i_a_cmd) 
+        if ( i_rdy & in_a__valid_cmd__user_has_perms_for) 
           begin 
             // you already know you will be moving to a new state, so save the cmd
             cur_cmd = i_a;
             
             case(i_a)
               // CMD_KEY__LOGOUT     :  next_state = 
-              CMD_KEY__LOGIN      :  next_state = STATE__CMD       ;
+              CMD_KEY__LOGIN      :  next_state = STATE__USERNAME  ;
               CMD_KEY__ADD_USER   :  next_state = STATE__USERNAME  ;
               CMD_KEY__DELETE_USER:  next_state = STATE__PASSWORD  ;
               CMD_KEY__ADD_ITEM   :  next_state = STATE__PERMS     ;
