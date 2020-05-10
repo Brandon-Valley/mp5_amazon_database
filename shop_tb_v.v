@@ -92,11 +92,14 @@ module shop_tb_v;
   initial begin
   
 
-  // Cmd? > give invalid command > InvalCmd > Cmd? 
+  // cur_user == EMPTY:  Cmd? > give invalid command > InvalCmd > Cmd? 
   #(time_between_test_inputs) apply_test(4'bXXXX, "sdfsdf");
   
-  // Cmd? > give command that you dont have perms for because you are not logged in > InvalPerm > Cmd?
+  // cur_user == EMPTY:  Cmd? > give command that you dont have perms for because you are not logged in > InvalPerm > Cmd?
   #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+  
+  // cur_user == EMPTY:  Cmd? > give command that you do have perms for: LOGIN > ????????
+  #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
 
   
   
@@ -107,3 +110,17 @@ module shop_tb_v;
     end
 
 endmodule
+
+
+
+
+
+
+
+
+
+
+
+
+
+
