@@ -286,32 +286,40 @@ module shop_v
     cur_user__password = uv__passwords[cur_user__num];
     cur_user__perms    = uv__perms    [cur_user__num];
     
+    
     // in_a__valid_cmd__user_has_perms_for
     if (in_a__valid_cmd)
-      begin
-        if ( 
-              (cur_user__perms == PERM_KEY__EMPTY  & ( 
-                                                       i_a == CMD_KEY__LOGIN      
-                                                     )                              ) | 
-              (cur_user__perms == PERM_KEY__ADMIN  & ( 
-                                                       i_a == CMD_KEY__LOGOUT      |
-                                                       i_a == CMD_KEY__ADD_USER    |
-                                                       i_a == CMD_KEY__DELETE_USER    
-                                                     )                              ) |     
-              (cur_user__perms == PERM_KEY__SELLER & ( 
-                                                      i_a == CMD_KEY__LOGOUT      |
-                                                      i_a == CMD_KEY__ADD_ITEM    |
-                                                      i_a == CMD_KEY__DELETE_ITEM    
-                                                    )                              ) |  
-              (cur_user__perms == PERM_KEY__BUYER  & ( 
-                                                      i_a == CMD_KEY__LOGOUT      |
-                                                      i_a == CMD_KEY__BUY      
-                                                     )                              )                                                     
-           )
-          in_a__valid_cmd__user_has_perms_for = 1'b1;
-      end
-    else in_a__valid_cmd__user_has_perms_for = 1'b0;
+      if ( 
+            (cur_user__perms == PERM_KEY__EMPTY  & ( 
+                                                     i_a == CMD_KEY__LOGIN      
+                                                   )                              ) | 
+            (cur_user__perms == PERM_KEY__ADMIN  & ( 
+                                                     i_a == CMD_KEY__LOGOUT      |
+                                                     i_a == CMD_KEY__ADD_USER    |
+                                                     i_a == CMD_KEY__DELETE_USER    
+                                                   )                              ) |     
+            (cur_user__perms == PERM_KEY__SELLER & ( 
+                                                    i_a == CMD_KEY__LOGOUT      |
+                                                    i_a == CMD_KEY__ADD_ITEM    |
+                                                    i_a == CMD_KEY__DELETE_ITEM    
+                                                   )                              ) |  
+            (cur_user__perms == PERM_KEY__BUYER  & ( 
+                                                    i_a == CMD_KEY__LOGOUT      |
+                                                    i_a == CMD_KEY__BUY      
+                                                   )                              )                                                     
+                                                                                      )  in_a__valid_cmd__user_has_perms_for = 1'b1;
+    else                                                                                 in_a__valid_cmd__user_has_perms_for = 1'b0;
     
+    
+    // in_a__known_username, don't check username for [0] - empty
+    if ( 
+          i_a == uv__usernames[1] |
+          i_a == uv__usernames[2] |
+          i_a == uv__usernames[3] |
+          i_a == uv__usernames[4] |
+          i_a == uv__usernames[5] // MAX_USERS - 1
+                                                    ) in_a__known_username = 1'b1;
+    else                                              in_a__known_username = 1'b0;                                                      
      
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -19,6 +19,9 @@ module shop_tb_v;
     parameter O_A_NUM_BITS          = O_A_NUM_ASCII_CHARS * 8;
   
     parameter MAX_USERS             = 5                      ;  // includes admin
+    
+    parameter ADMIN_USERNAME        = "Adm"                  ;       
+    parameter ADMIN_PASSWORD        = "123"                  ;
                                                              
     parameter CMD_KEY__LOGOUT       = "Logout"               ;
     parameter CMD_KEY__LOGIN        = "Login"                ;
@@ -91,15 +94,30 @@ module shop_tb_v;
   //procedure statement
   initial begin
   
-
-  // cur_user == EMPTY:  Cmd? > give invalid command > InvalCmd > Cmd? 
+  // cur_user  == EMPTY
+  // cur_state == CMD
+  // Cmd? > give invalid command > InvalCmd > Cmd? 
   #(time_between_test_inputs) apply_test(4'bXXXX, "sdfsdf");
-  
-  // cur_user == EMPTY:  Cmd? > give command that you dont have perms for because you are not logged in > InvalPerm > Cmd?
+
+  // cur_user  == EMPTY
+  // cur_state == CMD  
+  // Cmd? > give command that you dont have perms for because you are not logged in > InvalPerm > Cmd?
   #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
   
-  // cur_user == EMPTY:  Cmd? > give command that you do have perms for: LOGIN > ????????
+  // cur_user  == EMPTY
+  // cur_state == CMD
+  // Cmd? > give command that you do have perms for: LOGIN > state: USERNAME > Username?
   #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
+  
+  // // cur_user  == EMPTY
+  // // cur_state == USERNAME
+  // // Username? > give admin usafasdrasf > state: PASSWORD > Password?
+  // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
+  
+  // cur_user  == EMPTY
+  // cur_state == USERNAME
+  // Username? > give admin username > state: PASSWORD > Password?
+  #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
 
   
   

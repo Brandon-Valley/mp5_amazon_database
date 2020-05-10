@@ -8,6 +8,8 @@ entity shop_tb_v is
         I_U_NUM_BITS    : integer := 4;
         O_A_NUM_BITS    : vl_notype;
         MAX_USERS       : integer := 5;
+        ADMIN_USERNAME  : string  := "Adm";
+        ADMIN_PASSWORD  : string  := "123";
         \CMD_KEY__LOGOUT\: string  := "Logout";
         \CMD_KEY__LOGIN\: string  := "Login";
         \CMD_KEY__ADD_USER\: string  := "AddUsr";
@@ -26,6 +28,8 @@ entity shop_tb_v is
     attribute mti_svvh_generic_type of I_U_NUM_BITS : constant is 1;
     attribute mti_svvh_generic_type of O_A_NUM_BITS : constant is 3;
     attribute mti_svvh_generic_type of MAX_USERS : constant is 1;
+    attribute mti_svvh_generic_type of ADMIN_USERNAME : constant is 1;
+    attribute mti_svvh_generic_type of ADMIN_PASSWORD : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__LOGOUT\ : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__LOGIN\ : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__ADD_USER\ : constant is 1;
