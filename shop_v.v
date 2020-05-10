@@ -290,7 +290,6 @@ module shop_v
     if (in_a__valid_cmd)
       begin
         if ( 
-              // (cur_user__perms == PERM_KEY__EMPTY & ( i_a == CMD_KEY__LOGIN )) | 
               (cur_user__perms == PERM_KEY__EMPTY  & ( 
                                                        i_a == CMD_KEY__LOGIN      
                                                      )                              ) | 
@@ -328,8 +327,9 @@ module shop_v
     ///////////////////////////////
     if (cur_state == STATE__CMD)
       begin
-        if      ( ! i_rdy                     ) o_a = OUT_STR__ASK_CMD;
-        else if (   i_rdy & ! in_a__valid_cmd ) o_a = OUT_STR__INVALID_CMD;
+        if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_CMD;
+        else if (   i_rdy & ! in_a__valid_cmd                     ) o_a = OUT_STR__INVALID_CMD;
+        else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;
       end
     
     
