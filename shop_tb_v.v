@@ -109,15 +109,15 @@ module shop_tb_v;
   // Cmd? > give command that you do have perms for: LOGIN > state: USERNAME > Username?
   #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
   
-  // // cur_user  == EMPTY
-  // // cur_state == USERNAME
-  // // Username? > give admin usafasdrasf > state: PASSWORD > Password?
-  // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
-  
   // cur_user  == EMPTY
   // cur_state == USERNAME
-  // Username? > give admin username > state: PASSWORD > Password?
-  #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
+  // Username? > give unknown username > Invalid username > Cmd?
+  #(time_between_test_inputs) apply_test(4'bXXXX, "Uun");
+  
+  // // cur_user  == EMPTY
+  // // cur_state == USERNAME
+  // // Username? > give admin username > state: PASSWORD > Password?
+  // #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
 
   
   

@@ -327,55 +327,53 @@ module shop_v
     // State Logic
     //
     /////////////////////////////////////////////////////////////////////////////////////////////////////
+    case(cur_state)
+      
+      ///////////////////////////////
+      //
+      // state logic: CMD 
+      //
+      ///////////////////////////////
+      // if (cur_state == STATE__CMD)
+      STATE__CMD:
+        begin
+          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_CMD;
+          else if (   i_rdy & ! in_a__valid_cmd                     ) o_a = OUT_STR__INVALID_CMD;
+          else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;
+        end
 
-    ///////////////////////////////
-    //
-    // state logic: CMD 
-    //
-    ///////////////////////////////
-    if (cur_state == STATE__CMD)
-      begin
-        if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_CMD;
-        else if (   i_rdy & ! in_a__valid_cmd                     ) o_a = OUT_STR__INVALID_CMD;
-        else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;
-      end
     
-    
+      ///////////////////////////////
+      //
+      // state logic: USERNAME
+      //
+      ///////////////////////////////
+      // STATE
 
-    
-    
-    
-    
-    ///////////////////////////////
-    //
-    // state logic: USERNAME
-    //
-    ///////////////////////////////
-
-    ///////////////////////////////
-    //
-    // state logic: PASSWORD
-    //
-    ///////////////////////////////  
-   
-    ///////////////////////////////
-    //  
-    // state logic: PERMS
-    //
-    ///////////////////////////////
-   
-    ///////////////////////////////
-    //
-    // state logic: ITEM NAME
-    //
-    ///////////////////////////////  
-   
-    ///////////////////////////////
-    //
-    // state logic: STOCK
-    //
-    ///////////////////////////////  
-  
+      ///////////////////////////////
+      //
+      // state logic: PASSWORD
+      //
+      ///////////////////////////////  
+     
+      ///////////////////////////////
+      //  
+      // state logic: PERMS
+      //
+      ///////////////////////////////
+     
+      ///////////////////////////////
+      //
+      // state logic: ITEM NAME
+      //
+      ///////////////////////////////  
+     
+      ///////////////////////////////
+      //
+      // state logic: STOCK
+      //
+      ///////////////////////////////  
+    endcase
   
 
   end  
