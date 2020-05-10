@@ -90,27 +90,8 @@ module shop_v
   reg cur_username;
   wire cur_user_perms;
   
-  // reg out__ask_cmd        ;
-  // reg out__invalid_cmd    ;
-  // reg out__invalid_perms  ;
-  // reg out__ask_username   ;
-  // reg out__username_unkown;
-  // reg out__username_taken ;
-  // reg out__cant_del_admin ;
-  // reg out__user_deleted   ;
-  // reg out__items_full     ;
-  // reg out__ask_item_name  ;
-  // reg out__item_exists    ;
-  // reg out__ask_stock      ;
-  // reg out__item_added     ;
-  // reg out__item_unknown   ;
-  // reg out__not_your_item  ;
-  // reg out__item_deleted   ;
-  // reg out__no_stock       ;
-  // reg out__item_bought    ;
-  
   // user vectors
-  reg [MAX_USERS - 1   :0] uv__slot_taken;
+  reg [MAX_USERS    - 1:0] uv__slot_taken;
   reg [I_A_NUM_BITS - 1:0] uv__usernames [MAX_USERS - 1:0];
   reg [I_A_NUM_BITS - 1:0] uv__passwords [MAX_USERS - 1:0];
   reg [I_A_NUM_BITS - 1:0] uv__perms     [MAX_USERS - 1:0];
@@ -126,13 +107,8 @@ module shop_v
                           i_a == CMD_KEY__ADD_ITEM    |
                           i_a == CMD_KEY__DELETE_ITEM |
                           i_a == CMD_KEY__BUY         ? 1'b1 : 1'b0;
-  
-  
-  
-  
-  
-  
-  
+
+                          
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,6 +137,7 @@ module shop_v
     else cur_state <= next_state;
   end
   
+
 
   // next state logic
   always @(posedge i_clk) begin
@@ -206,35 +183,7 @@ module shop_v
     endcase
   end
   
-  
 
-  
-  // // output print logic
-  // always @(posedge i_clk) begin
-    // // no 2 outs should ever be high at the same time
-    // if (out__ask_cmd        ) o_a <= "Cmd?";
-    // if (out__invalid_cmd    ) o_a <= "InvalCmd";
-    // if (out__invalid_perms  ) o_a <= "InvalPerm";
-    // if (out__ask_username   ) o_a <= "Usrname?";
-    // if (out__username_unkown) o_a <= "UsrUnknwn";
-    // if (out__username_taken ) o_a <= "UsrTaken";
-    // if (out__cant_del_admin ) o_a <= "NoDelAdmn";
-    
-    // if (out__user_deleted   ) o_a <= "UsrDeletd";
-    // if (out__items_full     ) o_a <= "ItmsFull";
-    // if (out__ask_item_name  ) o_a <= "ItmName?";
-    // if (out__item_exists    ) o_a <= "ItmExists";
-    // if (out__ask_stock      ) o_a <= "Stock?";
-    // if (out__item_added     ) o_a <= "ItmAdded";
-    // if (out__item_unknown   ) o_a <= "ItmUnknwn";
-    // if (out__not_your_item  ) o_a <= "NtYourItm";
-    // if (out__item_deleted   ) o_a <= "ItmDeletd";
-    // if (out__no_stock       ) o_a <= "NoStock";
-    // if (out__item_bought    ) o_a <= "ItmBought";
-    
-  // end  
-  
-  
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,19 +200,6 @@ module shop_v
   // main combinational logic
   always @(posedge i_clk) begin
      
-    // // state: CMD
-    // out__ask_cmd         <= 1'b0;
-    // out__invalid_cmd     <= 1'b0;
-    // out__invalid_perms   <= 1'b0;
-    
-    // // state outs: USERNAME
-    // out__ask_username    <= 1'b0;
-    // out__username_unkown <= 1'b0;
-    // out__username_taken  <= 1'b0;
-    // out__cant_del_admin  <= 1'b0;
-    // out__user_deleted    <= 1'b0;
-
-
 
     ///////////////////////////////
     //
@@ -272,12 +208,12 @@ module shop_v
     ///////////////////////////////
     if (cur_state == STATE__CMD)
     begin
-      if      ( ! i_rdy                    ) o_a <= OUT_STR__ASK_CMD;//  out__ask_cmd     <= 1'b1;
-      else if (   i_rdy & ! in_a_valid_cmd ) o_a <= OUT_STR__INVALID_CMD; //out__invalid_cmd <= 1'b1;
+      if      ( ! i_rdy                    ) o_a <= OUT_STR__ASK_CMD;
+      else if (   i_rdy & ! in_a_valid_cmd ) o_a <= OUT_STR__INVALID_CMD;
     end
     
     
-    // if (out__ask_cmd        ) o_a <= "Cmd???";
+
     
     
     
@@ -287,136 +223,34 @@ module shop_v
     // state logic: USERNAME
     //
     ///////////////////////////////
+
+    ///////////////////////////////
+    //
+    // state logic: PASSWORD
+    //
+    ///////////////////////////////  
+   
+    ///////////////////////////////
+    //  
+    // state logic: PERMS
+    //
+    ///////////////////////////////
+   
+    ///////////////////////////////
+    //
+    // state logic: ITEM NAME
+    //
+    ///////////////////////////////  
+   
+    ///////////////////////////////
+    //
+    // state logic: STOCK
+    //
+    ///////////////////////////////  
   
   
 
   end  
-  
-  
-  
-  
-    // // output print logic
-  // always @(posedge i_clk) begin
-    // // no 2 outs should ever be high at the same time
-    // if (out__ask_cmd        ) o_a <= "Cmd?";
-    // if (out__invalid_cmd    ) o_a <= "InvalCmd";
-    // if (out__invalid_perms  ) o_a <= "InvalPerm";
-    // if (out__ask_username   ) o_a <= "Usrname?";
-    // if (out__username_unkown) o_a <= "UsrUnknwn";
-    // if (out__username_taken ) o_a <= "UsrTaken";
-    // if (out__cant_del_admin ) o_a <= "NoDelAdmn";
-    
-    // if (out__user_deleted   ) o_a <= "UsrDeletd";
-    // if (out__items_full     ) o_a <= "ItmsFull";
-    // if (out__ask_item_name  ) o_a <= "ItmName?";
-    // if (out__item_exists    ) o_a <= "ItmExists";
-    // if (out__ask_stock      ) o_a <= "Stock?";
-    // if (out__item_added     ) o_a <= "ItmAdded";
-    // if (out__item_unknown   ) o_a <= "ItmUnknwn";
-    // if (out__not_your_item  ) o_a <= "NtYourItm";
-    // if (out__item_deleted   ) o_a <= "ItmDeletd";
-    // if (out__no_stock       ) o_a <= "NoStock";
-    // if (out__item_bought    ) o_a <= "ItmBought";
-    
-  // end  
-  
-  
-  
-  
-  // /////////////////////////////////////////////////////////////////////////////////////////////////
-  
-  // ///////////////////////////////
-  // //
-  // // state logic: CMD 
-  // //
-  // ///////////////////////////////
-  // always @(posedge i_clk) begin
-    // out__ask_cmd         <= 1'b0;
-    // out__invalid_cmd     <= 1'b0;
-    // out__invalid_perms   <= 1'b0;
-
-    // if (cur_state == STATE__CMD)
-    // begin
-      // if      ( ! i_rdy                    ) out__ask_cmd     <= 1'b1;
-      // else if (   i_rdy & ! in_a_valid_cmd ) out__invalid_cmd <= 1'b1;
-    // end
-    
-    
-    // if (out__ask_cmd        ) o_a <= "Cmd???";
-    
-    
-    
-    
-    
-    // // // test VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    // // if (! in_a_valid_cmd)
-      // // out__ask_cmd <= 1'b1;
-    // // else
-      // // out__ask_item_name <= 1'b1;
-    
-    // // main VVVVVVVVVV
-  // end  
-  
-
-  // ///////////////////////////
-  
-  // // state logic: USERNAME
-  
-  // ///////////////////////////
-  // always @(posedge i_clk) begin
-    // out__ask_username    <= 1'b0;
-    // out__username_unkown <= 1'b0;
-    // out__username_taken  <= 1'b0;
-    // out__cant_del_admin  <= 1'b0;
-    // out__user_deleted    <= 1'b0;
-  // end  
-  
-
-  // ///////////////////////////////
-  // //
-  // // state logic: PASSWORD
-  // //
-  // ///////////////////////////////  
-  // always @(posedge i_clk) begin
-  // end  
-  
-  
-  // ///////////////////////////////
-  // //  
-  // // state logic: PERMS
-  // //
-  // ///////////////////////////////
-  // always @(posedge i_clk) begin
-  // end  
-  
- 
-  // ///////////////////////////////
-  // //
-  // // state logic: ITEM NAME
-  // //
-  // ///////////////////////////////  
-  // always @(posedge i_clk) begin
-    // out__items_full      <= 1'b0;
-    // out__ask_item_name   <= 1'b0;
-    // out__item_exists     <= 1'b0;
-    // out__item_unknown    <= 1'b0;
-    // out__not_your_item   <= 1'b0;
-    // out__item_deleted    <= 1'b0;
-    // out__no_stock        <= 1'b0;
-    // out__item_bought     <= 1'b0;
-  // end  
-
-
-  // ///////////////////////////////
-  // //
-  // // state logic: STOCK
-  // //
-  // ///////////////////////////////  
-  // always @(posedge i_clk) begin   
-    // out__ask_stock       <= 1'b0;
-    // out__item_added      <= 1'b0;
-  // end  
-  
 
   
 endmodule
