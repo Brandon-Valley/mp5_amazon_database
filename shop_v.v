@@ -11,8 +11,22 @@ module shop_v
       
     parameter MAX_USERS             = 6                      ,  // includes admin(1) and empty(0)
     
+    // default empy and admin
     parameter ADMIN_USERNAME        = "Adm"                  ,    
+    parameter EMPTY_USERNAME        = "Nnn"                  ,   
+    
+    parameter ADMIN_PASSWORD        = "123"                  ,    
+    parameter EMPTY_PASSWORD        = "nnn"                  ,    
+    
+    parameter ADMIN_USER_NUM        = 1                      ,    
+    parameter EMPTY_USER_NUM        = 0                      ,  
 
+    //perm keys
+    parameter PERM_KEY__EMPTY       = "EMPTY"                ,
+    parameter PERM_KEY__ADMIN       = "ADMIN"                ,
+    parameter PERM_KEY__SELLER      = "SELLER"               ,
+    parameter PERM_KEY__BUYER       = "BUYER"                ,
+    
     // command keys
     parameter CMD_KEY__LOGOUT       = "Logout"               ,
     parameter CMD_KEY__LOGIN        = "Login"                ,
@@ -77,6 +91,8 @@ module shop_v
   
   
   // internal registers
+  reg reset_i;
+  
   reg unsigned [2 ** (MAX_USERS -1):0] cur_user_num;
   
   reg [I_A_NUM_BITS - 1:0] cur_cmd;
@@ -84,7 +100,7 @@ module shop_v
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] cur_state;
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] next_state;
   
-  wire in_a_valid_cmd;
+  // wire in_a_valid_cmd;
   wire user_has_perms_for_i_a_cmd;
   reg in_a_known_username;
   reg cur_username;
@@ -133,8 +149,16 @@ module shop_v
   // reset must be set high then low at start of tb to set init state
   // Async. reset
   always @(posedge i_clk or posedge i_reset) begin
-    if (i_reset == 1'b1) cur_state = STATE__CMD;
-    else cur_state <= next_state;
+    if (i_reset == 1'b1) 
+      begin 
+        cur_state = STATE__CMD;
+        reset_i = 1'b1;
+      end
+    else 
+      begin
+        cur_state <= next_state;
+        reset_i = 1'b0;
+      end
   end
   
 
@@ -199,6 +223,24 @@ module shop_v
 
   // main combinational logic
   always @(posedge i_clk) begin
+    //-----------------------------
+    //
+    // init user vectors: empty(0) and admin(1)
+    //
+    //-----------------------------
+    uv__slot_taken[EMPTY_USER_NUM] = 1'b1;
+    uv__slot_taken[ADMIN_USER_NUM] = 1'b1;
+    
+    uv__usernames [EMPTY_USER_NUM] = EMPTY_USERNAME;
+    uv__usernames [ADMIN_USER_NUM] = ADMIN_USERNAME;
+    
+    uv__passwords [EMPTY_USER_NUM] = EMPTY_PASSWORD;
+    uv__passwords [ADMIN_USER_NUM] = ADMIN_PASSWORD;
+    
+    uv__perms     [EMPTY_USER_NUM] = PERM_KEY__EMPTY;
+    uv__perms     [ADMIN_USER_NUM] = PERM_KEY__ADMIN;
+    
+    
      
 
     ///////////////////////////////

@@ -92,8 +92,6 @@ module shop_tb_v;
   initial begin
   
 
-
-
   // Cmd? > give invalid command > InvalCmd > Cmd? 
   #(time_between_test_inputs) apply_test(4'bXXXX, "sdfsdf");
   
