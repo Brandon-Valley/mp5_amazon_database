@@ -91,9 +91,9 @@ module shop_v
   
   
   // internal registers
-  reg reset_i;
   
-  reg unsigned [2 ** (MAX_USERS -1):0] cur_user_num;
+  
+  // reg unsigned [2 ** (MAX_USERS -1):0] cur_user_num;
   
   reg [I_A_NUM_BITS - 1:0] cur_cmd;
   
@@ -101,10 +101,14 @@ module shop_v
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] next_state;
   
   // wire in_a_valid_cmd;
+  reg                      cur_user__num;
+  reg [I_A_NUM_BITS - 1:0] cur_user__username;
+  // reg cur_user__password;
+  // reg cur_user__perms;
+  
   wire user_has_perms_for_i_a_cmd;
   reg in_a_known_username;
-  reg cur_username;
-  wire cur_user_perms;
+
   
   // user vectors
   reg [MAX_USERS    - 1:0] uv__slot_taken;
@@ -123,6 +127,9 @@ module shop_v
                           i_a == CMD_KEY__ADD_ITEM    |
                           i_a == CMD_KEY__DELETE_ITEM |
                           i_a == CMD_KEY__BUY         ? 1'b1 : 1'b0;
+                          
+                          
+  // assign cur_user__username = uv__usernames[cur_user__num];
 
                           
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,15 +156,15 @@ module shop_v
   // reset must be set high then low at start of tb to set init state
   // Async. reset
   always @(posedge i_clk or posedge i_reset) begin
-    if (i_reset == 1'b1) 
+    if (i_reset) 
       begin 
         cur_state = STATE__CMD;
-        reset_i = 1'b1;
+        // reset_i = 1'b1;
       end
     else 
       begin
         cur_state <= next_state;
-        reset_i = 1'b0;
+        // reset_i = 1'b0;
       end
   end
   
@@ -225,22 +232,29 @@ module shop_v
   always @(posedge i_clk) begin
     //-----------------------------
     //
-    // init user vectors: empty(0) and admin(1)
+    // init on reset
     //
     //-----------------------------
-    uv__slot_taken[EMPTY_USER_NUM] = 1'b1;
-    uv__slot_taken[ADMIN_USER_NUM] = 1'b1;
+    if (i_reset)
+      begin
+        // user vectors: empty(0) and admin(1)
+        uv__slot_taken[EMPTY_USER_NUM] = 1'b1;
+        uv__slot_taken[ADMIN_USER_NUM] = 1'b1;
+        
+        uv__usernames [EMPTY_USER_NUM] = EMPTY_USERNAME;
+        uv__usernames [ADMIN_USER_NUM] = ADMIN_USERNAME;
+        
+        uv__passwords [EMPTY_USER_NUM] = EMPTY_PASSWORD;
+        uv__passwords [ADMIN_USER_NUM] = ADMIN_PASSWORD;
+        
+        uv__perms     [EMPTY_USER_NUM] = PERM_KEY__EMPTY;
+        uv__perms     [ADMIN_USER_NUM] = PERM_KEY__ADMIN;
+      
+        // current user num starts at empty because not logged in
+        cur_user__num = EMPTY_USER_NUM;
+      end
     
-    uv__usernames [EMPTY_USER_NUM] = EMPTY_USERNAME;
-    uv__usernames [ADMIN_USER_NUM] = ADMIN_USERNAME;
-    
-    uv__passwords [EMPTY_USER_NUM] = EMPTY_PASSWORD;
-    uv__passwords [ADMIN_USER_NUM] = ADMIN_PASSWORD;
-    
-    uv__perms     [EMPTY_USER_NUM] = PERM_KEY__EMPTY;
-    uv__perms     [ADMIN_USER_NUM] = PERM_KEY__ADMIN;
-    
-    
+    cur_user__username = uv__usernames[cur_user__num];
      
 
     ///////////////////////////////
@@ -249,10 +263,10 @@ module shop_v
     //
     ///////////////////////////////
     if (cur_state == STATE__CMD)
-    begin
-      if      ( ! i_rdy                    ) o_a <= OUT_STR__ASK_CMD;
-      else if (   i_rdy & ! in_a_valid_cmd ) o_a <= OUT_STR__INVALID_CMD;
-    end
+      begin
+        if      ( ! i_rdy                    ) o_a <= OUT_STR__ASK_CMD;
+        else if (   i_rdy & ! in_a_valid_cmd ) o_a <= OUT_STR__INVALID_CMD;
+      end
     
     
 
