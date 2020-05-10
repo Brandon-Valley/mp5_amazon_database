@@ -88,26 +88,37 @@ module shop_v
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  //  Declarations
+  //
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // internal registers
   
   
   // reg unsigned [2 ** (MAX_USERS -1):0] cur_user_num;
   
-  reg [I_A_NUM_BITS - 1:0] cur_cmd;
+  reg [I_A_NUM_BITS - 1:0] cur_cmd; // the current VALIDATD command, has nothing to do with checking if user has perms to execute given cmd
   
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] cur_state;
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] next_state;
   
-  // wire in_a_valid_cmd;
+  
   reg                      cur_user__num;
   reg [I_A_NUM_BITS - 1:0] cur_user__username;
   reg [I_A_NUM_BITS - 1:0] cur_user__password;
   reg [I_A_NUM_BITS - 1:0] cur_user__perms;
   
+  wire in_a__valid_cmd; // don't need this declaration because assigned, just here to keep things straight
+  reg  in_a__valid_cmd__user_has_perms_for;
+  
   wire user_has_perms_for_i_a_cmd;
-  reg in_a_known_username;
+  reg in_a__known_username;
 
   
   // user vectors
@@ -116,17 +127,26 @@ module shop_v
   reg [I_A_NUM_BITS - 1:0] uv__passwords [MAX_USERS - 1:0];
   reg [I_A_NUM_BITS - 1:0] uv__perms     [MAX_USERS - 1:0];
 
-  
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  //  Assigns
+  //
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  
   
   // 1 / 0 if in_a is a valid cmd
-  assign in_a_valid_cmd = i_a == CMD_KEY__LOGOUT      |
-                          i_a == CMD_KEY__LOGIN       |
-                          i_a == CMD_KEY__ADD_USER    |
-                          i_a == CMD_KEY__DELETE_USER |
-                          i_a == CMD_KEY__ADD_ITEM    |
-                          i_a == CMD_KEY__DELETE_ITEM |
-                          i_a == CMD_KEY__BUY         ? 1'b1 : 1'b0;
+  assign in_a__valid_cmd = i_a == CMD_KEY__LOGOUT      |
+                           i_a == CMD_KEY__LOGIN       |
+                           i_a == CMD_KEY__ADD_USER    |
+                           i_a == CMD_KEY__DELETE_USER |
+                           i_a == CMD_KEY__ADD_ITEM    |
+                           i_a == CMD_KEY__DELETE_ITEM |
+                           i_a == CMD_KEY__BUY         ? 1'b1 : 1'b0;
                           
                           
   // assign cur_user__username = uv__usernames[cur_user__num];
@@ -177,7 +197,7 @@ module shop_v
       // cmd
       STATE__CMD:  
       begin
-        if ( i_rdy & in_a_valid_cmd & user_has_perms_for_i_a_cmd) 
+        if ( i_rdy & in_a__valid_cmd & user_has_perms_for_i_a_cmd) 
           begin 
             // you already know you will be moving to a new state, so save the cmd
             cur_cmd = i_a;
@@ -204,9 +224,9 @@ module shop_v
       STATE__USERNAME:
       begin
 
-        if      ( cur_cmd == CMD_KEY__LOGIN    & i_rdy &   in_a_known_username )                                     next_state = STATE__PASSWORD;
-        else if ( cur_cmd == CMD_KEY__ADD_USER & i_rdy & ! in_a_known_username )                                     next_state = STATE__PASSWORD;
-         // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a_known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
+        if      ( cur_cmd == CMD_KEY__LOGIN    & i_rdy &   in_a__known_username )                                     next_state = STATE__PASSWORD;
+        else if ( cur_cmd == CMD_KEY__ADD_USER & i_rdy & ! in_a__known_username )                                     next_state = STATE__PASSWORD;
+         // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a__known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
         
       end
       
@@ -265,6 +285,14 @@ module shop_v
     cur_user__username = uv__usernames[cur_user__num];
     cur_user__password = uv__passwords[cur_user__num];
     cur_user__perms    = uv__perms    [cur_user__num];
+    
+    // in_a__valid_cmd__user_has_perms_for
+    if (in_a__valid_cmd)
+      begin
+        in_a__valid_cmd__user_has_perms_for = 1'b1; //TEMPPPPPPPPPPPPPPPPPP
+      end
+    else in_a__valid_cmd__user_has_perms_for = 1'b0;
+    
      
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -280,8 +308,8 @@ module shop_v
     ///////////////////////////////
     if (cur_state == STATE__CMD)
       begin
-        if      ( ! i_rdy                    ) o_a <= OUT_STR__ASK_CMD;
-        else if (   i_rdy & ! in_a_valid_cmd ) o_a <= OUT_STR__INVALID_CMD;
+        if      ( ! i_rdy                    ) o_a = OUT_STR__ASK_CMD;
+        else if (   i_rdy & ! in_a__valid_cmd ) o_a = OUT_STR__INVALID_CMD;
       end
     
     
