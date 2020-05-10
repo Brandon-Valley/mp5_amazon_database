@@ -32,15 +32,18 @@ entity shop_v is
         \STATE__PASSWORD\: string  := "PASSWRD";
         \STATE__PERMS\  : string  := "PERMS";
         \STATE__ITEM_NAME\: string  := "ITMNAME";
-        \STATE__ITEM_STOCK\: string  := "ITMSTCK";
+        \STATE__STOCK\  : string  := "ITMSTCK";
         \OUT_STR__ASK_CMD\: string  := "Cmd?";
         \OUT_STR__INVALID_CMD\: string  := "InvalCmd";
         \OUT_STR__INVALID_PERMS\: string  := "InvalPerm";
-        \OUT_STR__ASK_USERNAME\: string  := "Usrname?";
+        \OUT_STR__ASK_USERNAME\: string  := "Username?";
+        \OUT_STR__UNKOWN_USERNAME\: string  := "UnkwnUser";
         \OUT_STR__USERNAME_UNKOWN\: string  := "UsrUnknwn";
         \OUT_STR__USERNAME_TAKEN\: string  := "UsrTaken";
         \OUT_STR__CANT_DEL_ADMIN\: string  := "NoDelAdmn";
         \OUT_STR__USER_DELETED\: string  := "UsrDeletd";
+        \OUT_STR__ASK_PASSWORD\: string  := "Password?";
+        \OUT_STR__PASSWORD_WRONG\: string  := "WrongPass";
         \OUT_STR__ITEMS_FULL\: string  := "ItmsFull";
         \OUT_STR__ASK_ITEM_NAME\: string  := "ItmName?";
         \OUT_STR__ITEM_EXISTS\: string  := "ItmExists";
@@ -50,7 +53,8 @@ entity shop_v is
         \OUT_STR__NOT_YOUR_ITEM\: string  := "NtYourItm";
         \OUT_STR__ITEM_DELETED\: string  := "ItmDeletd";
         \OUT_STR__NO_STOCK\: string  := "NoStock";
-        \OUT_STR__ITEM_BOUGHT\: string  := "ItmBought"
+        \OUT_STR__ITEM_BOUGHT\: string  := "ItmBought";
+        \OUT_STR__ASK_PERMS\: string  := "Perms?"
     );
     port(
         i_clk           : in     vl_logic;
@@ -91,15 +95,18 @@ entity shop_v is
     attribute mti_svvh_generic_type of \STATE__PASSWORD\ : constant is 1;
     attribute mti_svvh_generic_type of \STATE__PERMS\ : constant is 1;
     attribute mti_svvh_generic_type of \STATE__ITEM_NAME\ : constant is 1;
-    attribute mti_svvh_generic_type of \STATE__ITEM_STOCK\ : constant is 1;
+    attribute mti_svvh_generic_type of \STATE__STOCK\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ASK_CMD\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__INVALID_CMD\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__INVALID_PERMS\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ASK_USERNAME\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__UNKOWN_USERNAME\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__USERNAME_UNKOWN\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__USERNAME_TAKEN\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__CANT_DEL_ADMIN\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__USER_DELETED\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ASK_PASSWORD\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__PASSWORD_WRONG\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ITEMS_FULL\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ASK_ITEM_NAME\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ITEM_EXISTS\ : constant is 1;
@@ -110,4 +117,5 @@ entity shop_v is
     attribute mti_svvh_generic_type of \OUT_STR__ITEM_DELETED\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__NO_STOCK\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ITEM_BOUGHT\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ASK_PERMS\ : constant is 1;
 end shop_v;

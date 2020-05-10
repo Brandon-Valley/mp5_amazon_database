@@ -45,18 +45,27 @@ module shop_v
     parameter STATE__PASSWORD       = "PASSWRD"              ,
     parameter STATE__PERMS          = "PERMS"                ,
     parameter STATE__ITEM_NAME      = "ITMNAME"              ,
-    parameter STATE__ITEM_STOCK     = "ITMSTCK"              ,
+    parameter STATE__STOCK          = "ITMSTCK"              ,
 
     // out strings
+    // CMD
     parameter OUT_STR__ASK_CMD         = "Cmd?"              , 
     parameter OUT_STR__INVALID_CMD     = "InvalCmd"          ,
     parameter OUT_STR__INVALID_PERMS   = "InvalPerm"         ,
-    parameter OUT_STR__ASK_USERNAME    = "Usrname?"          ,
+    
+    // USERNAME
+    parameter OUT_STR__ASK_USERNAME    = "Username?"         ,
+    parameter OUT_STR__UNKOWN_USERNAME = "UnkwnUser"         ,
     parameter OUT_STR__USERNAME_UNKOWN = "UsrUnknwn"         , 
     parameter OUT_STR__USERNAME_TAKEN  = "UsrTaken"          ,
     parameter OUT_STR__CANT_DEL_ADMIN  = "NoDelAdmn"         , 
-
     parameter OUT_STR__USER_DELETED    = "UsrDeletd"         , 
+    
+    // PASSWORD
+    parameter OUT_STR__ASK_PASSWORD    = "Password?"         ,
+    parameter OUT_STR__PASSWORD_WRONG  = "WrongPass"         ,
+
+    
     parameter OUT_STR__ITEMS_FULL      = "ItmsFull"          ,
     parameter OUT_STR__ASK_ITEM_NAME   = "ItmName?"          ,
     parameter OUT_STR__ITEM_EXISTS     = "ItmExists"         , 
@@ -66,7 +75,9 @@ module shop_v
     parameter OUT_STR__NOT_YOUR_ITEM   = "NtYourItm"         , 
     parameter OUT_STR__ITEM_DELETED    = "ItmDeletd"         , 
     parameter OUT_STR__NO_STOCK        = "NoStock"           ,
-    parameter OUT_STR__ITEM_BOUGHT     = "ItmBought"            
+    parameter OUT_STR__ITEM_BOUGHT     = "ItmBought"         , 
+    
+    parameter OUT_STR__ASK_PERMS       = "Perms?"            
 
   )(
     input                                  i_clk,
@@ -209,7 +220,7 @@ module shop_v
               CMD_KEY__DELETE_USER:  next_state = STATE__PASSWORD  ;
               CMD_KEY__ADD_ITEM   :  next_state = STATE__PERMS     ;
               CMD_KEY__DELETE_ITEM:  next_state = STATE__ITEM_NAME ;
-              CMD_KEY__BUY        :  next_state = STATE__ITEM_STOCK;
+              CMD_KEY__BUY        :  next_state = STATE__STOCK;
             endcase
           end
           
@@ -348,31 +359,53 @@ module shop_v
       // state logic: USERNAME
       //
       ///////////////////////////////
-      // STATE
+      STATE__USERNAME:
+        begin
+          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_USERNAME;
+          else if (   i_rdy & ! in_a__known_username                ) o_a = OUT_STR__UNKOWN_USERNAME;
+          // else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;          
+        end
 
       ///////////////////////////////
       //
       // state logic: PASSWORD
       //
       ///////////////////////////////  
+      STATE__PASSWORD:
+        begin
+          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_PASSWORD;        
+        end
      
       ///////////////////////////////
       //  
       // state logic: PERMS
       //
       ///////////////////////////////
+      STATE__PERMS:
+        begin
+          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_PERMS;        
+        end
      
       ///////////////////////////////
       //
       // state logic: ITEM NAME
       //
       ///////////////////////////////  
-     
+      STATE__ITEM_NAME:
+        begin
+          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_ITEM_NAME;        
+        end
+        
       ///////////////////////////////
       //
       // state logic: STOCK
       //
       ///////////////////////////////  
+      STATE__STOCK:
+        begin
+          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_STOCK;        
+        end
+        
     endcase
   
 
