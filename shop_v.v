@@ -103,8 +103,8 @@ module shop_v
   // wire in_a_valid_cmd;
   reg                      cur_user__num;
   reg [I_A_NUM_BITS - 1:0] cur_user__username;
-  // reg cur_user__password;
-  // reg cur_user__perms;
+  reg [I_A_NUM_BITS - 1:0] cur_user__password;
+  reg [I_A_NUM_BITS - 1:0] cur_user__perms;
   
   wire user_has_perms_for_i_a_cmd;
   reg in_a_known_username;
@@ -230,11 +230,11 @@ module shop_v
 
   // main combinational logic
   always @(posedge i_clk) begin
-    //-----------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // init on reset
     //
-    //-----------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
     if (i_reset)
       begin
         // user vectors: empty(0) and admin(1)
@@ -253,9 +253,25 @@ module shop_v
         // current user num starts at empty because not logged in
         cur_user__num = EMPTY_USER_NUM;
       end
+      
+      
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Always set
+    //
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
     
+    // cur user vars
     cur_user__username = uv__usernames[cur_user__num];
+    cur_user__password = uv__passwords[cur_user__num];
+    cur_user__perms    = uv__perms    [cur_user__num];
      
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // State Logic
+    //
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////
     //
