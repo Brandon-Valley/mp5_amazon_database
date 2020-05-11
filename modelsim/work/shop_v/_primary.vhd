@@ -38,6 +38,7 @@ entity shop_v is
         \OUT_STR__ASK_CMD\: string  := "Cmd?";
         \OUT_STR__INVALID_CMD\: string  := "InvalCmd";
         \OUT_STR__INVALID_PERMS\: string  := "InvalPerm";
+        \OUT_STR__USERS_FULL\: string  := "UsrsFull";
         \OUT_STR__ASK_USERNAME\: string  := "Username?";
         \OUT_STR__UNKOWN_USERNAME\: string  := "UnkwnUser";
         \OUT_STR__USERNAME_UNKOWN\: string  := "UsrUnknwn";
@@ -104,6 +105,7 @@ entity shop_v is
     attribute mti_svvh_generic_type of \OUT_STR__ASK_CMD\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__INVALID_CMD\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__INVALID_PERMS\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__USERS_FULL\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ASK_USERNAME\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__UNKOWN_USERNAME\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__USERNAME_UNKOWN\ : constant is 1;

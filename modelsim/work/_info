@@ -4,40 +4,40 @@ K3
 cModel Technology
 Z0 dC:\Users\Brandon\Documents\CpE_5220_Digital_Systems_Modeling\mp_3_combinational_circuits_part_2\modelsim
 vshop_tb_v
-Z1 IgViKL92V7gG:GL87i@AEj3
-Z2 VP5]>@EgGcfiTo=5cZckfa0
-Z3 dC:\Users\Brandon\Documents\CpE_5220_Digital_Systems_Modeling\mp5_amazon_database\modelsim
-Z4 w1589168178
-Z5 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
-Z6 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
+Z1 !s100 zecO4eOd]<eRhg_]g:S:10
+Z2 I5YRnTBTEE^UV1?15e:E9b2
+Z3 VP5]>@EgGcfiTo=5cZckfa0
+Z4 dC:\Users\Brandon\Documents\CpE_5220_Digital_Systems_Modeling\mp5_amazon_database\modelsim
+Z5 w1589173418
+Z6 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
+Z7 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
 L0 12
-Z7 OV;L;10.1b;51
+Z8 OV;L;10.1b;51
 r1
 31
-Z8 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v|
-Z9 o-work work -O0
+Z9 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v|
+Z10 o-work work -O0
 !i10b 1
-Z10 !s100 lWZNGl22=H@Zj1dDf2I040
 !s85 0
-Z11 !s108 1589168184.129000
+Z11 !s108 1589173496.070000
 Z12 !s107 C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v|
 !s101 -O0
 vshop_v
 !i10b 1
-Z13 !s100 ;kZ4g;eH`z:PPi=SfO_R30
-Z14 Ii[b8];?EECUY@WVAObH:l1
-Z15 Vm39k2O]@5zUJF^G6>e9Z@3
-R3
-Z16 w1589168049
-Z17 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
-Z18 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
+!s100 gmNGX4HALdQ8YI_@OjWa31
+ImHP1DCU?A@SHHNSAZZmPn0
+V40D9lSMg@ki[S[H_`8;ND0
+R4
+w1589173486
+Z13 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
+Z14 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
 L0 3
-R7
+R8
 r1
 !s85 0
 31
-!s108 1589168184.243000
+!s108 1589173496.214000
 !s107 C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v|
-Z19 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v|
+Z15 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v|
 !s101 -O0
-R9
+R10

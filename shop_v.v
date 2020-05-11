@@ -55,6 +55,7 @@ module shop_v
     parameter OUT_STR__ASK_CMD         = "Cmd?"              , 
     parameter OUT_STR__INVALID_CMD     = "InvalCmd"          ,
     parameter OUT_STR__INVALID_PERMS   = "InvalPerm"         ,
+    parameter OUT_STR__USERS_FULL      = "UsrsFull"          ,
     
     // USERNAME
     parameter OUT_STR__ASK_USERNAME    = "Username?"         ,
@@ -237,7 +238,13 @@ module shop_v
             case(i_a)
               CMD_KEY__LOGOUT     :  next_state = STATE__CMD       ; // maybe don't NEED this line
               CMD_KEY__LOGIN      :  next_state = STATE__USERNAME  ;
-              CMD_KEY__ADD_USER   :  next_state = STATE__USERNAME  ;
+              CMD_KEY__ADD_USER   :  
+                                    begin
+                                          if (uv__slot_taken == "111111")  
+                                            o_a = OUT_STR__USERS_FULL;
+                                          else 
+                                            next_state = STATE__USERNAME;
+                                    end
               CMD_KEY__DELETE_USER:  next_state = STATE__PASSWORD  ;
               CMD_KEY__ADD_ITEM   :  next_state = STATE__PERMS     ;
               CMD_KEY__DELETE_ITEM:  next_state = STATE__ITEM_NAME ;
@@ -474,81 +481,7 @@ module shop_v
 
     
     
-    /////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // State Logic
-    //
-    /////////////////////////////////////////////////////////////////////////////////////////////////////
-    case(cur_state)
-      
-      ///////////////////////////////
-      //
-      // state logic: CMD 
-      //
-      ///////////////////////////////
-      // // if (cur_state == STATE__CMD)
-      // STATE__CMD:
-        // begin
-          // if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_CMD;
-          // else if (   i_rdy & ! in_a__valid_cmd                     ) o_a = OUT_STR__INVALID_CMD;
-          // else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;
-        // end
-
     
-      ///////////////////////////////
-      //
-      // state logic: USERNAME
-      //
-      ///////////////////////////////
-      // STATE__USERNAME:
-        // begin
-          // if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_USERNAME;
-          // else if (   i_rdy & ! in_a__known_username                ) o_a = OUT_STR__UNKOWN_USERNAME;
-                                                                      
-        // end
-
-      ///////////////////////////////
-      //
-      // state logic: PASSWORD
-      //
-      ///////////////////////////////  
-      STATE__PASSWORD:
-        begin
-          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_PASSWORD;        
-          // else if (   i_rdy & i_a != given_user__password            ) o_a = OUT_STR__PASSWORD_WRONG; // FIX!!!!!!!!!!!!!!       
-        end
-     
-      ///////////////////////////////
-      //  
-      // state logic: PERMS
-      //
-      ///////////////////////////////
-      STATE__PERMS:
-        begin
-          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_PERMS;        
-        end
-     
-      ///////////////////////////////
-      //
-      // state logic: ITEM NAME
-      //
-      ///////////////////////////////  
-      STATE__ITEM_NAME:
-        begin
-          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_ITEM_NAME;        
-        end
-        
-      ///////////////////////////////
-      //
-      // state logic: STOCK
-      //
-      ///////////////////////////////  
-      STATE__STOCK:
-        begin
-          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_STOCK;        
-        end
-        
-    endcase
   
 
   end  
