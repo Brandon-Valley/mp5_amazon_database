@@ -653,13 +653,12 @@ module shop_v
     else                             next_available_user_num = NO_USER_NUM;
     
     // in_a__known_item_name and in_a__item_num__if__known_item_name
-    if      ( i_a == uv__usernames[0] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 0;  end
-    else if ( i_a == uv__usernames[1] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 1;  end
-    else if ( i_a == uv__usernames[2] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 2;  end
-    else if ( i_a == uv__usernames[3] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 3;  end
-    else if ( i_a == uv__usernames[4] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 4;  end
+    if      ( i_a == iv__names[0] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 0;  end
+    else if ( i_a == iv__names[1] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 1;  end
+    else if ( i_a == iv__names[2] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 2;  end
+    else if ( i_a == iv__names[3] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 3;  end
 
-    else                                begin  in_a__known_item_name = 1'b0;  in_a__item_num__if__known_item_name = EMPTY_USER_NUM; end // used to be NO_USER_NUM
+    else                            begin  in_a__known_item_name = 1'b0;  in_a__item_num__if__known_item_name = EMPTY_USER_NUM; end // used to be NO_USER_NUM
     
     
     // next_available_item_num

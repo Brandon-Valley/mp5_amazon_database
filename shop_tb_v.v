@@ -398,6 +398,18 @@ module shop_tb_v;
     #(time_between_test_inputs) apply_test(4'b0001, "");
     
     
+    // item exists error
+    //                    Dependencies: Add Item: Us1 - seller > fpga - stock 1
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV   
+    
+    // cur_user = Us1
+    // Cmd? > Add item > Item Name?
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+    
+    // Item Name? > known item name > Item exists > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, "fpga");
+    
+    
   end
 
 endmodule
