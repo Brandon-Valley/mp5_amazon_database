@@ -263,7 +263,7 @@ module shop_v
               CMD_KEY__LOGIN      :  next_state = STATE__USERNAME  ;
               CMD_KEY__ADD_USER   :  
                                     begin
-                                          if (uv__slot_taken == "111111")  
+                                          if (uv__slot_taken == 6'b111111)  
                                             o_a = OUT_STR__USERS_FULL;
                                           else 
                                             next_state = STATE__USERNAME;

@@ -256,7 +256,28 @@ module shop_tb_v;
     #(time_between_test_inputs) apply_test(4'bXXXX, "Pb1");     
     #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__BUYER); 
     
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // Add 2 Users: Us2 - Seller , Ub2 - Buyer
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    #(time_between_test_inputs) apply_test(4'bXXXX, "Us2");   
+    #(time_between_test_inputs) apply_test(4'bXXXX, "Ps2");     
+    #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER); 
     
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    #(time_between_test_inputs) apply_test(4'bXXXX, "Ub2");   
+    #(time_between_test_inputs) apply_test(4'bXXXX, "Pb2");     
+    #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__BUYER);   
+
+    // Users Full Error
+    //                    Dependencies: Add User: Us1 - seller
+    //                                  Add User: Ub1 - Buyer
+    //                                  Add 2 Users: Us2 - Seller , Ub2 - Buyer
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV   
+    // cur_user  == Admin
+    // Cmd? > Add user > Users full > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+     
     
   end
 
