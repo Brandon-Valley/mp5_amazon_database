@@ -9,6 +9,8 @@ entity shop_v is
         O_A_NUM_BITS    : vl_notype;
         MAX_USERS       : integer := 6;
         NUM_BITS_MAX_USER_NUM: integer := 3;
+        MAX_ITEMS       : integer := 4;
+        NUM_BITS_MAX_ITEM_NUM: integer := 4;
         ADMIN_USERNAME  : string  := "Adm";
         EMPTY_USERNAME  : string  := "Nnn";
         ADMIN_PASSWORD  : string  := "123";
@@ -82,6 +84,8 @@ entity shop_v is
     attribute mti_svvh_generic_type of O_A_NUM_BITS : constant is 3;
     attribute mti_svvh_generic_type of MAX_USERS : constant is 1;
     attribute mti_svvh_generic_type of NUM_BITS_MAX_USER_NUM : constant is 1;
+    attribute mti_svvh_generic_type of MAX_ITEMS : constant is 1;
+    attribute mti_svvh_generic_type of NUM_BITS_MAX_ITEM_NUM : constant is 1;
     attribute mti_svvh_generic_type of ADMIN_USERNAME : constant is 1;
     attribute mti_svvh_generic_type of EMPTY_USERNAME : constant is 1;
     attribute mti_svvh_generic_type of ADMIN_PASSWORD : constant is 1;

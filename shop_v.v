@@ -12,6 +12,9 @@ module shop_v
     parameter MAX_USERS             = 6                      ,  // includes admin(1) and empty(0)
     parameter NUM_BITS_MAX_USER_NUM = 3                      ,  // [log2(MAX_USERS - 1)]+1
     
+    parameter MAX_ITEMS             = 4                      ,  
+    parameter NUM_BITS_MAX_ITEM_NUM = 4                      ,  // Max stock = 15
+    
     
     // default empy and admin
     parameter ADMIN_USERNAME        = "Adm"                  ,    
@@ -162,15 +165,17 @@ module shop_v
   reg                                        in_a__correct_password_for__given_user;
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] in_a__user_num__if__known_username;
   
-  // wire user_has_perms_for_i_a_cmd;
 
-
-  
   // user vectors
   reg [MAX_USERS    - 1:0] uv__slot_taken;
   reg [I_A_NUM_BITS - 1:0] uv__usernames [MAX_USERS - 1:0];
   reg [I_A_NUM_BITS - 1:0] uv__passwords [MAX_USERS - 1:0];
   reg [I_A_NUM_BITS - 1:0] uv__perms     [MAX_USERS - 1:0];
+  
+  // item vectors
+  reg [MAX_ITEMS    - 1:0]          iv__slot_taken;
+  reg [I_A_NUM_BITS - 1:0]          iv__names [MAX_ITEMS - 1:0];
+  reg [NUM_BITS_MAX_ITEM_NUM - 1:0] iv__stock [MAX_ITEMS - 1:0];
 
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -278,7 +283,13 @@ module shop_v
                                             next_state = STATE__USERNAME;
                                     end
               CMD_KEY__DELETE_USER:  next_state = STATE__USERNAME  ;
-              CMD_KEY__ADD_ITEM   :  next_state = STATE__PERMS     ;
+              CMD_KEY__ADD_ITEM   :  
+                                    begin
+                                          if (iv__slot_taken == 4'b1111)  
+                                            o_a = OUT_STR__ITEMS_FULL;
+                                          else 
+                                            next_state = STATE__ITEM_NAME;
+                                    end
               CMD_KEY__DELETE_ITEM:  next_state = STATE__ITEM_NAME ;
               CMD_KEY__BUY        :  next_state = STATE__STOCK     ; 
             endcase
@@ -539,6 +550,9 @@ module shop_v
         uv__slot_taken[3] = 1'b0;
         uv__slot_taken[4] = 1'b0;
         uv__slot_taken[5] = 1'b0;
+        
+        // item vectors init
+        iv__slot_taken = 4'b0000;
       
         // current user num starts at empty because not logged in
         cur_user__num = EMPTY_USER_NUM;

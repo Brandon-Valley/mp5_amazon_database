@@ -378,9 +378,9 @@ module shop_tb_v;
 
     // items full !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
-    // // cur_user = Us1
-    // // Cmd? > Loggout > Logged out > Cmd?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGOUT);
+    // cur_user = Us1
+    // Cmd? > Add item > Item Name?
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
   end
 
 endmodule
