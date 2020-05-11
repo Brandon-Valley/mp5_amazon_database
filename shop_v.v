@@ -22,7 +22,7 @@ module shop_v
     
     parameter ADMIN_USER_NUM        = 1                      ,    
     parameter EMPTY_USER_NUM        = 0                      ,  
-    parameter NO_USER_NUM           = 4'bZZZZ                ,  // num bits  = NUM_BITS_MAX_USER_NUM - 1
+    parameter NO_USER_NUM           = 4'bZZZ                 ,  // num bits  = NUM_BITS_MAX_USER_NUM
 
     //perm keys
     parameter PERM_KEY__EMPTY       = "EMPTY"                ,
@@ -128,11 +128,11 @@ module shop_v
   reg [I_A_NUM_BITS - 1:0] cur_user__password;
   reg [I_A_NUM_BITS - 1:0] cur_user__perms;
   
-  reg  in_a__known_username;
-  wire in_a__valid_cmd; // don't need this declaration because assigned, just here to keep things straight
-  reg  in_a__valid_cmd__user_has_perms_for;
-  reg  in_a__correct_password_for__given_user;
-  reg in_a__user_num__if__known_username;
+  reg                                        in_a__known_username;
+  wire                                       in_a__valid_cmd; // don't need this declaration because assigned, just here to keep things straight
+  reg                                        in_a__valid_cmd__user_has_perms_for;
+  reg                                        in_a__correct_password_for__given_user;
+  reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] in_a__user_num__if__known_username;
   
   // wire user_has_perms_for_i_a_cmd;
 
@@ -211,7 +211,8 @@ module shop_v
   always @(posedge i_clk) begin
     case(cur_state)
       
-      // cmd
+      
+      // CMD
       STATE__CMD:  
       begin
         if ( i_rdy & in_a__valid_cmd__user_has_perms_for) 
@@ -237,13 +238,18 @@ module shop_v
           end
       end
                   
-      // username            
+                  
+      // USERNAME          
       STATE__USERNAME:
-      begin
-
-        if      ( cur_cmd == CMD_KEY__LOGIN    & i_rdy & ! in_a__known_username )                                     next_state = STATE__CMD;
-        else if ( cur_cmd == CMD_KEY__LOGIN    & i_rdy &   in_a__known_username )                                     next_state = STATE__PASSWORD;
-        else if ( cur_cmd == CMD_KEY__ADD_USER & i_rdy & ! in_a__known_username )                                     next_state = STATE__PASSWORD;
+      begin        
+        if      ( cur_cmd == CMD_KEY__LOGIN & i_rdy & ! in_a__known_username )  begin                                                                                         
+                                                                                       next_state = STATE__CMD;                               
+                                                                                end
+        else if ( cur_cmd == CMD_KEY__LOGIN & i_rdy &   in_a__known_username )  begin  
+                                                                                       next_state = STATE__PASSWORD;  
+                                                                                       given_user__num = in_a__user_num__if__known_username;
+                                                                                end
+        // else if ( cur_cmd == CMD_KEY__ADD_USER & i_rdy & ! in_a__known_username )  next_state = STATE__PASSWORD;
          // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a__known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
         
       end
@@ -379,7 +385,7 @@ module shop_v
           if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_USERNAME;
           else if (   i_rdy & ! in_a__known_username                ) begin 
                                                                             o_a = OUT_STR__UNKOWN_USERNAME;
-                                                                            given_user__num = in_a__user_num__if__known_username; 
+                   // this should not be here !!!!!!!!!! put up top by change state       given_user__num = in_a__user_num__if__known_username; 
                                                                       end
           // else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;          
         end
