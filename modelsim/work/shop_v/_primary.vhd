@@ -48,6 +48,8 @@ entity shop_v is
         \OUT_STR__ASK_PASSWORD\: string  := "Password?";
         \OUT_STR__PASSWORD_WRONG\: string  := "WrongPass";
         \OUT_STR__LOGGED_IN\: string  := "LoggedIn";
+        \OUT_STR__ASK_PERMS\: string  := "Perms?";
+        \OUT_STR__PERM_TYPE_INVALID\: string  := "PrmTypInv";
         \OUT_STR__ITEMS_FULL\: string  := "ItmsFull";
         \OUT_STR__ASK_ITEM_NAME\: string  := "ItmName?";
         \OUT_STR__ITEM_EXISTS\: string  := "ItmExists";
@@ -57,8 +59,7 @@ entity shop_v is
         \OUT_STR__NOT_YOUR_ITEM\: string  := "NtYourItm";
         \OUT_STR__ITEM_DELETED\: string  := "ItmDeletd";
         \OUT_STR__NO_STOCK\: string  := "NoStock";
-        \OUT_STR__ITEM_BOUGHT\: string  := "ItmBought";
-        \OUT_STR__ASK_PERMS\: string  := "Perms?"
+        \OUT_STR__ITEM_BOUGHT\: string  := "ItmBought"
     );
     port(
         i_clk           : in     vl_logic;
@@ -115,6 +116,8 @@ entity shop_v is
     attribute mti_svvh_generic_type of \OUT_STR__ASK_PASSWORD\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__PASSWORD_WRONG\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__LOGGED_IN\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__ASK_PERMS\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__PERM_TYPE_INVALID\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ITEMS_FULL\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ASK_ITEM_NAME\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ITEM_EXISTS\ : constant is 1;
@@ -125,5 +128,4 @@ entity shop_v is
     attribute mti_svvh_generic_type of \OUT_STR__ITEM_DELETED\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__NO_STOCK\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ITEM_BOUGHT\ : constant is 1;
-    attribute mti_svvh_generic_type of \OUT_STR__ASK_PERMS\ : constant is 1;
 end shop_v;

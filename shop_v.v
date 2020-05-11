@@ -52,36 +52,39 @@ module shop_v
 
     // out strings
     // CMD
-    parameter OUT_STR__ASK_CMD         = "Cmd?"              , 
-    parameter OUT_STR__INVALID_CMD     = "InvalCmd"          ,
-    parameter OUT_STR__INVALID_PERMS   = "InvalPerm"         ,
-    parameter OUT_STR__USERS_FULL      = "UsrsFull"          ,
+    parameter OUT_STR__ASK_CMD           = "Cmd?"              , 
+    parameter OUT_STR__INVALID_CMD       = "InvalCmd"          ,
+    parameter OUT_STR__INVALID_PERMS     = "InvalPerm"         ,
+    parameter OUT_STR__USERS_FULL        = "UsrsFull"          ,
+                                         
+    // USERNAME                          
+    parameter OUT_STR__ASK_USERNAME      = "Username?"         ,
+    parameter OUT_STR__UNKOWN_USERNAME   = "UnkwnUser"         ,
+    parameter OUT_STR__USERNAME_UNKOWN   = "UsrUnknwn"         , 
+    parameter OUT_STR__USERNAME_TAKEN    = "UsrTaken"          ,
+    parameter OUT_STR__CANT_DEL_ADMIN    = "NoDelAdmn"         , 
+    parameter OUT_STR__USER_DELETED      = "UsrDeletd"         , 
+                                         
+    // PASSWORD                          
+    parameter OUT_STR__ASK_PASSWORD      = "Password?"         ,
+    parameter OUT_STR__PASSWORD_WRONG    = "WrongPass"         ,
+    parameter OUT_STR__LOGGED_IN         = "LoggedIn"          ,
     
-    // USERNAME
-    parameter OUT_STR__ASK_USERNAME    = "Username?"         ,
-    parameter OUT_STR__UNKOWN_USERNAME = "UnkwnUser"         ,
-    parameter OUT_STR__USERNAME_UNKOWN = "UsrUnknwn"         , 
-    parameter OUT_STR__USERNAME_TAKEN  = "UsrTaken"          ,
-    parameter OUT_STR__CANT_DEL_ADMIN  = "NoDelAdmn"         , 
-    parameter OUT_STR__USER_DELETED    = "UsrDeletd"         , 
+    // PERMS
+    parameter OUT_STR__ASK_PERMS         = "Perms?"            , 
+    parameter OUT_STR__PERM_TYPE_INVALID = "PrmTypInv"         ,
     
-    // PASSWORD
-    parameter OUT_STR__ASK_PASSWORD    = "Password?"         ,
-    parameter OUT_STR__PASSWORD_WRONG  = "WrongPass"         ,
-    parameter OUT_STR__LOGGED_IN       = "LoggedIn"          ,
     
-    parameter OUT_STR__ITEMS_FULL      = "ItmsFull"          ,
-    parameter OUT_STR__ASK_ITEM_NAME   = "ItmName?"          ,
-    parameter OUT_STR__ITEM_EXISTS     = "ItmExists"         , 
-    parameter OUT_STR__ASK_STOCK       = "Stock?"            ,
-    parameter OUT_STR__ITEM_ADDED      = "ItmAdded"          ,
-    parameter OUT_STR__ITEM_UNKNOWN    = "ItmUnknwn"         , 
-    parameter OUT_STR__NOT_YOUR_ITEM   = "NtYourItm"         , 
-    parameter OUT_STR__ITEM_DELETED    = "ItmDeletd"         , 
-    parameter OUT_STR__NO_STOCK        = "NoStock"           ,
-    parameter OUT_STR__ITEM_BOUGHT     = "ItmBought"         , 
-    
-    parameter OUT_STR__ASK_PERMS       = "Perms?"            
+    parameter OUT_STR__ITEMS_FULL        = "ItmsFull"          ,
+    parameter OUT_STR__ASK_ITEM_NAME     = "ItmName?"          ,
+    parameter OUT_STR__ITEM_EXISTS       = "ItmExists"         , 
+    parameter OUT_STR__ASK_STOCK         = "Stock?"            ,
+    parameter OUT_STR__ITEM_ADDED        = "ItmAdded"          ,
+    parameter OUT_STR__ITEM_UNKNOWN      = "ItmUnknwn"         , 
+    parameter OUT_STR__NOT_YOUR_ITEM     = "NtYourItm"         , 
+    parameter OUT_STR__ITEM_DELETED      = "ItmDeletd"         , 
+    parameter OUT_STR__NO_STOCK          = "NoStock"           ,
+    parameter OUT_STR__ITEM_BOUGHT       = "ItmBought"                    
 
   )(
     input                                  i_clk,
@@ -123,6 +126,9 @@ module shop_v
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] cur_state;
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] next_state;
   
+  reg given_password; // save perms when making new user
+  reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] next_available_user_num;
+  
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] given_user__num; // num for user given by user by username
   reg          [I_A_NUM_BITS - 1:0]          given_user__username; // need?
   reg unsigned [I_A_NUM_BITS - 1:0]          given_user__password;
@@ -135,6 +141,7 @@ module shop_v
   
   reg                                        in_a__known_username;
   wire                                       in_a__valid_cmd; // don't need this declaration because assigned, just here to keep things straight
+  wire                                       in_a__valid_perm_type; // don't need this declaration because assigned, just here to keep things straight
   reg                                        in_a__valid_cmd__user_has_perms_for;
   reg                                        in_a__correct_password_for__given_user;
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] in_a__user_num__if__known_username;
@@ -169,6 +176,10 @@ module shop_v
                            i_a == CMD_KEY__ADD_ITEM    |
                            i_a == CMD_KEY__DELETE_ITEM |
                            i_a == CMD_KEY__BUY         ? 1'b1 : 1'b0;
+                           
+  // 1 / 0 if in_a is a valid perm type, can't add admin
+  assign in_a__valid_perm_type = i_a == PERM_KEY__SELLER |
+                                 i_a == PERM_KEY__BUYER  ? 1'b1 : 1'b0;                           
                           
                           
   // assign cur_user__username = uv__usernames[cur_user__num];
@@ -344,6 +355,7 @@ module shop_v
               CMD_KEY__ADD_USER:
                 begin
                   next_state = STATE__PERMS;
+                  given_password = i_a;
                 end                
               
               // cur_cmds...
@@ -364,8 +376,16 @@ module shop_v
         if               ( i_rdy )                                                               
           begin
             case(cur_cmd)
-              "PASS":
-                pass = 1'b1;
+            
+              // ADD_USER
+              CMD_KEY__ADD_USER:
+                begin
+                  if (in_a__valid_perm_type)
+                    pass = 1'b1; //????????????????????????
+                  else
+                    o_a = OUT_STR__PERM_TYPE_INVALID;
+                end                
+              
               // cur_cmds...
             endcase
           end
@@ -437,10 +457,7 @@ module shop_v
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     if (i_reset)
       begin
-        // user vectors: empty(0) and admin(1)
-        uv__slot_taken[EMPTY_USER_NUM] = 1'b1;
-        uv__slot_taken[ADMIN_USER_NUM] = 1'b1;
-        
+        // user vectors: empty(0) and admin(1)        
         uv__usernames [EMPTY_USER_NUM] = EMPTY_USERNAME;
         uv__usernames [ADMIN_USER_NUM] = ADMIN_USERNAME;
         
@@ -449,6 +466,15 @@ module shop_v
         
         uv__perms     [EMPTY_USER_NUM] = PERM_KEY__EMPTY;
         uv__perms     [ADMIN_USER_NUM] = PERM_KEY__ADMIN;
+        
+        uv__slot_taken[EMPTY_USER_NUM] = 1'b1;
+        uv__slot_taken[ADMIN_USER_NUM] = 1'b1;
+        
+        // set rest of uv__slot_taken to 0
+        uv__slot_taken[2] = 1'b0;
+        uv__slot_taken[3] = 1'b0;
+        uv__slot_taken[4] = 1'b0;
+        uv__slot_taken[5] = 1'b0;
       
         // current user num starts at empty because not logged in
         cur_user__num = EMPTY_USER_NUM;
@@ -496,7 +522,8 @@ module shop_v
     else                                                                                 in_a__valid_cmd__user_has_perms_for = 1'b0;
     
     
-    // in_a__known_username and in_a__user_num__if__known_username, don't check username for [0] - empty
+    // in_a__known_username and in_a__user_num__if__known_username
+    // don't check username for [0] - empty
     if      ( i_a == uv__usernames[1] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 1;  end
     else if ( i_a == uv__usernames[2] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 2;  end
     else if ( i_a == uv__usernames[3] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 3;  end
@@ -506,9 +533,41 @@ module shop_v
     else                                begin  in_a__known_username = 1'b0;  in_a__user_num__if__known_username = EMPTY_USER_NUM; end // used to be NO_USER_NUM
 
     
-    
+    // next_available_user_num
+    // 1 and 0 taken by admin and empty
+    if      ( ! uv__slot_taken[2] )  next_available_user_num = 2;
+    else if ( ! uv__slot_taken[3] )  next_available_user_num = 3;
+    else if ( ! uv__slot_taken[4] )  next_available_user_num = 4;
+    else if ( ! uv__slot_taken[5] )  next_available_user_num = 5;
+    else                                  next_available_user_num = NO_USER_NUM;
     
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   end  
 

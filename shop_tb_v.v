@@ -215,7 +215,9 @@ module shop_tb_v;
     // Password? > any password > Perms?
     #(time_between_test_inputs) apply_test(4'bXXXX, "Ps1");     
     
-    
+    // cur_user  == Admin
+    // Perms? > invalid perm type > invalid perm type > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");      
     
     
     
