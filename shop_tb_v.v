@@ -111,7 +111,7 @@ module shop_tb_v;
   
   // // cur_user  == EMPTY
   // // cur_state == USERNAME
-  // // Username? > give unknown username > Invalid username > Cmd?
+  // // Username? > give unknown username > unknown username > Cmd?
   // #(time_between_test_inputs) apply_test(4'bXXXX, "Uun");
   
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

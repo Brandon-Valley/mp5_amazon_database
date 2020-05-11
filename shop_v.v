@@ -113,6 +113,7 @@ module shop_v
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // internal registers
+  reg pass;
   
   // reg unsigned [2 ** (MAX_USERS -1):0] cur_user_num;
   
@@ -215,9 +216,19 @@ module shop_v
     case(cur_state)
       
       
-      // CMD
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
+      //
+      // state logic: CMD 
+      //
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
       STATE__CMD:  
       begin
+      
+        if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_CMD;
+        else if (   i_rdy & ! in_a__valid_cmd                     ) o_a = OUT_STR__INVALID_CMD;
+        else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;
+      
+      
         if ( i_rdy & in_a__valid_cmd__user_has_perms_for) 
           begin 
             // you already know you will be moving to a new state, so save the cmd
@@ -242,24 +253,116 @@ module shop_v
       end
                   
                   
-      // USERNAME          
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
+      //
+      // state logic: USERNAME
+      //
+      ////////////////////////////////////////////////////////////////////////////////////////////////////       
       STATE__USERNAME:
-      begin        
-        if      ( cur_cmd == CMD_KEY__LOGIN & i_rdy & ! in_a__known_username )  begin                                                                                         
-                                                                                       next_state = STATE__CMD;                               
-                                                                                end
-        else if ( cur_cmd == CMD_KEY__LOGIN & i_rdy &   in_a__known_username )  begin  
-                                                                                       next_state = STATE__PASSWORD;  
-                                                                                       given_user__num = in_a__user_num__if__known_username;
-                                                                                end
-        // else if ( cur_cmd == CMD_KEY__ADD_USER & i_rdy & ! in_a__known_username )  next_state = STATE__PASSWORD;
-         // else if ( (cut_cmd = CMD_KEY__DELETE_USER) & i_rdy & (   in_a__known_username) & (cur_username != ADMIN_USERNAME) )  next_state = STATE__CMD + delete the user?????;
-        
+      begin     
+        if               ( i_rdy )                                                               
+          begin
+            case(cur_cmd)
+            
+              // LOGIN
+              CMD_KEY__LOGIN:
+                begin
+                              if (in_a__known_username)  
+                                                        begin  
+                                                              next_state = STATE__PASSWORD;  
+                                                              given_user__num = in_a__user_num__if__known_username;
+                                                        end
+                                
+                              else
+                                                        begin
+                                                              next_state = STATE__CMD; 
+                                                              o_a = OUT_STR__UNKOWN_USERNAME; 
+                                                        end
+                end
+            endcase
+          end
+        else                                                  o_a = OUT_STR__ASK_USERNAME;
       end
       
       
-    endcase
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
+      //
+      // state logic: PASSWORD
+      //
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
+      STATE__PASSWORD:
+      begin     
+        if               ( i_rdy )                                                               
+          begin
+            case(cur_cmd)
+              "PASS":
+                pass = 1'b1;
+              // cur_cmds...
+            endcase
+          end
+        else                                                  o_a = OUT_STR__ASK_PASSWORD;
+      end
+
+     
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
+      //  
+      // state logic: PERMS
+      //
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
+      STATE__PERMS:
+      begin     
+        if               ( i_rdy )                                                               
+          begin
+            case(cur_cmd)
+              "PASS":
+                pass = 1'b1;
+              // cur_cmds...
+            endcase
+          end
+        else                                                  o_a = OUT_STR__ASK_PERMS;
+      end      
+
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
+      //
+      // state logic: ITEM NAME
+      //
+      //////////////////////////////////////////////////////////////////////////////////////////////////// 
+      STATE__ITEM_NAME:
+      begin     
+        if               ( i_rdy )                                                               
+          begin
+            case(cur_cmd)
+              "PASS":
+                pass = 1'b1;
+              // cur_cmds...
+            endcase
+          end
+        else                                                  o_a = OUT_STR__ASK_ITEM_NAME;
+      end      
+      
+      
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
+      //
+      // state logic: STOCK
+      //
+      ////////////////////////////////////////////////////////////////////////////////////////////////////  
+      STATE__STOCK:
+      begin     
+        if               ( i_rdy )                                                               
+          begin
+            case(cur_cmd)
+              "PASS":
+                pass = 1'b1;
+              // cur_cmds...
+            endcase
+          end
+        else                                                  o_a = OUT_STR__ASK_STOCK;
+      end      
+
+   endcase
   end
+  
   
 
   
@@ -366,13 +469,13 @@ module shop_v
       // state logic: CMD 
       //
       ///////////////////////////////
-      // if (cur_state == STATE__CMD)
-      STATE__CMD:
-        begin
-          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_CMD;
-          else if (   i_rdy & ! in_a__valid_cmd                     ) o_a = OUT_STR__INVALID_CMD;
-          else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;
-        end
+      // // if (cur_state == STATE__CMD)
+      // STATE__CMD:
+        // begin
+          // if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_CMD;
+          // else if (   i_rdy & ! in_a__valid_cmd                     ) o_a = OUT_STR__INVALID_CMD;
+          // else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;
+        // end
 
     
       ///////////////////////////////
@@ -380,12 +483,12 @@ module shop_v
       // state logic: USERNAME
       //
       ///////////////////////////////
-      STATE__USERNAME:
-        begin
-          if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_USERNAME;
-          else if (   i_rdy & ! in_a__known_username                ) o_a = OUT_STR__UNKOWN_USERNAME;
+      // STATE__USERNAME:
+        // begin
+          // if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_USERNAME;
+          // else if (   i_rdy & ! in_a__known_username                ) o_a = OUT_STR__UNKOWN_USERNAME;
                                                                       
-        end
+        // end
 
       ///////////////////////////////
       //
@@ -395,7 +498,7 @@ module shop_v
       STATE__PASSWORD:
         begin
           if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_PASSWORD;        
-          else if (   i_rdy & i_a = given_user__password            ) o_a = OUT_STR__PASSWORD_WRONG;        
+          // else if (   i_rdy & i_a != given_user__password            ) o_a = OUT_STR__PASSWORD_WRONG; // FIX!!!!!!!!!!!!!!       
         end
      
       ///////////////////////////////
