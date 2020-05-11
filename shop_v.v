@@ -286,6 +286,25 @@ module shop_v
                                                               o_a = OUT_STR__UNKOWN_USERNAME; 
                                                         end
                 end
+                
+            
+              // ADD_USER
+              CMD_KEY__ADD_USER:
+                begin
+                              if (in_a__known_username)  
+                                                        begin  
+                                                              next_state = STATE__CMD; 
+                                                              o_a = OUT_STR__USERNAME_TAKEN; 
+                                                        end
+                                
+                              else
+                                                        begin
+                                                              next_state = STATE__PASSWORD;  
+                                                              given_user__num = in_a__user_num__if__known_username;                                                        
+                                                        end
+                end
+
+              //cur_cmds...
             endcase
           end
         else                                                  o_a = OUT_STR__ASK_USERNAME;

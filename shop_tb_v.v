@@ -34,7 +34,7 @@ module shop_tb_v;
   
   // tb params
   parameter tc = 50; //for clk
-  parameter time_between_test_inputs = (5 * tc);
+  parameter time_between_test_inputs = (3 * tc);
   
   reg                                 i_clk  ;
   reg                                 i_reset; // must be set high then low at start of tb
@@ -180,7 +180,7 @@ module shop_tb_v;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
-    //  Add User  -  dependencies: Login Admin
+    //  Add User  -  Dependencies: Login Admin
     //
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,6 +194,10 @@ module shop_tb_v;
     // cur_state == CMD
     // Cmd? > Add user > state: USERNAME > Username?
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    
+    // cur_user  == Admin
+    // Username? > admin's username (taken so will give error) > username taken > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
   end
 
 endmodule
