@@ -356,6 +356,7 @@ module shop_tb_v;
     //  Add Item  -  Dependencies: Login Admin
     //                             Add User: Us1 - seller  
     //                             Logout 
+    //                             run 2700ns
     //
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
@@ -377,14 +378,12 @@ module shop_tb_v;
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     // items full !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-    // item name exists !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-     
+          
     // stock 15 stress test !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     //
-    // Add Item: Us1 - seller > fpga - stock 1
+    // Add Item: Us1 - seller > FPGA - stock 1
     //
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV  
     // cur_user = Us1
@@ -392,24 +391,52 @@ module shop_tb_v;
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
         
     // Item Name? > non - known item name > Stock? 
-    #(time_between_test_inputs) apply_test(4'bXXXX, "fpga");
+    #(time_between_test_inputs) apply_test(4'bXXXX, "FPGA");
     
     // Stock? > 1 > item added > Cmd? 
     #(time_between_test_inputs) apply_test(4'b0001, "");
     
     
-    // item exists error
-    //                    Dependencies: Add Item: Us1 - seller > fpga - stock 1
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV   
+    // // item exists error
+    // //                    Dependencies: Add Item: Us1 - seller > FPGA - stock 1
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV   
     
+    // // cur_user = Us1
+    // // Cmd? > Add item > Item Name?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+    
+    // // Item Name? > known item name > Item exists > Cmd?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "FPGA");
+    
+    
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    //
+    // Add Item: Us1 - seller > IC - stock 15
+    //
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV  
     // cur_user = Us1
-    // Cmd? > Add item > Item Name?
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+    #(time_between_test_inputs) apply_test(4'bXXXX, "IC");
+    #(time_between_test_inputs) apply_test(4'b1111, "");    
     
-    // Item Name? > known item name > Item exists > Cmd?
-    #(time_between_test_inputs) apply_test(4'bXXXX, "fpga");
     
+    // // ITEMS Full Error
+    // //                    Dependencies: Add Item: Us1 - seller > FPGA - stock 1
+    // //                                  Add Item: Us1 - seller > IC   - stock 15
+    // //                                  run 3700ns
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV   
+    // cur_user = Us1
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+    #(time_between_test_inputs) apply_test(4'bXXXX, "SSD");
+    #(time_between_test_inputs) apply_test(4'b0010, "");  
     
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+    #(time_between_test_inputs) apply_test(4'bXXXX, "RAM");
+    #(time_between_test_inputs) apply_test(4'b0011, ""); 
+    
+    // items now full, will not be able to add another
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+   
   end
 
 endmodule

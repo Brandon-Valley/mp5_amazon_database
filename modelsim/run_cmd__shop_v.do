@@ -26,4 +26,4 @@ sim:/shop_tb_v/uut/iv__names \
 sim:/shop_tb_v/uut/iv__slot_taken \
 sim:/shop_tb_v/uut/iv__stock \
 sim:/shop_tb_v/uut/next_available_item_num
-run 2700ns
+run 3700ns
