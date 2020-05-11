@@ -380,9 +380,11 @@ module shop_tb_v;
      
     // item name exists !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
      
+    // stock 15 stress test !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     //
-    // Add Item: Us1 - seller > fpga
+    // Add Item: Us1 - seller > fpga - stock 1
     //
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV  
     // cur_user = Us1
@@ -391,6 +393,9 @@ module shop_tb_v;
         
     // Item Name? > non - known item name > Stock? 
     #(time_between_test_inputs) apply_test(4'bXXXX, "fpga");
+    
+    // Stock? > 1 > item added > Cmd? 
+    #(time_between_test_inputs) apply_test(4'b0001, "");
     
     
   end

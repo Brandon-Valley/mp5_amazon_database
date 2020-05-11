@@ -26,7 +26,8 @@ module shop_v
     parameter ADMIN_USER_NUM        = 1                      ,    
     parameter EMPTY_USER_NUM        = 0                      ,  
     
-    parameter NO_USER_NUM           = 4'bZZZ                 ,  // num bits  = NUM_BITS_MAX_USER_NUM
+    parameter NO_USER_NUM           = 3'bZZZ                 ,  // num bits  = NUM_BITS_MAX_USER_NUM
+    parameter NO_ITEM_NUM           = 2'bZZ                  ,  // num bits  = NUM_BITS_MAX_USER_NUM
     parameter NO_USERNAME           = {I_A_NUM_BITS{1'bZ}}   ,  // num bits  = I_A_NUM_BITS
     parameter NO_PASSWORD           = {I_A_NUM_BITS{1'bZ}}   ,  // num bits  = I_A_NUM_BITS
     parameter NO_PERMS              = {I_A_NUM_BITS{1'bZ}}   ,  // num bits  = I_A_NUM_BITS
@@ -147,6 +148,7 @@ module shop_v
   reg unsigned [I_A_NUM_BITS - 1:0] given_password; 
   
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] next_available_user_num;
+  reg unsigned [NUM_BITS_MAX_ITEM_NUM - 1:0] next_available_item_num;
   
   reg unsigned [NUM_BITS_MAX_ITEM_NUM - 1:0] given_item__num;
   reg          [I_A_NUM_BITS - 1:0]          given_item__name;  
@@ -517,8 +519,20 @@ module shop_v
         if               ( i_rdy )                                                               
           begin
             case(cur_cmd)
-              "PASS":
-                pass = 1'b1;
+            
+              // ADD_USER
+              CMD_KEY__ADD_ITEM:
+                begin
+                
+                  // add item
+                  o_a = OUT_STR__ITEM_ADDED;
+                  next_state = STATE__CMD;              
+              
+                  iv__slot_taken[next_available_item_num] = 1'b1;
+                  iv__names[next_available_item_num] = given_item__name;
+                  iv__stock     [next_available_item_num] = i_u;
+                end
+                
               // cur_cmds...
             endcase
           end
@@ -648,7 +662,12 @@ module shop_v
     else                                begin  in_a__known_item_name = 1'b0;  in_a__item_num__if__known_item_name = EMPTY_USER_NUM; end // used to be NO_USER_NUM
     
     
-  
+    // next_available_item_num
+    if      ( ! uv__slot_taken[0] )  next_available_item_num = 0;
+    else if ( ! uv__slot_taken[1] )  next_available_item_num = 1;
+    else if ( ! uv__slot_taken[2] )  next_available_item_num = 2;
+    else if ( ! uv__slot_taken[3] )  next_available_item_num = 3;
+    else                             next_available_item_num = NO_ITEM_NUM;
 
 
 
