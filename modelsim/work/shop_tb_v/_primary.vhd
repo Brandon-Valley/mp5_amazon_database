@@ -18,6 +18,10 @@ entity shop_tb_v is
         \CMD_KEY__DELETE_ITEM\: string  := "DelItem";
         \CMD_KEY__BUY\  : string  := "Buy";
         \CMD_KEY__NONE\ : string  := "NONE";
+        \PERM_KEY__EMPTY\: string  := "EMPTY";
+        \PERM_KEY__ADMIN\: string  := "ADMIN";
+        \PERM_KEY__SELLER\: string  := "SELLER";
+        \PERM_KEY__BUYER\: string  := "BUYER";
         tc              : integer := 50;
         time_between_test_inputs: vl_notype
     );
@@ -38,6 +42,10 @@ entity shop_tb_v is
     attribute mti_svvh_generic_type of \CMD_KEY__DELETE_ITEM\ : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__BUY\ : constant is 1;
     attribute mti_svvh_generic_type of \CMD_KEY__NONE\ : constant is 1;
+    attribute mti_svvh_generic_type of \PERM_KEY__EMPTY\ : constant is 1;
+    attribute mti_svvh_generic_type of \PERM_KEY__ADMIN\ : constant is 1;
+    attribute mti_svvh_generic_type of \PERM_KEY__SELLER\ : constant is 1;
+    attribute mti_svvh_generic_type of \PERM_KEY__BUYER\ : constant is 1;
     attribute mti_svvh_generic_type of tc : constant is 1;
     attribute mti_svvh_generic_type of time_between_test_inputs : constant is 3;
 end shop_tb_v;

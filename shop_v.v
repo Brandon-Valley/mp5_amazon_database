@@ -56,7 +56,9 @@ module shop_v
     parameter OUT_STR__INVALID_CMD       = "InvalCmd"          ,
     parameter OUT_STR__INVALID_PERMS     = "InvalPerm"         ,
     parameter OUT_STR__USERS_FULL        = "UsrsFull"          ,
-                                         
+    parameter OUT_STR__LOGGED_OUT        = "LoggedOut"         ,
+    parameter OUT_STR__ITEMS_FULL        = "ItmsFull"          ,
+
     // USERNAME                          
     parameter OUT_STR__ASK_USERNAME      = "Username?"         ,
     parameter OUT_STR__UNKOWN_USERNAME   = "UnkwnUser"         ,
@@ -64,7 +66,7 @@ module shop_v
     parameter OUT_STR__USERNAME_TAKEN    = "UsrTaken"          ,
     parameter OUT_STR__CANT_DEL_ADMIN    = "NoDelAdmn"         , 
     parameter OUT_STR__USER_DELETED      = "UsrDeletd"         , 
-                                         
+
     // PASSWORD                          
     parameter OUT_STR__ASK_PASSWORD      = "Password?"         ,
     parameter OUT_STR__PASSWORD_WRONG    = "WrongPass"         ,
@@ -73,18 +75,25 @@ module shop_v
     // PERMS
     parameter OUT_STR__ASK_PERMS         = "Perms?"            , 
     parameter OUT_STR__PERM_TYPE_INVALID = "PrmTypInv"         ,
+    parameter OUT_STR__USER_ADDED        = "UsrAdded"          ,
     
-    
-    parameter OUT_STR__ITEMS_FULL        = "ItmsFull"          ,
+    // ITEM_NAME
     parameter OUT_STR__ASK_ITEM_NAME     = "ItmName?"          ,
     parameter OUT_STR__ITEM_EXISTS       = "ItmExists"         , 
-    parameter OUT_STR__ASK_STOCK         = "Stock?"            ,
-    parameter OUT_STR__ITEM_ADDED        = "ItmAdded"          ,
-    parameter OUT_STR__ITEM_UNKNOWN      = "ItmUnknwn"         , 
-    parameter OUT_STR__NOT_YOUR_ITEM     = "NtYourItm"         , 
-    parameter OUT_STR__ITEM_DELETED      = "ItmDeletd"         , 
+    parameter OUT_STR__ITEM_UNKNOWN      = "ItmUnknwn"         ,
+    parameter OUT_STR__ITEM_NOT_YOURS    = "NtYourItm"         , 
+    parameter OUT_STR__ITEM_DELETED      = "ItmDeletd"         ,
     parameter OUT_STR__NO_STOCK          = "NoStock"           ,
-    parameter OUT_STR__ITEM_BOUGHT       = "ItmBought"                    
+    parameter OUT_STR__ITEM_BOUGHT       = "ItmBought"         ,
+    
+    // STOCK
+    parameter OUT_STR__ASK_STOCK         = "Stock?"            ,
+    parameter OUT_STR__ITEM_ADDED        = "ItmAdded"          
+    
+    
+     
+ 
+           
 
   )(
     input                                  i_clk,
@@ -126,7 +135,10 @@ module shop_v
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] cur_state;
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] next_state;
   
-  reg given_password; // save perms when making new user
+  // save for making new user
+  reg          [I_A_NUM_BITS - 1:0] given_username; 
+  reg unsigned [I_A_NUM_BITS - 1:0] given_password; 
+  
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] next_available_user_num;
   
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] given_user__num; // num for user given by user by username
@@ -311,7 +323,7 @@ module shop_v
                               else
                                                         begin
                                                               next_state = STATE__PASSWORD;  
-                                                              given_user__num = in_a__user_num__if__known_username;                                                        
+                                                              given_username = i_a;                                                        
                                                         end
                 end
 
@@ -381,9 +393,22 @@ module shop_v
               CMD_KEY__ADD_USER:
                 begin
                   if (in_a__valid_perm_type)
-                    pass = 1'b1; //????????????????????????
+                    begin
+                      o_a = OUT_STR__USER_ADDED;
+                      next_state = STATE__CMD;
+                    
+                      // add user
+                      uv__slot_taken[next_available_user_num] = 1'b1;
+                      uv__usernames [next_available_user_num] = given_username;
+                      uv__passwords [next_available_user_num] = given_password;
+                      uv__perms     [next_available_user_num] = i_a;
+                    end
+                    
                   else
-                    o_a = OUT_STR__PERM_TYPE_INVALID;
+                    begin
+                      o_a = OUT_STR__PERM_TYPE_INVALID;
+                      next_state = STATE__CMD;
+                    end
                 end                
               
               // cur_cmds...
@@ -539,7 +564,7 @@ module shop_v
     else if ( ! uv__slot_taken[3] )  next_available_user_num = 3;
     else if ( ! uv__slot_taken[4] )  next_available_user_num = 4;
     else if ( ! uv__slot_taken[5] )  next_available_user_num = 5;
-    else                                  next_available_user_num = NO_USER_NUM;
+    else                             next_available_user_num = NO_USER_NUM;
     
   
 

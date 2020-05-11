@@ -31,10 +31,16 @@ module shop_tb_v;
     parameter CMD_KEY__DELETE_ITEM  = "DelItem"              ;
     parameter CMD_KEY__BUY          = "Buy"                  ;
     parameter CMD_KEY__NONE         = "NONE"                 ;
+    
+    //perm keys
+    parameter PERM_KEY__EMPTY       = "EMPTY"                ;
+    parameter PERM_KEY__ADMIN       = "ADMIN"                ;
+    parameter PERM_KEY__SELLER      = "SELLER"               ;
+    parameter PERM_KEY__BUYER       = "BUYER"                ;
   
   // tb params
   parameter tc = 50; //for clk
-  parameter time_between_test_inputs = (3 * tc);
+  parameter time_between_test_inputs = (1 * tc);
   
   reg                                 i_clk  ;
   reg                                 i_reset; // must be set high then low at start of tb
@@ -200,8 +206,30 @@ module shop_tb_v;
     // #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
     
     
-    // // PERMS errors
-    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // PERMS errors
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+        
+    // // cur_user  == Admin
+    // // Cmd? > Add user > state: USERNAME > Username?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    
+    // // cur_user  == Admin
+    // // Username? > non-taken username > Password?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "Us1");   
+
+    // // cur_user  == Admin
+    // // Password? > any password > Perms?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "Ps1");     
+    
+    // // cur_user  == Admin
+    // // Perms? > invalid perm type > invalid perm type > Cmd?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");     
+
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    //
+    // Add User: Us1 - seller
+    //
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
         
     // cur_user  == Admin
     // Cmd? > Add user > state: USERNAME > Username?
@@ -216,8 +244,18 @@ module shop_tb_v;
     #(time_between_test_inputs) apply_test(4'bXXXX, "Ps1");     
     
     // cur_user  == Admin
-    // Perms? > invalid perm type > invalid perm type > Cmd?
-    #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");      
+    // Perms? > invalid perm type > seller perm type > User Added > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER);    
+    
+
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Add User: Ub1 - Buyer
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+        
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "Ub1");   
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "Pb1");     
+    // #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__Buyer); 
     
     
     
