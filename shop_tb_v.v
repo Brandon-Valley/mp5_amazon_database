@@ -248,14 +248,13 @@ module shop_tb_v;
     #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER);    
     
 
-    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    // // Add User: Ub1 - Buyer
-    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-        
-    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Ub1");   
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Pb1");     
-    // #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__Buyer); 
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // Add User: Ub1 - Buyer
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    #(time_between_test_inputs) apply_test(4'bXXXX, "Ub1");   
+    #(time_between_test_inputs) apply_test(4'bXXXX, "Pb1");     
+    #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__BUYER); 
     
     
     
