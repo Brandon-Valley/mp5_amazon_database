@@ -663,10 +663,10 @@ module shop_v
     
     
     // next_available_item_num
-    if      ( ! uv__slot_taken[0] )  next_available_item_num = 0;
-    else if ( ! uv__slot_taken[1] )  next_available_item_num = 1;
-    else if ( ! uv__slot_taken[2] )  next_available_item_num = 2;
-    else if ( ! uv__slot_taken[3] )  next_available_item_num = 3;
+    if      ( ! iv__slot_taken[0] )  next_available_item_num = 0;
+    else if ( ! iv__slot_taken[1] )  next_available_item_num = 1;
+    else if ( ! iv__slot_taken[2] )  next_available_item_num = 2;
+    else if ( ! iv__slot_taken[3] )  next_available_item_num = 3;
     else                             next_available_item_num = NO_ITEM_NUM;
 
 

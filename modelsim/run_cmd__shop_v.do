@@ -21,7 +21,9 @@ sim:/shop_tb_v/uut/cur_user__perms \
 sim:/shop_tb_v/uut/in_a__user_num__if__known_username \
 sim:/shop_tb_v/uut/given_user__num \
 sim:/shop_tb_v/uut/next_available_user_num \
+sim:/shop_tb_v/i_clk   \
 sim:/shop_tb_v/uut/iv__names \
 sim:/shop_tb_v/uut/iv__slot_taken \
-sim:/shop_tb_v/uut/iv__stock
+sim:/shop_tb_v/uut/iv__stock \
+sim:/shop_tb_v/uut/next_available_item_num
 run 2300ns
