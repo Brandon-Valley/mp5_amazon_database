@@ -295,9 +295,24 @@ module shop_v
         if               ( i_rdy )                                                               
           begin
             case(cur_cmd)
-              "PASS":
-                pass = 1'b1;
-              // cur_cmds...
+            
+              // LOGIN
+              CMD_KEY__LOGIN:
+                begin
+                              if (i_a == given_user__password)  
+                                                        begin  
+                                                              pass = 1'b1;
+                                                              // next_state = ST
+                                                              // next_state = STATE__PASSWORD;  
+                                                              // given_user__num = in_a__user_num__if__known_username;
+                                                        end
+                                
+                              else
+                                                        begin
+                                                              next_state = STATE__CMD; 
+                                                              o_a = OUT_STR__PASSWORD_WRONG; 
+                                                        end
+                end
             endcase
           end
         else                                                  o_a = OUT_STR__ASK_PASSWORD;
