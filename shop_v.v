@@ -148,6 +148,9 @@ module shop_v
   
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] next_available_user_num;
   
+  reg unsigned [NUM_BITS_MAX_ITEM_NUM - 1:0] given_item__num;
+  reg          [I_A_NUM_BITS - 1:0]          given_item__name;  
+  
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] given_user__num; // num for user given by user by username
   reg          [I_A_NUM_BITS - 1:0]          given_user__username; // need?
   reg unsigned [I_A_NUM_BITS - 1:0]          given_user__password;
@@ -159,11 +162,13 @@ module shop_v
   reg          [I_A_NUM_BITS - 1:0]          cur_user__perms;
   
   reg                                        in_a__known_username;
+  reg                                        in_a__known_item_name;
   wire                                       in_a__valid_cmd; // don't need this declaration because assigned, just here to keep things straight
   wire                                       in_a__valid_perm_type; // don't need this declaration because assigned, just here to keep things straight
   reg                                        in_a__valid_cmd__user_has_perms_for;
   reg                                        in_a__correct_password_for__given_user;
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] in_a__user_num__if__known_username;
+  reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] in_a__item_num__if__known_item_name;
   
 
   // user vectors
@@ -478,8 +483,23 @@ module shop_v
         if               ( i_rdy )                                                               
           begin
             case(cur_cmd)
-              "PASS":
-                pass = 1'b1;
+            
+              // ADD_USER
+              CMD_KEY__ADD_ITEM:
+                begin
+                              if (in_a__known_item_name)  
+                                                        begin  
+                                                              next_state = STATE__CMD; 
+                                                              o_a = OUT_STR__ITEM_EXISTS; // like username taken 
+                                                        end
+                                
+                              else
+                                                        begin
+                                                              next_state = STATE__STOCK;  
+                                                              given_item__name = i_a;                                                        
+                                                        end
+                end
+                
               // cur_cmds...
             endcase
           end
@@ -609,7 +629,6 @@ module shop_v
     else if ( i_a == uv__usernames[5] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 5;  end
 
     else                                begin  in_a__known_username = 1'b0;  in_a__user_num__if__known_username = EMPTY_USER_NUM; end // used to be NO_USER_NUM
-
     
     // next_available_user_num
     // 1 and 0 taken by admin and empty
@@ -618,6 +637,16 @@ module shop_v
     else if ( ! uv__slot_taken[4] )  next_available_user_num = 4;
     else if ( ! uv__slot_taken[5] )  next_available_user_num = 5;
     else                             next_available_user_num = NO_USER_NUM;
+    
+    // in_a__known_item_name and in_a__item_num__if__known_item_name
+    if      ( i_a == uv__usernames[0] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 0;  end
+    else if ( i_a == uv__usernames[1] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 1;  end
+    else if ( i_a == uv__usernames[2] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 2;  end
+    else if ( i_a == uv__usernames[3] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 3;  end
+    else if ( i_a == uv__usernames[4] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 4;  end
+
+    else                                begin  in_a__known_item_name = 1'b0;  in_a__item_num__if__known_item_name = EMPTY_USER_NUM; end // used to be NO_USER_NUM
+    
     
   
 
