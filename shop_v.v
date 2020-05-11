@@ -263,7 +263,12 @@ module shop_v
             cur_cmd = i_a;
             
             case(i_a)
-              CMD_KEY__LOGOUT     :  next_state = STATE__CMD       ; // maybe don't NEED this line
+              CMD_KEY__LOGOUT     :  
+                                    begin
+                                      next_state = STATE__CMD; 
+                                      o_a = OUT_STR__LOGGED_OUT;
+                                      cur_user__num = EMPTY_USER_NUM;
+                                    end
               CMD_KEY__LOGIN      :  next_state = STATE__USERNAME  ;
               CMD_KEY__ADD_USER   :  
                                     begin
