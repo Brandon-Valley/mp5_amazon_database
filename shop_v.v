@@ -122,11 +122,14 @@ module shop_v
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] next_state;
   
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] given_user__num; // num for user given by user by username
+  reg          [I_A_NUM_BITS - 1:0]          given_user__username; // need?
+  reg unsigned [I_A_NUM_BITS - 1:0]          given_user__password;
+  reg          [I_A_NUM_BITS - 1:0]          given_user__perms;
   
   reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] cur_user__num;
-  reg [I_A_NUM_BITS - 1:0] cur_user__username;
-  reg [I_A_NUM_BITS - 1:0] cur_user__password;
-  reg [I_A_NUM_BITS - 1:0] cur_user__perms;
+  reg          [I_A_NUM_BITS - 1:0]          cur_user__username;
+  reg          [I_A_NUM_BITS - 1:0]          cur_user__password;
+  reg          [I_A_NUM_BITS - 1:0]          cur_user__perms;
   
   reg                                        in_a__known_username;
   wire                                       in_a__valid_cmd; // don't need this declaration because assigned, just here to keep things straight
@@ -310,6 +313,11 @@ module shop_v
     cur_user__password = uv__passwords[cur_user__num];
     cur_user__perms    = uv__perms    [cur_user__num];
     
+    // given user vars
+    given_user__username = uv__usernames[given_user__num];
+    given_user__password = uv__passwords[given_user__num];
+    given_user__perms    = uv__perms    [given_user__num];
+    
     
     // in_a__valid_cmd__user_has_perms_for
     if (in_a__valid_cmd)
@@ -342,18 +350,10 @@ module shop_v
     else if ( i_a == uv__usernames[4] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 4;  end
     else if ( i_a == uv__usernames[5] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 5;  end
 
-    else                                begin  in_a__known_username = 1'b0;  in_a__user_num__if__known_username = NO_USER_NUM; end
+    else                                begin  in_a__known_username = 1'b0;  in_a__user_num__if__known_username = EMPTY_USER_NUM; end // used to be NO_USER_NUM
 
-    // if ( 
-          // i_a == uv__usernames[1] |
-          // i_a == uv__usernames[2] |
-          // i_a == uv__usernames[3] |
-          // i_a == uv__usernames[4] |
-          // i_a == uv__usernames[5] // MAX_USERS - 1
-                                                    // ) in_a__known_username = 1'b1;
-    // else                                              in_a__known_username = 1'b0;                                                      
-     
-
+    
+    
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // State Logic
@@ -383,11 +383,8 @@ module shop_v
       STATE__USERNAME:
         begin
           if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_USERNAME;
-          else if (   i_rdy & ! in_a__known_username                ) begin 
-                                                                            o_a = OUT_STR__UNKOWN_USERNAME;
-                   // this should not be here !!!!!!!!!! put up top by change state       given_user__num = in_a__user_num__if__known_username; 
-                                                                      end
-          // else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;          
+          else if (   i_rdy & ! in_a__known_username                ) o_a = OUT_STR__UNKOWN_USERNAME;
+                                                                      
         end
 
       ///////////////////////////////
@@ -398,6 +395,7 @@ module shop_v
       STATE__PASSWORD:
         begin
           if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_PASSWORD;        
+          else if (   i_rdy & i_a = given_user__password            ) o_a = OUT_STR__PASSWORD_WRONG;        
         end
      
       ///////////////////////////////
