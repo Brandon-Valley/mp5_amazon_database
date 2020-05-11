@@ -105,7 +105,7 @@ module shop_tb_v;
   // // cur_user  == EMPTY
   // // cur_state == CMD  
   // // Cmd? > give command that you dont have perms for because you are not logged in > InvalPerm > Cmd?
-  // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+  // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGOUT);
   
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   
@@ -155,8 +155,11 @@ module shop_tb_v;
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-  // // Login Admin
-  // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+  // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+  //
+  // Login Admin
+  //
+  // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
   
   // cur_user  == EMPTY
   // cur_state == CMD

@@ -4,10 +4,10 @@ K3
 cModel Technology
 Z0 dC:\Users\Brandon\Documents\CpE_5220_Digital_Systems_Modeling\mp_3_combinational_circuits_part_2\modelsim
 vshop_tb_v
-Z1 IffPiV]OK^WchlPC4`8Seo2
+Z1 IgViKL92V7gG:GL87i@AEj3
 Z2 VP5]>@EgGcfiTo=5cZckfa0
 Z3 dC:\Users\Brandon\Documents\CpE_5220_Digital_Systems_Modeling\mp5_amazon_database\modelsim
-Z4 w1589167030
+Z4 w1589168178
 Z5 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
 Z6 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
 L0 12
@@ -17,27 +17,27 @@ r1
 Z8 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v|
 Z9 o-work work -O0
 !i10b 1
-Z10 !s100 b_:SBLT=lGa=1WeT9aoD]3
+Z10 !s100 lWZNGl22=H@Zj1dDf2I040
 !s85 0
-Z11 !s108 1589167670.617000
+Z11 !s108 1589168184.129000
 Z12 !s107 C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v|
 !s101 -O0
 vshop_v
 !i10b 1
-!s100 Aml9U10kQi3XRAL;gadkW3
-I4UQQiY9MH34MbeCOGZ@EZ0
-Vm39k2O]@5zUJF^G6>e9Z@3
+Z13 !s100 ;kZ4g;eH`z:PPi=SfO_R30
+Z14 Ii[b8];?EECUY@WVAObH:l1
+Z15 Vm39k2O]@5zUJF^G6>e9Z@3
 R3
-w1589167638
-Z13 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
-Z14 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
+Z16 w1589168049
+Z17 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
+Z18 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
 L0 3
 R7
 r1
 !s85 0
 31
-!s108 1589167670.761000
+!s108 1589168184.243000
 !s107 C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v|
-Z15 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v|
+Z19 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v|
 !s101 -O0
 R9

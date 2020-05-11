@@ -235,13 +235,13 @@ module shop_v
             cur_cmd = i_a;
             
             case(i_a)
-              // CMD_KEY__LOGOUT     :  next_state = 
+              CMD_KEY__LOGOUT     :  next_state = STATE__CMD       ; // maybe don't NEED this line
               CMD_KEY__LOGIN      :  next_state = STATE__USERNAME  ;
               CMD_KEY__ADD_USER   :  next_state = STATE__USERNAME  ;
               CMD_KEY__DELETE_USER:  next_state = STATE__PASSWORD  ;
               CMD_KEY__ADD_ITEM   :  next_state = STATE__PERMS     ;
               CMD_KEY__DELETE_ITEM:  next_state = STATE__ITEM_NAME ;
-              CMD_KEY__BUY        :  next_state = STATE__STOCK;
+              CMD_KEY__BUY        :  next_state = STATE__STOCK     ; 
             endcase
           end
           
