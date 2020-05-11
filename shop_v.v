@@ -338,6 +338,13 @@ module shop_v
                       o_a = OUT_STR__PASSWORD_WRONG; 
                     end
                 end
+                
+                
+              // ADD_USER
+              CMD_KEY__ADD_USER:
+                begin
+                  next_state = STATE__PERMS;
+                end                
               
               // cur_cmds...
                 

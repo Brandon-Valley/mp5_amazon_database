@@ -209,7 +209,11 @@ module shop_tb_v;
     
     // cur_user  == Admin
     // Username? > non-taken username > Password?
-    #(time_between_test_inputs) apply_test(4'bXXXX, "Su1");    
+    #(time_between_test_inputs) apply_test(4'bXXXX, "Us1");   
+
+    // cur_user  == Admin
+    // Password? > any password > Perms?
+    #(time_between_test_inputs) apply_test(4'bXXXX, "Ps1");     
     
     
     
