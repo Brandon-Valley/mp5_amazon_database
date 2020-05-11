@@ -126,6 +126,11 @@ module shop_tb_v;
   // cur_state == USERNAME
   // Username? > give admin username > state: PASSWORD > Password?
   #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
+  
+  // cur_user  == EMPTY
+  // cur_state == PASSWORD
+  // Password? > give wrong pass > Cmd?
+  #(time_between_test_inputs) apply_test(4'bXXXX, "Wpw");  
 
   
   

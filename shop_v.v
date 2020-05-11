@@ -10,6 +10,8 @@ module shop_v
     parameter O_A_NUM_BITS          = O_A_NUM_ASCII_CHARS * 8,
       
     parameter MAX_USERS             = 6                      ,  // includes admin(1) and empty(0)
+    parameter NUM_BITS_MAX_USER_NUM = 3                      ,  // [log2(MAX_USERS - 1)]+1
+    
     
     // default empy and admin
     parameter ADMIN_USERNAME        = "Adm"                  ,    
@@ -20,6 +22,7 @@ module shop_v
     
     parameter ADMIN_USER_NUM        = 1                      ,    
     parameter EMPTY_USER_NUM        = 0                      ,  
+    parameter NO_USER_NUM           = 4'bZZZZ                ,  // num bits  = NUM_BITS_MAX_USER_NUM - 1
 
     //perm keys
     parameter PERM_KEY__EMPTY       = "EMPTY"                ,
@@ -111,7 +114,6 @@ module shop_v
   
   // internal registers
   
-  
   // reg unsigned [2 ** (MAX_USERS -1):0] cur_user_num;
   
   reg [I_A_NUM_BITS - 1:0] cur_cmd; // the current VALIDATD command, has nothing to do with checking if user has perms to execute given cmd
@@ -119,17 +121,21 @@ module shop_v
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] cur_state;
   reg [(STATE_NUM_ASCII_BITS * 8) - 1:0] next_state;
   
+  reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] given_user__num; // num for user given by user by username
   
-  reg                      cur_user__num;
+  reg unsigned [NUM_BITS_MAX_USER_NUM - 1:0] cur_user__num;
   reg [I_A_NUM_BITS - 1:0] cur_user__username;
   reg [I_A_NUM_BITS - 1:0] cur_user__password;
   reg [I_A_NUM_BITS - 1:0] cur_user__perms;
   
+  reg  in_a__known_username;
   wire in_a__valid_cmd; // don't need this declaration because assigned, just here to keep things straight
   reg  in_a__valid_cmd__user_has_perms_for;
+  reg  in_a__correct_password_for__given_user;
+  reg in_a__user_num__if__known_username;
   
-  wire user_has_perms_for_i_a_cmd;
-  reg in_a__known_username;
+  // wire user_has_perms_for_i_a_cmd;
+
 
   
   // user vectors
@@ -323,15 +329,23 @@ module shop_v
     else                                                                                 in_a__valid_cmd__user_has_perms_for = 1'b0;
     
     
-    // in_a__known_username, don't check username for [0] - empty
-    if ( 
-          i_a == uv__usernames[1] |
-          i_a == uv__usernames[2] |
-          i_a == uv__usernames[3] |
-          i_a == uv__usernames[4] |
-          i_a == uv__usernames[5] // MAX_USERS - 1
-                                                    ) in_a__known_username = 1'b1;
-    else                                              in_a__known_username = 1'b0;                                                      
+    // in_a__known_username and in_a__user_num__if__known_username, don't check username for [0] - empty
+    if      ( i_a == uv__usernames[1] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 1;  end
+    else if ( i_a == uv__usernames[2] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 2;  end
+    else if ( i_a == uv__usernames[3] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 3;  end
+    else if ( i_a == uv__usernames[4] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 4;  end
+    else if ( i_a == uv__usernames[5] ) begin  in_a__known_username = 1'b1;  in_a__user_num__if__known_username = 5;  end
+
+    else                                begin  in_a__known_username = 1'b0;  in_a__user_num__if__known_username = NO_USER_NUM; end
+
+    // if ( 
+          // i_a == uv__usernames[1] |
+          // i_a == uv__usernames[2] |
+          // i_a == uv__usernames[3] |
+          // i_a == uv__usernames[4] |
+          // i_a == uv__usernames[5] // MAX_USERS - 1
+                                                    // ) in_a__known_username = 1'b1;
+    // else                                              in_a__known_username = 1'b0;                                                      
      
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -363,7 +377,10 @@ module shop_v
       STATE__USERNAME:
         begin
           if      ( ! i_rdy                                         ) o_a = OUT_STR__ASK_USERNAME;
-          else if (   i_rdy & ! in_a__known_username                ) o_a = OUT_STR__UNKOWN_USERNAME;
+          else if (   i_rdy & ! in_a__known_username                ) begin 
+                                                                            o_a = OUT_STR__UNKOWN_USERNAME;
+                                                                            given_user__num = in_a__user_num__if__known_username; 
+                                                                      end
           // else if (   i_rdy & ! in_a__valid_cmd__user_has_perms_for ) o_a = OUT_STR__INVALID_PERMS;          
         end
 
