@@ -4,22 +4,22 @@ K3
 cModel Technology
 Z0 dC:\Users\Brandon\Documents\CpE_5220_Digital_Systems_Modeling\mp_3_combinational_circuits_part_2\modelsim
 vshop_tb_v
-Z1 !s100 1QYi3RVnE2^agceGA<^M<3
-Z2 IG:5baJjK;jY7_EBT8nDN_1
-Z3 VP5]>@EgGcfiTo=5cZckfa0
-Z4 dC:\Users\Brandon\Documents\CpE_5220_Digital_Systems_Modeling\mp5_amazon_database\modelsim
-Z5 w1589174128
-Z6 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
-Z7 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
+Z1 IBIO0R5=N2kaUSDJ[gCW6N0
+Z2 VP5]>@EgGcfiTo=5cZckfa0
+Z3 dC:\Users\Brandon\Documents\CpE_5220_Digital_Systems_Modeling\mp5_amazon_database\modelsim
+Z4 w1589176730
+Z5 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
+Z6 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v
 L0 12
-Z8 OV;L;10.1b;51
+Z7 OV;L;10.1b;51
 r1
 31
-Z9 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v|
-Z10 o-work work -O0
+Z8 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v|
+Z9 o-work work -O0
 !i10b 1
+Z10 !s100 Qcg>@:WEh_2ALNXJ2<;oj1
 !s85 0
-Z11 !s108 1589174225.160000
+Z11 !s108 1589176741.754000
 Z12 !s107 C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_tb_v.v|
 !s101 -O0
 vshop_v
@@ -27,17 +27,17 @@ vshop_v
 Z13 !s100 5BHd<1fdcmRjNM;3EN9E:0
 Z14 IM^iP<ZV>0b_4e7zm9dK?D3
 Z15 V40D9lSMg@ki[S[H_`8;ND0
-R4
+R3
 Z16 w1589173842
 Z17 8C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
 Z18 FC:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v
 L0 3
-R8
+R7
 r1
 !s85 0
 31
-!s108 1589174225.274000
+!s108 1589176741.875000
 !s107 C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v|
 Z19 !s90 -reportprogress|300|-work|work|C:/Users/Brandon/Documents/CpE_5220_Digital_Systems_Modeling/mp5_amazon_database/shop_v.v|
 !s101 -O0
-R10
+R9

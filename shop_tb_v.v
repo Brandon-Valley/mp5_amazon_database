@@ -187,17 +187,34 @@ module shop_tb_v;
 
     // need to test users full !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
-    // USERNAME errors
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // USERNAME errors
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+        
+    // // cur_user  == Admin
+    // // cur_state == CMD
+    // // Cmd? > Add user > state: USERNAME > Username?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    
+    // // cur_user  == Admin
+    // // Username? > admin's username (taken so will give error) > username taken > Cmd?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
+    
+    
+    // // PERMS errors
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
         
     // cur_user  == Admin
-    // cur_state == CMD
     // Cmd? > Add user > state: USERNAME > Username?
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
     
     // cur_user  == Admin
-    // Username? > admin's username (taken so will give error) > username taken > Cmd?
-    #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
+    // Username? > non-taken username > Password?
+    #(time_between_test_inputs) apply_test(4'bXXXX, "Su1");    
+    
+    
+    
+    
+    
   end
 
 endmodule
