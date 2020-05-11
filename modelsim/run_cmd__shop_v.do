@@ -21,4 +21,4 @@ sim:/shop_tb_v/uut/cur_user__perms \
 sim:/shop_tb_v/uut/in_a__user_num__if__known_username \
 sim:/shop_tb_v/uut/given_user__num \
 sim:/shop_tb_v/uut/next_available_user_num
-run 1900ns
+run 2300ns

@@ -37,6 +37,17 @@ module shop_tb_v;
     parameter PERM_KEY__ADMIN       = "ADMIN"                ;
     parameter PERM_KEY__SELLER      = "SELLER"               ;
     parameter PERM_KEY__BUYER       = "BUYER"                ;
+    
+    // testing users
+    parameter SELLER_1_USERNAME     = "Us1"                  ;
+    parameter SELLER_2_USERNAME     = "Us2"                  ;
+    parameter BUYER_1_USERNAME      = "Ub1"                  ;
+    parameter BUYER_2_USERNAME      = "Ub2"                  ;
+                                                          
+    parameter SELLER_1_PASSWORD     = "Ps1"                  ;
+    parameter SELLER_2_PASSWORD     = "Ps2"                  ;
+    parameter BUYER_1_PASSWORD      = "Pb1"                  ;
+    parameter BUYER_2_PASSWORD      = "Pb2"                  ;
   
   // tb params
   parameter tc = 50; //for clk
@@ -214,58 +225,58 @@ module shop_tb_v;
     
     // // cur_user  == Admin
     // // Username? > non-taken username > Password?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Us1");   
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_USERNAME);   
 
     // // cur_user  == Admin
     // // Password? > any password > Perms?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Ps1");     
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_PASSWORD);     
     
     // // cur_user  == Admin
     // // Perms? > invalid perm type > invalid perm type > Cmd?
     // #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");     
 
-    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    // //
-    // // Add User: Us1 - seller
-    // //
-    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    //
+    // Add User: Us1 - seller
+    //
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
         
-    // // cur_user  == Admin
-    // // Cmd? > Add user > state: USERNAME > Username?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    // cur_user  == Admin
+    // Cmd? > Add user > state: USERNAME > Username?
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
     
-    // // cur_user  == Admin
-    // // Username? > non-taken username > Password?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Us1");   
+    // cur_user  == Admin
+    // Username? > non-taken username > Password?
+    #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_USERNAME);   
 
-    // // cur_user  == Admin
-    // // Password? > any password > Perms?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Ps1");     
+    // cur_user  == Admin
+    // Password? > any password > Perms?
+    #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_PASSWORD);     
     
-    // // cur_user  == Admin
-    // // Perms? > invalid perm type > seller perm type > User Added > Cmd?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER);    
+    // cur_user  == Admin
+    // Perms? > invalid perm type > seller perm type > User Added > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER);    
     
 
     // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     // // Add User: Ub1 - Buyer
     // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Ub1");   
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Pb1");     
+    // #(time_between_test_inputs) apply_test(4'bXXXX, BUYER_1_USERNAME);   
+    // #(time_between_test_inputs) apply_test(4'bXXXX, BUYER_1_PASSWORD);     
     // #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__BUYER); 
     
     // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     // // Add 2 Users: Us2 - Seller , Ub2 - Buyer
     // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Us2");   
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Ps2");     
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_USERNAME);   
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_PASSWORD);     
     // #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER); 
     
     // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Ub2");   
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Pb2");     
+    // #(time_between_test_inputs) apply_test(4'bXXXX, BUYER_2_USERNAME);   
+    // #(time_between_test_inputs) apply_test(4'bXXXX, BUYER_2_PASSWORD);     
     // #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__BUYER);   
 
     // // Users Full Error
@@ -283,7 +294,7 @@ module shop_tb_v;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //  Delete User  -  Dependencies: Login Admin
-    //                  Add User: Us1 - seller              
+    //                                Add User: Us1 - seller              
     //
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -317,7 +328,7 @@ module shop_tb_v;
     // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_USER);
     
     // // Username? > admin username > Can't delete admin > Cmd?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "Us1");     
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_USERNAME);     
   
     // // delete seller with items!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
@@ -337,6 +348,39 @@ module shop_tb_v;
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     // Cmd? > Loggout > Logged out > Cmd?
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGOUT);
+    
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //  Add Item  -  Dependencies: Login Admin
+    //                             Add User: Us1 - seller  
+    //                             Logout 
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+    // login to seller 1
+    
+    // cur_user  == EMPTY
+    // Cmd? > LOGIN > Username?
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
+    
+    // cur_user  == EMPTY
+    // Username? > give Us1 username > Password?
+    #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_USERNAME);
+    
+    // Password? > Us1 password > logged in > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_PASSWORD); 
+
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    // items full !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    // // cur_user = Us1
+    // // Cmd? > Loggout > Logged out > Cmd?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGOUT);
   end
 
 endmodule

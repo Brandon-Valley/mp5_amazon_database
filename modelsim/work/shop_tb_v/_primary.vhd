@@ -22,6 +22,14 @@ entity shop_tb_v is
         \PERM_KEY__ADMIN\: string  := "ADMIN";
         \PERM_KEY__SELLER\: string  := "SELLER";
         \PERM_KEY__BUYER\: string  := "BUYER";
+        SELLER_1_USERNAME: string  := "Us1";
+        SELLER_2_USERNAME: string  := "Us2";
+        BUYER_1_USERNAME: string  := "Ub1";
+        BUYER_2_USERNAME: string  := "Ub2";
+        SELLER_1_PASSWORD: string  := "Ps1";
+        SELLER_2_PASSWORD: string  := "Ps2";
+        BUYER_1_PASSWORD: string  := "Pb1";
+        BUYER_2_PASSWORD: string  := "Pb2";
         tc              : integer := 50;
         time_between_test_inputs: vl_notype
     );
@@ -46,6 +54,14 @@ entity shop_tb_v is
     attribute mti_svvh_generic_type of \PERM_KEY__ADMIN\ : constant is 1;
     attribute mti_svvh_generic_type of \PERM_KEY__SELLER\ : constant is 1;
     attribute mti_svvh_generic_type of \PERM_KEY__BUYER\ : constant is 1;
+    attribute mti_svvh_generic_type of SELLER_1_USERNAME : constant is 1;
+    attribute mti_svvh_generic_type of SELLER_2_USERNAME : constant is 1;
+    attribute mti_svvh_generic_type of BUYER_1_USERNAME : constant is 1;
+    attribute mti_svvh_generic_type of BUYER_2_USERNAME : constant is 1;
+    attribute mti_svvh_generic_type of SELLER_1_PASSWORD : constant is 1;
+    attribute mti_svvh_generic_type of SELLER_2_PASSWORD : constant is 1;
+    attribute mti_svvh_generic_type of BUYER_1_PASSWORD : constant is 1;
+    attribute mti_svvh_generic_type of BUYER_2_PASSWORD : constant is 1;
     attribute mti_svvh_generic_type of tc : constant is 1;
     attribute mti_svvh_generic_type of time_between_test_inputs : constant is 3;
 end shop_tb_v;
