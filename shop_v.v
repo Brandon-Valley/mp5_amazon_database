@@ -22,7 +22,11 @@ module shop_v
     
     parameter ADMIN_USER_NUM        = 1                      ,    
     parameter EMPTY_USER_NUM        = 0                      ,  
+    
     parameter NO_USER_NUM           = 4'bZZZ                 ,  // num bits  = NUM_BITS_MAX_USER_NUM
+    parameter NO_USERNAME           = {I_A_NUM_BITS{1'bZ}}   ,  // num bits  = I_A_NUM_BITS
+    parameter NO_PASSWORD           = {I_A_NUM_BITS{1'bZ}}   ,  // num bits  = I_A_NUM_BITS
+    parameter NO_PERMS              = {I_A_NUM_BITS{1'bZ}}   ,  // num bits  = I_A_NUM_BITS
 
     //perm keys
     parameter PERM_KEY__EMPTY       = "EMPTY"                ,
@@ -333,15 +337,21 @@ module shop_v
                               if (in_a__known_username)  
                                                         begin  
                                                               if (i_a == ADMIN_USERNAME)
-                                                                                          begin
-                                                                                                o_a = OUT_STR__CANT_DEL_ADMIN;
-                                                                                                next_state = STATE__CMD;
-                                                                                          end
+                                                                begin
+                                                                      o_a = OUT_STR__CANT_DEL_ADMIN;
+                                                                      next_state = STATE__CMD;
+                                                                end
                                                               else
-                                                                                          begin
-                                                                                                o_a = OUT_STR__USER_DELETED;
-                                                                                                next_state = STATE__CMD;
-                                                                                          end
+                                                                begin
+                                                                      o_a = OUT_STR__USER_DELETED;
+                                                                      next_state = STATE__CMD;
+                                                                      
+                                                                      // delete user
+                                                                      uv__slot_taken[in_a__user_num__if__known_username] = 1'b0;
+                                                                      uv__usernames [in_a__user_num__if__known_username] = NO_USERNAME;
+                                                                      uv__passwords [in_a__user_num__if__known_username] = NO_PASSWORD;
+                                                                      uv__perms     [in_a__user_num__if__known_username] = NO_PERMS   ;
+                                                                end
                                                         end
                                 
                               else
