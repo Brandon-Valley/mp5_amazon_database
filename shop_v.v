@@ -268,7 +268,7 @@ module shop_v
                                           else 
                                             next_state = STATE__USERNAME;
                                     end
-              CMD_KEY__DELETE_USER:  next_state = STATE__PASSWORD  ;
+              CMD_KEY__DELETE_USER:  next_state = STATE__USERNAME  ;
               CMD_KEY__ADD_ITEM   :  next_state = STATE__PERMS     ;
               CMD_KEY__DELETE_ITEM:  next_state = STATE__ITEM_NAME ;
               CMD_KEY__BUY        :  next_state = STATE__STOCK     ; 
@@ -326,6 +326,24 @@ module shop_v
                                                               given_username = i_a;                                                        
                                                         end
                 end
+                
+              // DELTET_USER
+              CMD_KEY__DELETE_USER:
+                begin
+                              if (in_a__known_username)  
+                                                        begin  
+                                                              pass = 1'b1; //````````````````````````````````````````
+
+                                                              // next_state = STATE__CMD; 
+                                                              // o_a = OUT_STR__USERNAME_TAKEN; 
+                                                        end
+                                
+                              else
+                                                        begin
+                                                              next_state = STATE__CMD; 
+                                                              o_a = OUT_STR__UNKOWN_USERNAME;                                                       
+                                                        end
+                end                
 
               //cur_cmds...
             endcase
