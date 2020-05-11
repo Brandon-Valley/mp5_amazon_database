@@ -46,6 +46,7 @@ entity shop_v is
         \OUT_STR__USER_DELETED\: string  := "UsrDeletd";
         \OUT_STR__ASK_PASSWORD\: string  := "Password?";
         \OUT_STR__PASSWORD_WRONG\: string  := "WrongPass";
+        \OUT_STR__LOGGED_IN\: string  := "LoggedIn";
         \OUT_STR__ITEMS_FULL\: string  := "ItmsFull";
         \OUT_STR__ASK_ITEM_NAME\: string  := "ItmName?";
         \OUT_STR__ITEM_EXISTS\: string  := "ItmExists";
@@ -111,6 +112,7 @@ entity shop_v is
     attribute mti_svvh_generic_type of \OUT_STR__USER_DELETED\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ASK_PASSWORD\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__PASSWORD_WRONG\ : constant is 1;
+    attribute mti_svvh_generic_type of \OUT_STR__LOGGED_IN\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ITEMS_FULL\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ASK_ITEM_NAME\ : constant is 1;
     attribute mti_svvh_generic_type of \OUT_STR__ITEM_EXISTS\ : constant is 1;

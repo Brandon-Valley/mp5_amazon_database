@@ -94,6 +94,9 @@ module shop_tb_v;
   //procedure statement
   initial begin
   
+  // // all CMD errors
+  // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+  
   // // cur_user  == EMPTY
   // // cur_state == CMD
   // // Cmd? > give invalid command > InvalCmd > Cmd? 
@@ -103,6 +106,20 @@ module shop_tb_v;
   // // cur_state == CMD  
   // // Cmd? > give command that you dont have perms for because you are not logged in > InvalPerm > Cmd?
   // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+  
+  // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  
+  
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  //  Login
+  //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  // // USERNAME errors
+  // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
   
   // // cur_user  == EMPTY
   // // cur_state == CMD
@@ -116,11 +133,35 @@ module shop_tb_v;
   
   // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   
+  
+  // // PASSWORD errors
+  // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+  
+  // // cur_user  == EMPTY
+  // // cur_state == CMD
+  // // Cmd? > LOGIN > state: USERNAME > Username?
+  // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
+  
+  // // cur_user  == EMPTY
+  // // cur_state == USERNAME
+  // // Username? > give admin username > state: PASSWORD > Password?
+  // #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
+  
+  // // cur_user  == EMPTY
+  // // cur_state == PASSWORD
+  // // Password? > give wrong pass > Cmd?
+  // #(time_between_test_inputs) apply_test(4'bXXXX, "Wpw"); 
+
+  // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+  // // Login Admin
+  // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+  
   // cur_user  == EMPTY
   // cur_state == CMD
   // Cmd? > LOGIN > state: USERNAME > Username?
   #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
-  
   
   // cur_user  == EMPTY
   // cur_state == USERNAME
@@ -129,10 +170,8 @@ module shop_tb_v;
   
   // cur_user  == EMPTY
   // cur_state == PASSWORD
-  // Password? > give wrong pass > Cmd?
-  #(time_between_test_inputs) apply_test(4'bXXXX, "Wpw");  
-
-  
+  // Password? > admin pass > logged in > Cmd?
+  #(time_between_test_inputs) apply_test(4'bXXXX, "123"); 
   
   
 

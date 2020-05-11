@@ -67,7 +67,7 @@ module shop_v
     // PASSWORD
     parameter OUT_STR__ASK_PASSWORD    = "Password?"         ,
     parameter OUT_STR__PASSWORD_WRONG  = "WrongPass"         ,
-
+    parameter OUT_STR__LOGGED_IN       = "LoggedIn"          ,
     
     parameter OUT_STR__ITEMS_FULL      = "ItmsFull"          ,
     parameter OUT_STR__ASK_ITEM_NAME   = "ItmName?"          ,
@@ -299,20 +299,22 @@ module shop_v
               // LOGIN
               CMD_KEY__LOGIN:
                 begin
-                              if (i_a == given_user__password)  
-                                                        begin  
-                                                              pass = 1'b1;
-                                                              // next_state = ST
-                                                              // next_state = STATE__PASSWORD;  
-                                                              // given_user__num = in_a__user_num__if__known_username;
-                                                        end
-                                
-                              else
-                                                        begin
-                                                              next_state = STATE__CMD; 
-                                                              o_a = OUT_STR__PASSWORD_WRONG; 
-                                                        end
+                  if (i_a == given_user__password)  
+                    begin  
+                      next_state = STATE__CMD;  
+                      o_a = OUT_STR__LOGGED_IN;  
+                      cur_user__num = given_user__num;
+                    end
+                    
+                  else
+                    begin
+                      next_state = STATE__CMD; 
+                      o_a = OUT_STR__PASSWORD_WRONG; 
+                    end
                 end
+              
+              // cur_cmds...
+                
             endcase
           end
         else                                                  o_a = OUT_STR__ASK_PASSWORD;
