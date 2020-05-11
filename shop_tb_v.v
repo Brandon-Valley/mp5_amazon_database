@@ -299,6 +299,12 @@ module shop_tb_v;
     
     // Username? > unknown username > Unknown username > Cmd?
     #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");   
+    
+    // Cmd? > Del user > Username?
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_USER);
+    
+    // Username? > admin username > Can't delete admin > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);       
   
 
     

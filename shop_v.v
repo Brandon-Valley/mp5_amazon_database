@@ -332,10 +332,16 @@ module shop_v
                 begin
                               if (in_a__known_username)  
                                                         begin  
-                                                              pass = 1'b1; //````````````````````````````````````````
-
-                                                              // next_state = STATE__CMD; 
-                                                              // o_a = OUT_STR__USERNAME_TAKEN; 
+                                                              if (i_a == ADMIN_USERNAME)
+                                                                                          begin
+                                                                                                o_a = OUT_STR__CANT_DEL_ADMIN;
+                                                                                                next_state = STATE__CMD;
+                                                                                          end
+                                                              else
+                                                                                          begin
+                                                                                                o_a = OUT_STR__USER_DELETED;
+                                                                                                next_state = STATE__CMD;
+                                                                                          end
                                                         end
                                 
                               else
