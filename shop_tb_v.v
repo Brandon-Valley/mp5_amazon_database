@@ -532,12 +532,15 @@ module shop_tb_v;
    
     // ITEM_NAME errors
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV 
+    
     // cur_user  == Us1
     // Cmd? > Del item > item name?
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_ITEM);
     
-    // // Username? > admin username > Can't delete admin > Cmd?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_USERNAME);  
+    // item name? > unkown item name > unkown item > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");    
+    
+
 
 
 

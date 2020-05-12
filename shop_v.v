@@ -486,7 +486,7 @@ module shop_v
           begin
             case(cur_cmd)
             
-              // ADD_USER
+              // ADD_ITEM
               CMD_KEY__ADD_ITEM:
                 begin
                               if (in_a__known_item_name)  
@@ -501,6 +501,42 @@ module shop_v
                                                               given_item__name = i_a;                                                        
                                                         end
                 end
+                
+              // DELTET_ITEM
+              CMD_KEY__DELETE_ITEM:
+                begin
+                              if (in_a__known_item_name)  
+                                                        begin  
+                                                              if (i_a == ADMIN_USERNAME)
+                                                                begin
+                                                                      pass = 1'b1; //````````````````````````````````````````
+
+                                                                      // o_a = OUT_STR__CANT_DEL_ADMIN;
+                                                                      // next_state = STATE__CMD;
+                                                                end
+                                                              else
+                                                                begin
+                                                                      pass = 1'b1; //````````````````````````````````````````
+
+                                                                      // o_a = OUT_STR__USER_DELETED;
+                                                                      // next_state = STATE__CMD;
+                                                                      
+                                                                      // // delete user
+                                                                      // uv__slot_taken[in_a__user_num__if__known_username] = 1'b0;
+                                                                      // uv__usernames [in_a__user_num__if__known_username] = NO_USERNAME;
+                                                                      // uv__passwords [in_a__user_num__if__known_username] = NO_PASSWORD;
+                                                                      // uv__perms     [in_a__user_num__if__known_username] = NO_PERMS   ;
+                                                                end
+                                                        end
+                                
+                              else
+                                                        begin
+                                                              pass = 1'b1; //````````````````````````````````````````
+
+                                                              next_state = STATE__CMD; 
+                                                              o_a = OUT_STR__ITEM_UNKNOWN;                                                       
+                                                        end
+                end                           
                 
               // cur_cmds...
             endcase
