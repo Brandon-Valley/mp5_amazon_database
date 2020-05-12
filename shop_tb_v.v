@@ -447,7 +447,7 @@ module shop_tb_v;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
-    //  No Dependencies below this line
+    //  No outside dependencies below this line
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
@@ -456,15 +456,121 @@ module shop_tb_v;
    
    
    
+    // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // //
+    // //  Delete Item 
+    // //               run 4700ns
+    // //
+    // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+   
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Login Admin
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, ADMIN_USERNAME);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "123");
+    
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Add User: Us1 - seller
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_USERNAME);   
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_PASSWORD);     
+    // #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER); 
+
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Add User: Us2 - Seller
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_USERNAME);   
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_PASSWORD);     
+    // #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER);     
+   
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Logout
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGOUT);
+        
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Login Us2 - Seller 2
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_USERNAME);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_PASSWORD);     
+       
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Add Item: Us2 - seller 2 > LED - stock 2
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV  
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "LED");
+    // #(time_between_test_inputs) apply_test(4'b0010, "");
+    
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Logout
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGOUT);
+    
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Login Us1 - Seller 1
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_USERNAME);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_PASSWORD);    
+   
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // // Add Item: Us1 - seller 1 > FPGA - stock 1
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV  
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "FPGA");
+    // #(time_between_test_inputs) apply_test(4'b0001, "");
+
+    // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   
+    // // // ITEM_NAME errors
+    // // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV 
+    
+    // // // cur_user  == Us1
+    // // // Cmd? > Del item > item name?
+    // // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_ITEM);
+    
+    // // // item name? > unkown item name > unkown item > Cmd?
+    // // #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");    
+    
+    // // // Cmd? > Del item > item name?
+    // // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_ITEM);
+    
+    // // // item name? > known item name that does not belong to current user even though current user is a seller > not your item > Cmd?
+    // // #(time_between_test_inputs) apply_test(4'bXXXX, "LED");    
+    
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // //
+    // // Delete Item: Us1 - seller 1 > FPGA
+    // //
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV  
+    
+    // // cur_user  == Us1
+    // // Cmd? > Del item > item name?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_ITEM);
+    
+    // // item name? > unkown item name > unkown item > Cmd?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "FPGA");     
+    
+
+
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
-    //  Delete Item 
+    //  Buy Item 
     //               run 4700ns
     //
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
-   
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     // Login Admin
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
@@ -480,33 +586,14 @@ module shop_tb_v;
     #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_1_PASSWORD);     
     #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER); 
 
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    // Add User: Us2 - Seller
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // Add User: Ub1 - Buyer
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_USER);
-    #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_USERNAME);   
-    #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_PASSWORD);     
-    #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__SELLER);     
+    #(time_between_test_inputs) apply_test(4'bXXXX, BUYER_1_USERNAME);   
+    #(time_between_test_inputs) apply_test(4'bXXXX, BUYER_1_PASSWORD);     
+    #(time_between_test_inputs) apply_test(4'bXXXX, PERM_KEY__BUYER);     
    
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    // Logout
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGOUT);
-        
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    // Login Us2 - Seller 2
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
-    #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_USERNAME);
-    #(time_between_test_inputs) apply_test(4'bXXXX, SELLER_2_PASSWORD);     
-       
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    // Add Item: Us2 - seller 2 > LED - stock 2
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV  
-    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
-    #(time_between_test_inputs) apply_test(4'bXXXX, "LED");
-    #(time_between_test_inputs) apply_test(4'b0010, "");
-    
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
     // Logout
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
@@ -525,17 +612,30 @@ module shop_tb_v;
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__ADD_ITEM);
     #(time_between_test_inputs) apply_test(4'bXXXX, "FPGA");
     #(time_between_test_inputs) apply_test(4'b0001, "");
-
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-   
-    // // ITEM_NAME errors
-    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV 
     
-    // // cur_user  == Us1
-    // // Cmd? > Del item > item name?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_ITEM);
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // Logout
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGOUT);
+    
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    // Login Us1 - Buyer 1
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__LOGIN);
+    #(time_between_test_inputs) apply_test(4'bXXXX, BUYER_1_USERNAME);
+    #(time_between_test_inputs) apply_test(4'bXXXX, BUYER_1_PASSWORD);    
+   
+
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    
+    
+    // ITEM_NAME errors
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV 
+    
+    // cur_user  == Ub1
+    // Cmd? > Del item > item name?
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__BUY);
     
     // // item name? > unkown item name > unkown item > Cmd?
     // #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");    
@@ -545,26 +645,6 @@ module shop_tb_v;
     
     // // item name? > known item name that does not belong to current user even though current user is a seller > not your item > Cmd?
     // #(time_between_test_inputs) apply_test(4'bXXXX, "LED");    
-    
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    //
-    // Delete Item: Us1 - seller 1 > FPGA
-    //
-    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV  
-    
-    // cur_user  == Us1
-    // Cmd? > Del item > item name?
-    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_ITEM);
-    
-    // item name? > unkown item name > unkown item > Cmd?
-    #(time_between_test_inputs) apply_test(4'bXXXX, "FPGA");     
-    
-
-
-
-
-
-
 
 
 

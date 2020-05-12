@@ -301,7 +301,7 @@ module shop_v
                                             next_state = STATE__ITEM_NAME;
                                     end
               CMD_KEY__DELETE_ITEM:  next_state = STATE__ITEM_NAME ;
-              CMD_KEY__BUY        :  next_state = STATE__STOCK     ; 
+              CMD_KEY__BUY        :  next_state = STATE__ITEM_NAME ; 
             endcase
           end
           
