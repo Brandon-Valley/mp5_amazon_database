@@ -357,7 +357,7 @@ module shop_v
                                                         end
                 end
                 
-              // DELTET_USER
+              // DELETE_USER
               CMD_KEY__DELETE_USER:
                 begin
                               if (in_a__known_username)  
@@ -377,6 +377,39 @@ module shop_v
                                                                       uv__usernames [in_a__user_num__if__known_username] = NO_USERNAME;
                                                                       uv__passwords [in_a__user_num__if__known_username] = NO_PASSWORD;
                                                                       uv__perms     [in_a__user_num__if__known_username] = NO_PERMS   ;
+                                                                      
+                                                                      // delete user's items if they are a seller
+                                                                          if (iv__usernames[0] == i_a) 
+                                                                          begin 
+                                                                            iv__slot_taken [0] = 1'b0;
+                                                                            iv__item_names [0] = NO_USERNAME;
+                                                                            iv__stock      [0] = NO_STOCK;
+                                                                            iv__usernames  [0] = NO_USERNAME;
+                                                                          end
+                                                                          
+                                                                          if (iv__usernames[1] == i_a) 
+                                                                          begin 
+                                                                            iv__slot_taken [1] = 1'b0;
+                                                                            iv__item_names [1] = NO_USERNAME;
+                                                                            iv__stock      [1] = NO_STOCK;
+                                                                            iv__usernames  [1] = NO_USERNAME;
+                                                                          end
+
+                                                                          if (iv__usernames[2] == i_a) 
+                                                                          begin 
+                                                                            iv__slot_taken [2] = 1'b0;
+                                                                            iv__item_names [2] = NO_USERNAME;
+                                                                            iv__stock      [2] = NO_STOCK;
+                                                                            iv__usernames  [2] = NO_USERNAME;
+                                                                          end
+
+                                                                          if (iv__usernames[3] == i_a) 
+                                                                          begin 
+                                                                            iv__slot_taken [3] = 1'b0;
+                                                                            iv__item_names [3] = NO_USERNAME;
+                                                                            iv__stock      [3] = NO_STOCK;
+                                                                            iv__usernames  [3] = NO_USERNAME;
+                                                                        end
                                                                 end
                                                         end
                                 
@@ -516,7 +549,6 @@ module shop_v
                                                                       o_a = OUT_STR__ITEM_DELETED;
                                                                       next_state = STATE__CMD;
                                                                       
-                                                                      // delete user
                                                                       iv__slot_taken [in_a__item_num__if__known_item_name] = 1'b0;
                                                                       iv__item_names [in_a__item_num__if__known_item_name] = NO_USERNAME;
                                                                       iv__stock      [in_a__item_num__if__known_item_name] = NO_STOCK;
