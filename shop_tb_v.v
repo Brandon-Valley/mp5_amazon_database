@@ -629,24 +629,31 @@ module shop_tb_v;
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     
+    // no stock test !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
-    // ITEM_NAME errors
+    // // Unknown item error
+    // // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV 
+    
+    // // cur_user  == Ub1
+    // // Cmd? > Del item > item name?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__BUY);
+    
+    // // item name? > unkown item name > unkown item > Cmd?
+    // #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");    
+   
+
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    //
+    // Buy: Us1 - seller 1 > FPGA
+    //
     // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV 
     
     // cur_user  == Ub1
     // Cmd? > Del item > item name?
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__BUY);
     
-    // item name? > unkown item name > unkown item > Cmd?
-    #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");    
-    
-    // // Cmd? > Del item > item name?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_ITEM);
-    
-    // // item name? > known item name that does not belong to current user even though current user is a seller > not your item > Cmd?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "LED");    
-
-
+    // item name? > known item name > bought item > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, "FPGA"); 
 
     
   end

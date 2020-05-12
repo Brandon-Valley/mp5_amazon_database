@@ -541,24 +541,17 @@ module shop_v
                 begin
                               if (in_a__known_item_name)  
                                                         begin  
-                                                              if (in_a__item_name__of__cur_user)
+                                                              if (iv__stock[in_a__item_num__if__known_item_name] == 4'b0000)
                                                                 begin
-                                                                    pass = 1'b1; //````````````````````````````````````````
-                                                                      // // delete item
-                                                                      // o_a = OUT_STR__ITEM_DELETED;
-                                                                      // next_state = STATE__CMD;
-                                                                      
-                                                                      // // delete user
-                                                                      // iv__slot_taken [in_a__item_num__if__known_item_name] = 1'b0;
-                                                                      // iv__item_names [in_a__item_num__if__known_item_name] = NO_USERNAME;
-                                                                      // iv__stock      [in_a__item_num__if__known_item_name] = NO_STOCK;
-                                                                      // iv__usernames  [in_a__item_num__if__known_item_name] = NO_USERNAME;
+                                                                  o_a = OUT_STR__NO_STOCK;
+                                                                  next_state = STATE__CMD;
                                                                 end
                                                               else
                                                                 begin               
-                                                                  pass = 1'b1; //````````````````````````````````````````
-                                                                      // o_a = OUT_STR__ITEM_NOT_YOURS;
-                                                                      // next_state = STATE__CMD;
+                                                                  // buy item
+                                                                  o_a = OUT_STR__ITEM_BOUGHT;
+                                                                  iv__stock[in_a__item_num__if__known_item_name] = iv__stock[in_a__item_num__if__known_item_name] - 1'b1;
+                                                                  next_state = STATE__CMD; 
                                                                 end
                                                         end
                                 
