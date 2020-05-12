@@ -163,6 +163,7 @@ module shop_v
   reg          [I_A_NUM_BITS - 1:0]          cur_user__password;
   reg          [I_A_NUM_BITS - 1:0]          cur_user__perms;
   
+  reg                                        in_a__item_name__of__cur_user;
   reg                                        in_a__known_username;
   reg                                        in_a__known_item_name;
   wire                                       in_a__valid_cmd; // don't need this declaration because assigned, just here to keep things straight
@@ -181,8 +182,9 @@ module shop_v
   
   // item vectors
   reg [MAX_ITEMS    - 1:0]          iv__slot_taken;
-  reg [I_A_NUM_BITS - 1:0]          iv__names [MAX_ITEMS - 1:0];
-  reg [NUM_BITS_MAX_ITEM_NUM - 1:0] iv__stock [MAX_ITEMS - 1:0];
+  reg [I_A_NUM_BITS - 1:0]          iv__item_names[MAX_ITEMS - 1:0];
+  reg [NUM_BITS_MAX_ITEM_NUM - 1:0] iv__stock     [MAX_ITEMS - 1:0];
+  reg [I_A_NUM_BITS - 1:0]          iv__usernames [MAX_ITEMS - 1:0];
 
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -507,7 +509,7 @@ module shop_v
                 begin
                               if (in_a__known_item_name)  
                                                         begin  
-                                                              if (i_a == ADMIN_USERNAME)
+                                                              if (in_a__item_name__of__cur_user)
                                                                 begin
                                                                       pass = 1'b1; //````````````````````````````````````````
 
@@ -515,17 +517,9 @@ module shop_v
                                                                       // next_state = STATE__CMD;
                                                                 end
                                                               else
-                                                                begin
-                                                                      pass = 1'b1; //````````````````````````````````````````
-
-                                                                      // o_a = OUT_STR__USER_DELETED;
-                                                                      // next_state = STATE__CMD;
-                                                                      
-                                                                      // // delete user
-                                                                      // uv__slot_taken[in_a__user_num__if__known_username] = 1'b0;
-                                                                      // uv__usernames [in_a__user_num__if__known_username] = NO_USERNAME;
-                                                                      // uv__passwords [in_a__user_num__if__known_username] = NO_PASSWORD;
-                                                                      // uv__perms     [in_a__user_num__if__known_username] = NO_PERMS   ;
+                                                                begin                                                                      
+                                                                      o_a = OUT_STR__ITEM_NOT_YOURS;
+                                                                      next_state = STATE__CMD;
                                                                 end
                                                         end
                                 
@@ -565,8 +559,9 @@ module shop_v
                   next_state = STATE__CMD;              
               
                   iv__slot_taken[next_available_item_num] = 1'b1;
-                  iv__names[next_available_item_num] = given_item__name;
+                  iv__item_names[next_available_item_num] = given_item__name;
                   iv__stock     [next_available_item_num] = i_u;
+                  iv__usernames [next_available_item_num] = cur_user__username;
                 end
                 
               // cur_cmds...
@@ -689,12 +684,12 @@ module shop_v
     else                             next_available_user_num = NO_USER_NUM;
     
     // in_a__known_item_name and in_a__item_num__if__known_item_name
-    if      ( i_a == iv__names[0] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 0;  end
-    else if ( i_a == iv__names[1] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 1;  end
-    else if ( i_a == iv__names[2] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 2;  end
-    else if ( i_a == iv__names[3] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 3;  end
+    if      ( i_a == iv__item_names[0] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 0;  end
+    else if ( i_a == iv__item_names[1] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 1;  end
+    else if ( i_a == iv__item_names[2] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 2;  end
+    else if ( i_a == iv__item_names[3] ) begin  in_a__known_item_name = 1'b1;  in_a__item_num__if__known_item_name = 3;  end
 
-    else                            begin  in_a__known_item_name = 1'b0;  in_a__item_num__if__known_item_name = EMPTY_USER_NUM; end // used to be NO_USER_NUM
+    else                                 begin  in_a__known_item_name = 1'b0;  in_a__item_num__if__known_item_name = EMPTY_USER_NUM; end // used to be NO_USER_NUM
     
     
     // next_available_item_num
@@ -706,7 +701,11 @@ module shop_v
 
 
 
-
+    // in_a__item_name__of__cur_user
+    if (in_a__known_item_name & iv__usernames[in_a__item_num__if__known_item_name] == cur_user__username)
+      in_a__item_name__of__cur_user = 1'b1;
+    else
+      in_a__item_name__of__cur_user = 1'b0;
 
 
 
