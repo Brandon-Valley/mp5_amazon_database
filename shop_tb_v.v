@@ -654,6 +654,18 @@ module shop_tb_v;
     
     // item name? > known item name > bought item > Cmd?
     #(time_between_test_inputs) apply_test(4'bXXXX, "FPGA"); 
+    
+    
+    // No Stock test
+    //                Dependencies: Buy: Us1 - seller 1 > FPGA
+    // VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV 
+    
+    // cur_user  == Ub1
+    // Cmd? > Del item > item name?
+    #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__BUY);
+    
+    // item name? > known item name that is now out of stock > No stock > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, "FPGA");    
 
     
   end
