@@ -22,6 +22,7 @@ entity shop_v is
         NO_USERNAME     : vl_notype;
         NO_PASSWORD     : vl_notype;
         NO_PERMS        : vl_notype;
+        NO_STOCK        : vl_notype;
         \PERM_KEY__EMPTY\: string  := "EMPTY";
         \PERM_KEY__ADMIN\: string  := "ADMIN";
         \PERM_KEY__SELLER\: string  := "SELLER";
@@ -98,6 +99,7 @@ entity shop_v is
     attribute mti_svvh_generic_type of NO_USERNAME : constant is 3;
     attribute mti_svvh_generic_type of NO_PASSWORD : constant is 3;
     attribute mti_svvh_generic_type of NO_PERMS : constant is 3;
+    attribute mti_svvh_generic_type of NO_STOCK : constant is 3;
     attribute mti_svvh_generic_type of \PERM_KEY__EMPTY\ : constant is 1;
     attribute mti_svvh_generic_type of \PERM_KEY__ADMIN\ : constant is 1;
     attribute mti_svvh_generic_type of \PERM_KEY__SELLER\ : constant is 1;

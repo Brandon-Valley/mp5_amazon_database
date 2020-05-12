@@ -2,83 +2,84 @@
 
 module shop_v
   #(
-    parameter I_A_NUM_ASCII_CHARS   = 7                      , // must fit longest CMD_KEY
-    parameter O_A_NUM_ASCII_CHARS   = 9                      , // must fit longest out__
-  
-    parameter I_A_NUM_BITS          = I_A_NUM_ASCII_CHARS * 8,
-    parameter I_U_NUM_BITS          = 4                      , // max 15
-    parameter O_A_NUM_BITS          = O_A_NUM_ASCII_CHARS * 8,
-      
-    parameter MAX_USERS             = 6                      ,  // includes admin(1) and empty(0)
-    parameter NUM_BITS_MAX_USER_NUM = 3                      ,  // [log2(MAX_USERS - 1)]+1
-    
-    parameter MAX_ITEMS             = 4                      ,  
-    parameter NUM_BITS_MAX_ITEM_NUM = 4                      ,  // Max stock = 15
-    
-    
-    // default empy and admin
-    parameter ADMIN_USERNAME        = "Adm"                  ,    
-    parameter EMPTY_USERNAME        = "Nnn"                  ,   
-    
-    parameter ADMIN_PASSWORD        = "123"                  ,    
-    parameter EMPTY_PASSWORD        = "nnn"                  ,    
-    
-    parameter ADMIN_USER_NUM        = 1                      ,    
-    parameter EMPTY_USER_NUM        = 0                      ,  
-    
-    parameter NO_USER_NUM           = 3'bZZZ                 ,  // num bits  = NUM_BITS_MAX_USER_NUM
-    parameter NO_ITEM_NUM           = 2'bZZ                  ,  // num bits  = NUM_BITS_MAX_USER_NUM
-    parameter NO_USERNAME           = {I_A_NUM_BITS{1'bZ}}   ,  // num bits  = I_A_NUM_BITS
-    parameter NO_PASSWORD           = {I_A_NUM_BITS{1'bZ}}   ,  // num bits  = I_A_NUM_BITS
-    parameter NO_PERMS              = {I_A_NUM_BITS{1'bZ}}   ,  // num bits  = I_A_NUM_BITS
+    parameter I_A_NUM_ASCII_CHARS   = 7                            , // must fit longest CMD_KEY
+    parameter O_A_NUM_ASCII_CHARS   = 9                            , // must fit longest out__
+                                                                   
+    parameter I_A_NUM_BITS          = I_A_NUM_ASCII_CHARS * 8      ,
+    parameter I_U_NUM_BITS          = 4                            , // max 15
+    parameter O_A_NUM_BITS          = O_A_NUM_ASCII_CHARS * 8      ,
+                                                                   
+    parameter MAX_USERS             = 6                            ,  // includes admin(1) and empty(0)
+    parameter NUM_BITS_MAX_USER_NUM = 3                            ,  // [log2(MAX_USERS - 1)]+1
+                                                                   
+    parameter MAX_ITEMS             = 4                            ,  
+    parameter NUM_BITS_MAX_ITEM_NUM = 4                            ,  // Max stock = 15
+                                                                   
+                                                                   
+    // default empy and admin                                      
+    parameter ADMIN_USERNAME        = "Adm"                        ,    
+    parameter EMPTY_USERNAME        = "Nnn"                        ,   
+                                                                   
+    parameter ADMIN_PASSWORD        = "123"                        ,    
+    parameter EMPTY_PASSWORD        = "nnn"                        ,    
+                                                                   
+    parameter ADMIN_USER_NUM        = 1                            ,    
+    parameter EMPTY_USER_NUM        = 0                            ,  
+                                                                   
+    parameter NO_USER_NUM           = 3'bZZZ                       ,  // num bits  = NUM_BITS_MAX_USER_NUM
+    parameter NO_ITEM_NUM           = 2'bZZ                        ,  // num bits  = NUM_BITS_MAX_USER_NUM
+    parameter NO_USERNAME           = {I_A_NUM_BITS{1'bZ}}         ,  // num bits  = I_A_NUM_BITS
+    parameter NO_PASSWORD           = {I_A_NUM_BITS{1'bZ}}         ,  // num bits  = I_A_NUM_BITS
+    parameter NO_PERMS              = {I_A_NUM_BITS{1'bZ}}         ,  // num bits  = I_A_NUM_BITS
+    parameter NO_STOCK              = {NUM_BITS_MAX_ITEM_NUM{1'bZ}},  // num bits  = I_A_NUM_BITS
 
     //perm keys
-    parameter PERM_KEY__EMPTY       = "EMPTY"                ,
-    parameter PERM_KEY__ADMIN       = "ADMIN"                ,
-    parameter PERM_KEY__SELLER      = "SELLER"               ,
-    parameter PERM_KEY__BUYER       = "BUYER"                ,
+    parameter PERM_KEY__EMPTY       = "EMPTY"  ,
+    parameter PERM_KEY__ADMIN       = "ADMIN"  ,
+    parameter PERM_KEY__SELLER      = "SELLER" ,
+    parameter PERM_KEY__BUYER       = "BUYER"  ,
     
     // command keys
-    parameter CMD_KEY__LOGOUT       = "Logout"               ,
-    parameter CMD_KEY__LOGIN        = "Login"                ,
-    parameter CMD_KEY__ADD_USER     = "AddUsr"               ,
-    parameter CMD_KEY__DELETE_USER  = "DelUsr"               ,
-    parameter CMD_KEY__ADD_ITEM     = "AddItem"              ,
-    parameter CMD_KEY__DELETE_ITEM  = "DelItem"              ,
-    parameter CMD_KEY__BUY          = "Buy"                  ,
-    parameter CMD_KEY__NONE         = "NONE"                 ,
+    parameter CMD_KEY__LOGOUT       = "Logout" ,
+    parameter CMD_KEY__LOGIN        = "Login"  ,
+    parameter CMD_KEY__ADD_USER     = "AddUsr" ,
+    parameter CMD_KEY__DELETE_USER  = "DelUsr" ,
+    parameter CMD_KEY__ADD_ITEM     = "AddItem",
+    parameter CMD_KEY__DELETE_ITEM  = "DelItem",
+    parameter CMD_KEY__BUY          = "Buy"    ,
+    parameter CMD_KEY__NONE         = "NONE"   ,
       
     // states
-    parameter STATE_NUM_ASCII_BITS  = 7                      ,
+    parameter STATE_NUM_ASCII_BITS  = 7        ,
    
-    parameter STATE__CMD            = "CMD"                  ,
-    parameter STATE__USERNAME       = "USRNAME"              ,
-    parameter STATE__PASSWORD       = "PASSWRD"              ,
-    parameter STATE__PERMS          = "PERMS"                ,
-    parameter STATE__ITEM_NAME      = "ITMNAME"              ,
-    parameter STATE__STOCK          = "ITMSTCK"              ,
+    parameter STATE__CMD            = "CMD"    ,
+    parameter STATE__USERNAME       = "USRNAME",
+    parameter STATE__PASSWORD       = "PASSWRD",
+    parameter STATE__PERMS          = "PERMS"  ,
+    parameter STATE__ITEM_NAME      = "ITMNAME",
+    parameter STATE__STOCK          = "ITMSTCK",
 
     // out strings
     // CMD
-    parameter OUT_STR__ASK_CMD           = "Cmd?"              , 
-    parameter OUT_STR__INVALID_CMD       = "InvalCmd"          ,
-    parameter OUT_STR__INVALID_PERMS     = "InvalPerm"         ,
-    parameter OUT_STR__USERS_FULL        = "UsrsFull"          ,
-    parameter OUT_STR__LOGGED_OUT        = "LoggedOut"         ,
-    parameter OUT_STR__ITEMS_FULL        = "ItmsFull"          ,
+    parameter OUT_STR__ASK_CMD           = "Cmd?"     , 
+    parameter OUT_STR__INVALID_CMD       = "InvalCmd" ,
+    parameter OUT_STR__INVALID_PERMS     = "InvalPerm",
+    parameter OUT_STR__USERS_FULL        = "UsrsFull" ,
+    parameter OUT_STR__LOGGED_OUT        = "LoggedOut",
+    parameter OUT_STR__ITEMS_FULL        = "ItmsFull" ,
 
     // USERNAME                          
-    parameter OUT_STR__ASK_USERNAME      = "Username?"         ,
-    parameter OUT_STR__UNKOWN_USERNAME   = "UnkwnUser"         ,
-    parameter OUT_STR__USERNAME_UNKOWN   = "UsrUnknwn"         , 
-    parameter OUT_STR__USERNAME_TAKEN    = "UsrTaken"          ,
-    parameter OUT_STR__CANT_DEL_ADMIN    = "NoDelAdmn"         , 
-    parameter OUT_STR__USER_DELETED      = "UsrDeletd"         , 
+    parameter OUT_STR__ASK_USERNAME      = "Username?",
+    parameter OUT_STR__UNKOWN_USERNAME   = "UnkwnUser",
+    parameter OUT_STR__USERNAME_UNKOWN   = "UsrUnknwn", 
+    parameter OUT_STR__USERNAME_TAKEN    = "UsrTaken" ,
+    parameter OUT_STR__CANT_DEL_ADMIN    = "NoDelAdmn", 
+    parameter OUT_STR__USER_DELETED      = "UsrDeletd", 
 
     // PASSWORD                          
-    parameter OUT_STR__ASK_PASSWORD      = "Password?"         ,
-    parameter OUT_STR__PASSWORD_WRONG    = "WrongPass"         ,
-    parameter OUT_STR__LOGGED_IN         = "LoggedIn"          ,
+    parameter OUT_STR__ASK_PASSWORD      = "Password?",
+    parameter OUT_STR__PASSWORD_WRONG    = "WrongPass",
+    parameter OUT_STR__LOGGED_IN         = "LoggedIn" ,
     
     // PERMS
     parameter OUT_STR__ASK_PERMS         = "Perms?"            , 
@@ -511,10 +512,15 @@ module shop_v
                                                         begin  
                                                               if (in_a__item_name__of__cur_user)
                                                                 begin
-                                                                      pass = 1'b1; //````````````````````````````````````````
-
-                                                                      // o_a = OUT_STR__CANT_DEL_ADMIN;
-                                                                      // next_state = STATE__CMD;
+                                                                      // delete item
+                                                                      o_a = OUT_STR__ITEM_DELETED;
+                                                                      next_state = STATE__CMD;
+                                                                      
+                                                                      // delete user
+                                                                      iv__slot_taken [in_a__item_num__if__known_item_name] = 1'b0;
+                                                                      iv__item_names [in_a__item_num__if__known_item_name] = NO_USERNAME;
+                                                                      iv__stock      [in_a__item_num__if__known_item_name] = NO_STOCK;
+                                                                      iv__usernames  [in_a__item_num__if__known_item_name] = NO_USERNAME;
                                                                 end
                                                               else
                                                                 begin                                                                      
