@@ -637,8 +637,8 @@ module shop_tb_v;
     // Cmd? > Del item > item name?
     #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__BUY);
     
-    // // item name? > unkown item name > unkown item > Cmd?
-    // #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");    
+    // item name? > unkown item name > unkown item > Cmd?
+    #(time_between_test_inputs) apply_test(4'bXXXX, "qqq");    
     
     // // Cmd? > Del item > item name?
     // #(time_between_test_inputs) apply_test(4'bXXXX, CMD_KEY__DELETE_ITEM);
